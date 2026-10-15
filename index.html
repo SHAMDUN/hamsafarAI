@@ -362,6 +362,7 @@ header.scrolled .navbar{height:70px;}
     aspect-ratio:1;
     position:relative;
     z-index:3;
+    background:transparent;
 }
 
 .floating-card{
@@ -2585,8 +2586,7 @@ function drawNebula() {
     const W = NW(), H = NH();
     const CX = NCX(), CY = NCY();
 
-    nctx.fillStyle = 'rgba(5, 15, 22, 0.08)';
-    nctx.fillRect(0, 0, W, H);
+    nctx.clearRect(0, 0, W, H);
 
     nebulaTime += 0.008;
 
@@ -2708,8 +2708,6 @@ function drawNebula() {
 }
 
 if (!prefersReduced) {
-    nctx.fillStyle = '#050f16';
-    nctx.fillRect(0, 0, NW(), NH());
     drawNebula();
 }
 

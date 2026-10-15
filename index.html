@@ -4,9 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>همسفر AI — با هوش مصنوعی همسفر شو</title>
-
 <meta name="description" content="همسفر AI؛ یادگیری هوش مصنوعی از مفاهیم پایه تا ساخت پروژه‌های واقعی.">
 <meta name="theme-color" content="#071923">
 
@@ -15,10 +13,6 @@
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 
 <style>
-
-/* =========================================================
-   RESET
-========================================================= */
 
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
@@ -44,33 +38,17 @@ button{font:inherit;}
 ::-webkit-scrollbar-thumb{background:#1a3a48;border-radius:5px;}
 ::-webkit-scrollbar-thumb:hover{background:#22D3EE;}
 
-
-/* =========================================================
-   VARIABLES
-========================================================= */
-
 :root{
     --bg:#071923;
-    --bg-soft:#0b202c;
-    --bg-card:#0d2633;
-
     --orange:#F59E0B;
     --orange-2:#FBBF24;
     --cyan:#22D3EE;
     --cream:#FEF3C7;
-
     --white:#F8FAFC;
     --muted:#91A5B2;
     --muted-2:#61798a;
-
     --line:rgba(255,255,255,.09);
-    --line-2:rgba(255,255,255,.15);
 }
-
-
-/* =========================================================
-   GLOBAL
-========================================================= */
 
 .container{
     width:min(1180px, calc(100% - 40px));
@@ -94,8 +72,7 @@ section{position:relative;}
 
 .label::before{
     content:"";
-    width:7px;
-    height:7px;
+    width:7px;height:7px;
     border-radius:50%;
     background:var(--cyan);
     box-shadow:0 0 14px var(--cyan);
@@ -107,37 +84,22 @@ section{position:relative;}
     50%{opacity:.6;transform:scale(1.2);}
 }
 
-
-/* =========================================================
-   BACKGROUND
-========================================================= */
-
+/* BACKGROUND */
 .background-glow{
     position:fixed;
-    width:600px;
-    height:600px;
+    width:600px;height:600px;
     border-radius:50%;
     filter:blur(120px);
     pointer-events:none;
     opacity:.08;
     z-index:0;
 }
-
 .glow-one{background:var(--cyan);top:-300px;right:-250px;}
 .glow-two{background:var(--orange);bottom:-300px;left:-250px;}
 
-#neuralCanvas{
-    position:fixed;
-    inset:0;
-    z-index:1;
-    pointer-events:none;
-    opacity:.5;
-}
-
 .progress-bar{
     position:fixed;
-    top:0;
-    right:0;
+    top:0;right:0;
     height:2px;
     background:linear-gradient(90deg,var(--orange),var(--cyan));
     z-index:999;
@@ -146,25 +108,18 @@ section{position:relative;}
     box-shadow:0 0 12px rgba(34,211,238,.5);
 }
 
-
-/* =========================================================
-   NAV
-========================================================= */
-
+/* NAV */
 header{
     position:fixed;
     top:0;left:0;right:0;
     z-index:100;
     transition:all .3s;
 }
-
 header.scrolled{
     background:rgba(7,25,35,.85);
     backdrop-filter:blur(20px);
-    -webkit-backdrop-filter:blur(20px);
     border-bottom:1px solid var(--line);
 }
-
 .navbar{
     height:86px;
     display:flex;
@@ -172,7 +127,6 @@ header.scrolled{
     justify-content:space-between;
     transition:height .3s;
 }
-
 header.scrolled .navbar{height:70px;}
 
 .logo{
@@ -183,17 +137,14 @@ header.scrolled .navbar{height:70px;}
     font-size:18px;
     font-weight:800;
 }
-
 .logo-mark{
     position:relative;
-    width:39px;
-    height:39px;
+    width:39px;height:39px;
     border-radius:50%;
     border:1px solid rgba(255,255,255,.18);
     background:#061620;
     flex-shrink:0;
 }
-
 .logo-mark .dot-one{
     position:absolute;
     width:8px;height:8px;
@@ -202,7 +153,6 @@ header.scrolled .navbar{height:70px;}
     left:8px;bottom:8px;
     box-shadow:0 0 15px rgba(245,158,11,.65);
 }
-
 .logo-mark .dot-two{
     position:absolute;
     width:8px;height:8px;
@@ -211,7 +161,6 @@ header.scrolled .navbar{height:70px;}
     right:8px;top:8px;
     box-shadow:0 0 15px rgba(34,211,238,.65);
 }
-
 .logo-mark .path{
     position:absolute;
     width:25px;height:17px;
@@ -220,7 +169,6 @@ header.scrolled .navbar{height:70px;}
     left:7px;top:11px;
     transform:rotate(-27deg);
 }
-
 .nav-menu{
     display:flex;
     align-items:center;
@@ -228,7 +176,6 @@ header.scrolled .navbar{height:70px;}
     color:#9DAFB9;
     font-size:13px;
 }
-
 .nav-menu a{transition:.25s;}
 .nav-menu a:hover{color:white;}
 
@@ -242,17 +189,12 @@ header.scrolled .navbar{height:70px;}
     transition:.25s;
     background:rgba(34,211,238,.04);
 }
-
 .nav-cta:hover{
     background:rgba(34,211,238,.12);
     border-color:var(--cyan);
 }
 
-
-/* =========================================================
-   HERO
-========================================================= */
-
+/* HERO */
 .hero{
     min-height:850px;
     display:grid;
@@ -263,28 +205,18 @@ header.scrolled .navbar{height:70px;}
     overflow:hidden;
     z-index:2;
 }
-
 .horizon{
     position:absolute;
     left:0;right:0;top:50%;
     height:1px;
-    background:linear-gradient(
-        90deg,
-        transparent,
-        rgba(34,211,238,.15),
-        rgba(254,243,199,.6),
-        rgba(245,158,11,.2),
-        transparent
-    );
+    background:linear-gradient(90deg,transparent,rgba(34,211,238,.15),rgba(254,243,199,.6),rgba(245,158,11,.2),transparent);
     box-shadow:0 0 40px rgba(254,243,199,.18);
 }
-
 .hero-content{
     padding-top:30px;
     position:relative;
     z-index:4;
 }
-
 .hero-title{
     font-size:clamp(46px, 6vw, 82px);
     line-height:1.1;
@@ -292,14 +224,11 @@ header.scrolled .navbar{height:70px;}
     font-weight:900;
     margin-bottom:25px;
 }
-
 .hero-title .orange{color:var(--orange);}
-
 .hero-title .cyan{
     color:var(--cyan);
     position:relative;
 }
-
 .hero-title .cyan::after{
     content:"";
     position:absolute;
@@ -309,7 +238,6 @@ header.scrolled .navbar{height:70px;}
     opacity:.2;
     z-index:-1;
 }
-
 .hero-text{
     max-width:570px;
     color:var(--muted);
@@ -317,11 +245,7 @@ header.scrolled .navbar{height:70px;}
     line-height:2;
     margin-bottom:34px;
 }
-
-.hero-text strong{
-    color:var(--white);
-    font-weight:600;
-}
+.hero-text strong{color:var(--white);font-weight:600;}
 
 .hero-actions{
     display:flex;
@@ -347,17 +271,11 @@ header.scrolled .navbar{height:70px;}
     cursor:pointer;
     font-family:inherit;
 }
-
 .btn-primary:hover{
     transform:translateY(-3px);
     box-shadow:0 16px 40px rgba(245,158,11,.3);
 }
-
-.btn-primary .arrow{
-    transition:transform .25s;
-    display:inline-flex;
-}
-
+.btn-primary .arrow{transition:transform .25s;display:inline-flex;}
 .btn-primary:hover .arrow{transform:translateX(-4px);}
 
 .btn-secondary{
@@ -367,24 +285,19 @@ header.scrolled .navbar{height:70px;}
     gap:8px;
     padding:13px 21px;
     border-radius:13px;
-    border:1px solid var(--line-2);
+    border:1px solid rgba(255,255,255,.15);
     color:#d6e0e5;
     font-size:13px;
     background:rgba(255,255,255,.025);
     transition:.25s;
 }
-
 .btn-secondary:hover{
     border-color:var(--cyan);
     color:var(--cyan);
     background:rgba(34,211,238,.05);
 }
 
-
-/* =========================================================
-   HERO VISUAL — تصویر کانال تو یه دایره متوسط
-========================================================= */
-
+/* HERO VISUAL — تصویر کانال متوسط */
 .hero-visual{
     height:600px;
     position:relative;
@@ -392,20 +305,14 @@ header.scrolled .navbar{height:70px;}
     justify-content:center;
     align-items:center;
 }
-
 .ai-orbit{
     position:absolute;
-    width:460px;height:460px;
+    width:440px;height:440px;
     border-radius:50%;
     border:1px solid rgba(34,211,238,.1);
     animation:orbitSpin 80s linear infinite;
 }
-
-@keyframes orbitSpin{
-    from{transform:rotate(0deg);}
-    to{transform:rotate(360deg);}
-}
-
+@keyframes orbitSpin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
 .ai-orbit::before{
     content:"";
     position:absolute;
@@ -413,43 +320,26 @@ header.scrolled .navbar{height:70px;}
     border-radius:50%;
     border:1px dashed rgba(255,255,255,.06);
 }
-
-.ai-orbit::after{
-    content:"";
-    position:absolute;
-    inset:90px;
-    border-radius:50%;
-    border:1px solid rgba(245,158,11,.08);
-}
-
 .hero-circle{
     position:relative;
-    width:340px;
-    height:340px;
+    width:300px;height:300px;
     border-radius:50%;
     overflow:hidden;
     border:2px solid var(--orange);
-    box-shadow:
-        0 0 0 8px rgba(245,158,11,.05),
-        0 0 50px rgba(245,158,11,.18),
-        0 0 100px rgba(34,211,238,.12);
+    box-shadow:0 0 0 8px rgba(245,158,11,.05), 0 0 50px rgba(245,158,11,.18), 0 0 100px rgba(34,211,238,.12);
     background:#061620;
     z-index:3;
     animation:circleFloat 8s ease-in-out infinite;
 }
-
 @keyframes circleFloat{
     0%,100%{transform:translateY(0);}
     50%{transform:translateY(-10px);}
 }
-
 .hero-circle img{
-    width:100%;
-    height:100%;
+    width:100%;height:100%;
     object-fit:cover;
     display:block;
 }
-
 .horizon-light{
     position:absolute;
     width:160px;height:160px;
@@ -461,7 +351,6 @@ header.scrolled .navbar{height:70px;}
     z-index:1;
     animation:lightPulse 4s ease-in-out infinite;
 }
-
 @keyframes lightPulse{
     0%,100%{opacity:.2;transform:scale(1);}
     50%{opacity:.4;transform:scale(1.15);}
@@ -481,23 +370,16 @@ header.scrolled .navbar{height:70px;}
     animation:floatY 5s ease-in-out infinite;
     z-index:4;
 }
-
 @keyframes floatY{
     0%,100%{transform:translateY(0);}
     50%{transform:translateY(-8px);}
 }
-
-.card-one{top:80px;right:20px;animation-delay:0s;}
+.card-one{top:80px;right:20px;}
 .card-two{bottom:100px;left:20px;animation-delay:1s;}
 .card-three{top:180px;left:10px;animation-delay:2s;}
-
 .card-one span,.card-two span,.card-three span{color:var(--cyan);}
 
-
-/* =========================================================
-   INTRO
-========================================================= */
-
+/* INTRO */
 .intro{
     padding:70px 0;
     border-top:1px solid var(--line);
@@ -505,20 +387,17 @@ header.scrolled .navbar{height:70px;}
     position:relative;
     z-index:2;
 }
-
 .intro-inner{
     display:grid;
     grid-template-columns:1fr 2fr;
     gap:80px;
     align-items:center;
 }
-
 .intro h2{
     font-size:34px;
     line-height:1.5;
     font-weight:800;
 }
-
 .intro p{
     color:var(--muted);
     max-width:700px;
@@ -526,25 +405,35 @@ header.scrolled .navbar{height:70px;}
     line-height:2.2;
 }
 
+/* SECTION HEADING */
+.section-heading{
+    max-width:650px;
+    margin-bottom:65px;
+}
+.section-heading h2{
+    font-size:44px;
+    line-height:1.4;
+    margin-bottom:15px;
+    font-weight:800;
+    letter-spacing:-1px;
+}
+.section-heading p{
+    color:var(--muted);
+    font-size:15px;
+}
 
-/* =========================================================
-   JOURNEY — جاده منحنی با همسفر نورانی
-========================================================= */
-
+/* JOURNEY */
 .journey{
     position:relative;
     z-index:2;
     padding:120px 0 100px;
-    overflow:hidden;
 }
 
 .journey-header{
     text-align:center;
     margin-bottom:60px;
 }
-
 .journey-header .label{justify-content:center;}
-
 .journey-header h2{
     font-size:clamp(32px, 5vw, 52px);
     font-weight:900;
@@ -552,13 +441,11 @@ header.scrolled .navbar{height:70px;}
     letter-spacing:-2px;
     margin-bottom:18px;
 }
-
 .journey-header h2 em{
     font-style:normal;
     color:var(--cyan);
     position:relative;
 }
-
 .journey-header h2 em::after{
     content:"";
     position:absolute;
@@ -568,7 +455,6 @@ header.scrolled .navbar{height:70px;}
     opacity:.18;
     z-index:-1;
 }
-
 .journey-header p{
     color:var(--muted);
     font-size:15px;
@@ -576,19 +462,14 @@ header.scrolled .navbar{height:70px;}
     margin:0 auto;
 }
 
-
-/* =========================================================
-   ROAD WRAPPER
-========================================================= */
-
+/* ROAD WRAPPER */
 .road-wrapper{
     position:relative;
     width:100%;
     max-width:1000px;
     margin:0 auto;
-    height:3000px;
+    height:3200px;
 }
-
 
 /* SVG ROAD */
 .road-svg{
@@ -601,60 +482,121 @@ header.scrolled .navbar{height:70px;}
     z-index:1;
 }
 
-.road-shadow{
-    fill:none;
-    stroke:rgba(245,158,11,.06);
-    stroke-width:40;
-    stroke-linecap:round;
-    stroke-linejoin:round;
-}
-
-.road-dash{
-    fill:none;
-    stroke:rgba(254,243,199,.15);
-    stroke-width:1.5;
-    stroke-dasharray:6 16;
-    stroke-linecap:round;
-}
-
-.road-path{
+/* جاده‌ی شبکه‌ای — خطوط و گره‌ها */
+.road-line{
     fill:none;
     stroke:url(#roadGradient);
-    stroke-width:4;
+    stroke-width:2.5;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+    opacity:.55;
+}
+
+.road-glow-line{
+    fill:none;
+    stroke:url(#roadGradient);
+    stroke-width:6;
     stroke-linecap:round;
     stroke-linejoin:round;
     filter:url(#roadGlow);
+    opacity:.4;
 }
 
-/* ایستگاه‌ها روی جاده */
-.station-dot{
+/* گره‌های شبکه روی جاده */
+.road-node{
+    fill:#061720;
+    stroke:var(--cyan);
+    stroke-width:1.5;
+    opacity:.6;
+    transition:all .4s;
+}
+
+.road-node.dot{
+    fill:var(--cyan);
+    stroke:none;
+    opacity:.5;
+}
+
+/* خطوط جانبی شبکه (شاخه‌ها) */
+.branch-line{
+    fill:none;
+    stroke:rgba(34,211,238,.25);
+    stroke-width:1;
+    stroke-dasharray:3 5;
+}
+
+.branch-node{
+    fill:var(--cyan);
+    opacity:.4;
+}
+
+/* ایستگاه‌ها */
+.station-circle{
     fill:#061720;
     stroke:var(--cyan);
     stroke-width:2.5;
     transition:all .6s;
 }
 
-.station-dot-inner{
-    fill:var(--cyan);
+.station-circle-glow{
+    fill:none;
+    stroke:var(--cyan);
+    stroke-width:1;
+    opacity:.4;
     transition:all .6s;
 }
 
-.station-dot.active{
-    stroke:var(--orange);
-    stroke-width:3.5;
+.station-number{
+    fill:var(--cyan);
+    font-family:'JetBrains Mono',monospace;
+    font-size:16px;
+    font-weight:700;
+    text-anchor:middle;
+    dominant-baseline:central;
+    transition:all .6s;
 }
 
-.station-dot.active + .station-dot-inner{
+.station-group.active .station-circle{
+    stroke:var(--orange);
+    stroke-width:3.5;
+    filter:url(#stationGlowActive);
+}
+
+.station-group.active .station-circle-glow{
+    stroke:var(--orange);
+    opacity:1;
+}
+
+.station-group.active .station-number{
     fill:var(--orange);
 }
 
 /* مقصد مغز شبکه‌ای */
-.destination-brain{
-    opacity:.25;
-    transition:all 1s;
+.brain-container{
+    opacity:.3;
+    transition:all 1.2s;
 }
 
-.destination-brain.complete{
+.brain-container.complete{
+    opacity:1;
+}
+
+.brain-line{
+    stroke:rgba(34,211,238,.5);
+    stroke-width:1.5;
+    fill:none;
+    transition:all .8s;
+}
+
+.brain-line.glow{
+    stroke:url(#brainGradient);
+    stroke-width:2.5;
+    filter:url(#brainGlow);
+    opacity:0;
+    transition:opacity 1s;
+}
+
+.brain-container.complete .brain-line.glow{
     opacity:1;
 }
 
@@ -663,32 +605,44 @@ header.scrolled .navbar{height:70px;}
     transition:all .8s;
 }
 
-.destination-brain.complete .brain-node{
+.brain-container.complete .brain-node{
     fill:var(--cream);
+    filter:url(#nodeGlow);
 }
 
-.brain-line{
-    stroke:rgba(34,211,238,.35);
-    stroke-width:1.2;
-    transition:all .8s;
+.brain-node.core{
+    fill:var(--orange);
 }
 
-.destination-brain.complete .brain-line{
-    stroke:var(--cyan);
-    stroke-width:1.8;
+.brain-container.complete .brain-node.core{
+    fill:#fff;
+    filter:url(#nodeGlowStrong);
 }
 
+.brain-ring{
+    fill:none;
+    stroke:rgba(34,211,238,.3);
+    stroke-width:1;
+    stroke-dasharray:4 6;
+    animation:brainRingSpin 30s linear infinite;
+    transform-origin:center;
+}
 
-/* =========================================================
-   TRAVELER — همسفر نورانی
-========================================================= */
+@keyframes brainRingSpin{
+    from{transform:rotate(0deg);}
+    to{transform:rotate(360deg);}
+}
 
+.brain-container.complete .brain-ring{
+    stroke:var(--orange);
+    opacity:.6;
+}
+
+/* TRAVELER */
 .traveler{
     position:absolute;
-    width:44px;
-    height:44px;
-    margin-left:-22px;
-    margin-top:-22px;
+    width:44px;height:44px;
+    margin-left:-22px;margin-top:-22px;
     pointer-events:none;
     z-index:10;
     transition:opacity .3s;
@@ -696,7 +650,7 @@ header.scrolled .navbar{height:70px;}
 
 .traveler-core{
     position:absolute;
-    inset:10px;
+    inset:11px;
     border-radius:50%;
     background:radial-gradient(circle, #fff 0%, var(--cyan) 60%, var(--cyan) 100%);
     box-shadow:
@@ -713,20 +667,16 @@ header.scrolled .navbar{height:70px;}
     animation:travelerRing 2s ease-out infinite;
 }
 
-.traveler-ring:nth-child(3){
-    animation-delay:1s;
-}
+.traveler-ring:nth-child(3){animation-delay:1s;}
 
 @keyframes travelerRing{
     0%{transform:scale(.5);opacity:.8;}
-    100%{transform:scale(1.8);opacity:0;}
+    100%{transform:scale(1.9);opacity:0;}
 }
 
-
-/* پیام همراه */
 .traveler-message{
     position:absolute;
-    top:-56px;
+    top:-52px;
     left:50%;
     transform:translateX(-50%);
     padding:8px 16px;
@@ -739,7 +689,7 @@ header.scrolled .navbar{height:70px;}
     white-space:nowrap;
     box-shadow:0 8px 30px rgba(0,0,0,.5), 0 0 20px rgba(34,211,238,.15);
     backdrop-filter:blur(10px);
-    transition:opacity .4s, transform .4s;
+    transition:opacity .4s;
     direction:rtl;
 }
 
@@ -749,18 +699,13 @@ header.scrolled .navbar{height:70px;}
     bottom:-6px;
     left:50%;
     transform:translateX(-50%) rotate(45deg);
-    width:10px;
-    height:10px;
+    width:10px;height:10px;
     background:rgba(7,25,35,.95);
     border-right:1px solid rgba(34,211,238,.3);
     border-bottom:1px solid rgba(34,211,238,.3);
 }
 
-
-/* =========================================================
-   STATION CARDS
-========================================================= */
-
+/* STATION CARDS */
 .stations-wrap{
     position:absolute;
     inset:0;
@@ -770,13 +715,12 @@ header.scrolled .navbar{height:70px;}
 
 .station-card{
     position:absolute;
-    width:330px;
+    width:320px;
     background:linear-gradient(145deg, rgba(13,38,51,.95), rgba(7,25,35,.98));
     border:1px solid var(--line);
     border-radius:18px;
     padding:22px 20px;
     backdrop-filter:blur(20px);
-    -webkit-backdrop-filter:blur(20px);
     pointer-events:auto;
     opacity:0;
     transform:translateY(30px);
@@ -788,8 +732,7 @@ header.scrolled .navbar{height:70px;}
     content:"";
     position:absolute;
     top:0;right:0;
-    width:100%;
-    height:2px;
+    width:100%;height:2px;
     background:linear-gradient(90deg, transparent, var(--cyan), transparent);
     transform:translateX(100%);
     transition:transform .9s;
@@ -817,8 +760,7 @@ header.scrolled .navbar{height:70px;}
 }
 
 .station-icon{
-    width:46px;
-    height:46px;
+    width:46px;height:46px;
     border-radius:12px;
     background:rgba(34,211,238,.08);
     border:1px solid rgba(34,211,238,.2);
@@ -897,11 +839,10 @@ header.scrolled .navbar{height:70px;}
     border-top:1px solid var(--line);
 }
 
-
 /* پیام پایان */
 .journey-message{
     text-align:center;
-    margin-top:40px;
+    margin-top:60px;
     opacity:0;
     transform:translateY(20px);
     transition:all 1s;
@@ -931,11 +872,7 @@ header.scrolled .navbar{height:70px;}
     margin:0 auto;
 }
 
-
-/* =========================================================
-   TERMINAL
-========================================================= */
-
+/* TERMINAL */
 .terminal-section{
     padding:100px 0;
     position:relative;
@@ -964,11 +901,7 @@ header.scrolled .navbar{height:70px;}
     border-bottom:1px solid var(--line);
 }
 
-.term-dot{
-    width:11px;height:11px;
-    border-radius:50%;
-}
-
+.term-dot{width:11px;height:11px;border-radius:50%;}
 .term-dot.red{background:#EF4444;}
 .term-dot.yellow{background:#F59E0B;}
 .term-dot.green{background:#22C55E;}
@@ -991,12 +924,7 @@ header.scrolled .navbar{height:70px;}
     direction:ltr;
 }
 
-.term-line{
-    display:flex;
-    gap:10px;
-    flex-wrap:wrap;
-}
-
+.term-line{display:flex;gap:10px;flex-wrap:wrap;}
 .term-line + .term-line{margin-top:2px;}
 
 .t-prompt{color:var(--cyan);}
@@ -1007,8 +935,7 @@ header.scrolled .navbar{height:70px;}
 
 .term-cursor{
     display:inline-block;
-    width:8px;
-    height:14px;
+    width:8px;height:14px;
     background:var(--cyan);
     animation:blink 1s infinite;
     vertical-align:middle;
@@ -1020,11 +947,7 @@ header.scrolled .navbar{height:70px;}
     51%,100%{opacity:0;}
 }
 
-
-/* =========================================================
-   TOOLS
-========================================================= */
-
+/* TOOLS */
 .tools{
     padding:100px 0;
     background:#081d28;
@@ -1056,11 +979,7 @@ header.scrolled .navbar{height:70px;}
     margin-bottom:25px;
 }
 
-.tool-list{
-    display:flex;
-    flex-wrap:wrap;
-    gap:9px;
-}
+.tool-list{display:flex;flex-wrap:wrap;gap:9px;}
 
 .tool{
     padding:9px 14px;
@@ -1111,11 +1030,7 @@ header.scrolled .navbar{height:70px;}
     border-bottom:1px solid var(--line);
 }
 
-.board-dot{
-    width:7px;height:7px;
-    border-radius:50%;
-}
-
+.board-dot{width:7px;height:7px;border-radius:50%;}
 .board-dot:nth-child(1){background:#EF4444;}
 .board-dot:nth-child(2){background:#F59E0B;}
 .board-dot:nth-child(3){background:#22C55E;}
@@ -1166,11 +1081,7 @@ header.scrolled .navbar{height:70px;}
 
 .tool-box.active strong{color:var(--cyan);}
 
-
-/* =========================================================
-   STATS
-========================================================= */
-
+/* STATS */
 .stats-strip{
     padding:60px 0;
     border-top:1px solid var(--line);
@@ -1196,22 +1107,11 @@ header.scrolled .navbar{height:70px;}
     direction:ltr;
 }
 
-.stat-value .unit{
-    color:var(--cyan);
-    font-size:.6em;
-}
+.stat-value .unit{color:var(--cyan);font-size:.6em;}
 
-.stat-label{
-    color:var(--muted);
-    font-size:13px;
-    margin-top:6px;
-}
+.stat-label{color:var(--muted);font-size:13px;margin-top:6px;}
 
-
-/* =========================================================
-   PROJECTS
-========================================================= */
-
+/* PROJECTS */
 .projects{
     padding:130px 0;
     position:relative;
@@ -1246,9 +1146,7 @@ header.scrolled .navbar{height:70px;}
 
 .project-large{
     min-height:430px;
-    background:
-        radial-gradient(circle at 80% 20%,rgba(245,158,11,.12),transparent 35%),
-        rgba(255,255,255,.025);
+    background:radial-gradient(circle at 80% 20%,rgba(245,158,11,.12),transparent 35%), rgba(255,255,255,.025);
 }
 
 .project-number{
@@ -1267,11 +1165,7 @@ header.scrolled .navbar{height:70px;}
     letter-spacing:-.5px;
 }
 
-.project p{
-    color:var(--muted);
-    font-size:12px;
-    line-height:2;
-}
+.project p{color:var(--muted);font-size:12px;line-height:2;}
 
 .project-arrow{
     color:var(--cyan);
@@ -1289,11 +1183,7 @@ header.scrolled .navbar{height:70px;}
     color:var(--orange);
 }
 
-
-/* =========================================================
-   TELEGRAM — با تصویر کانال تو آواتار
-========================================================= */
-
+/* TELEGRAM */
 .telegram-section{
     padding:120px 0;
     position:relative;
@@ -1383,9 +1273,7 @@ header.scrolled .navbar{height:70px;}
     border:1px solid rgba(34,211,238,.25);
     border-radius:28px;
     padding:18px 14px 14px;
-    box-shadow:
-        0 30px 80px rgba(0,0,0,.6),
-        0 0 60px rgba(34,211,238,.08);
+    box-shadow:0 30px 80px rgba(0,0,0,.6), 0 0 60px rgba(34,211,238,.08);
     z-index:2;
 }
 
@@ -1435,19 +1323,8 @@ header.scrolled .navbar{height:70px;}
 }
 
 .tg-header-info{flex:1;}
-
-.tg-header-name{
-    font-size:13px;
-    font-weight:700;
-    color:var(--white);
-}
-
-.tg-header-status{
-    font-size:10px;
-    color:#22C55E;
-    font-family:'JetBrains Mono',monospace;
-    direction:ltr;
-}
+.tg-header-name{font-size:13px;font-weight:700;color:var(--white);}
+.tg-header-status{font-size:10px;color:#22C55E;font-family:'JetBrains Mono',monospace;direction:ltr;}
 
 .tg-chat{
     padding:14px 6px;
@@ -1468,9 +1345,7 @@ header.scrolled .navbar{height:70px;}
     animation:msgIn .5s forwards;
 }
 
-@keyframes msgIn{
-    to{opacity:1;transform:translateY(0);}
-}
+@keyframes msgIn{to{opacity:1;transform:translateY(0);}}
 
 .tg-msg.in{
     align-self:flex-end;
@@ -1541,11 +1416,7 @@ header.scrolled .navbar{height:70px;}
     margin-top:6px;
 }
 
-.tg-input-text{
-    flex:1;
-    font-size:11px;
-    color:var(--muted);
-}
+.tg-input-text{flex:1;font-size:11px;color:var(--muted);}
 
 .tg-input-btn{
     width:26px;height:26px;
@@ -1557,15 +1428,9 @@ header.scrolled .navbar{height:70px;}
     flex-shrink:0;
 }
 
-.tg-input-btn svg{
-    width:12px;height:12px;
-}
+.tg-input-btn svg{width:12px;height:12px;}
 
-
-/* =========================================================
-   FOOTER
-========================================================= */
-
+/* FOOTER */
 footer{
     border-top:1px solid var(--line);
     padding:50px 20px 35px;
@@ -1653,41 +1518,25 @@ footer{
     30%{transform:scale(1);}
 }
 
-
-/* =========================================================
-   SCROLL REVEAL
-========================================================= */
-
+/* SCROLL REVEAL */
 .reveal{
     opacity:0;
     transform:translateY(24px);
-    transition:opacity .8s cubic-bezier(.4,0,.2,1),
-               transform .8s cubic-bezier(.4,0,.2,1);
+    transition:opacity .8s cubic-bezier(.4,0,.2,1), transform .8s cubic-bezier(.4,0,.2,1);
 }
 
-.reveal.visible{
-    opacity:1;
-    transform:translateY(0);
-}
-
+.reveal.visible{opacity:1;transform:translateY(0);}
 .reveal.delay-1{transition-delay:.08s;}
 .reveal.delay-2{transition-delay:.16s;}
 .reveal.delay-3{transition-delay:.24s;}
 .reveal.delay-4{transition-delay:.32s;}
 
-
-/* =========================================================
-   RESPONSIVE — موبایل
-========================================================= */
-
+/* RESPONSIVE */
 @media(max-width:1000px){
-    .road-wrapper{
-        height:3400px;
-    }
+    .road-wrapper{height:3400px;}
 }
 
 @media(max-width:900px){
-
     .nav-menu{display:none;}
 
     .hero{
@@ -1707,135 +1556,83 @@ footer{
 
     .hero-visual{
         order:-1;
-        height:440px;
+        height:420px;
     }
 
-    .ai-orbit{width:340px;height:340px;}
-    .hero-circle{width:260px;height:260px;}
+    .ai-orbit{width:320px;height:320px;}
+    .hero-circle{width:240px;height:240px;}
 
-    .intro-inner{
-        grid-template-columns:1fr;
-        gap:20px;
-    }
+    .intro-inner{grid-template-columns:1fr;gap:20px;}
 
-    /* موبایل: جاده عمودی‌تر */
-    .road-wrapper{
-        height:auto;
-        min-height:3200px;
-    }
+    .road-wrapper{height:auto;min-height:3400px;}
 
     .station-card{
-        width:calc(100% - 80px);
+        width:calc(100% - 70px);
         padding:20px 18px;
     }
 
-    .station-card.right{
-        right:0;
-    }
+    .station-card.right{right:0;}
+    .station-card.left{left:0;right:auto;}
 
-    .station-card.left{
-        left:0;
-        right:auto;
-    }
-
-    .tools-grid{
-        grid-template-columns:1fr;
-        gap:40px;
-    }
-
+    .tools-grid{grid-template-columns:1fr;gap:40px;}
     .project-grid{grid-template-columns:1fr;}
     .project-large{min-height:300px;}
 
-    .telegram-inner{
-        grid-template-columns:1fr;
-        gap:50px;
-    }
-
+    .telegram-inner{grid-template-columns:1fr;gap:50px;}
     .telegram-copy h2{font-size:34px;}
-
     .tg-visual{height:480px;}
 
-    .footer-inner{
-        grid-template-columns:1fr;
-        gap:30px;
-    }
-
-    .stats-grid{
-        grid-template-columns:1fr;
-        gap:30px;
-    }
-
+    .footer-inner{grid-template-columns:1fr;gap:30px;}
+    .stats-grid{grid-template-columns:1fr;gap:30px;}
     .section-heading h2{font-size:34px;}
     .tools-copy h2{font-size:32px;}
 }
 
-
 @media(max-width:600px){
-
     .container{width:min(100% - 28px,1180px);}
-
     .hero-title{font-size:43px;letter-spacing:-2px;}
 
-    .hero-actions{
-        flex-direction:column;
-        width:100%;
-    }
-
+    .hero-actions{flex-direction:column;width:100%;}
     .btn-primary,.btn-secondary{width:100%;}
 
-    .hero-visual{height:380px;}
-
-    .ai-orbit{width:290px;height:290px;}
-    .hero-circle{width:220px;height:220px;}
+    .hero-visual{height:360px;}
+    .ai-orbit{width:280px;height:280px;}
+    .hero-circle{width:200px;height:200px;}
 
     .floating-card{display:none;}
 
-    .section-heading h2,
-    .tools-copy h2{font-size:32px;}
-
+    .section-heading h2,.tools-copy h2{font-size:32px;}
     .telegram-copy h2{font-size:30px;}
-
     .board-content{grid-template-columns:1fr;}
-
     .tg-phone{width:260px;}
-
     .tg-visual{height:440px;}
-
     .stat-value{font-size:34px;}
 
-    .footer-bottom{
-        flex-direction:column;
-        text-align:center;
-    }
+    .footer-bottom{flex-direction:column;text-align:center;}
 
     .terminal-body{font-size:11px;padding:18px;}
 
     .traveler{
-        width:36px;
-        height:36px;
-        margin-left:-18px;
-        margin-top:-18px;
+        width:36px;height:36px;
+        margin-left:-18px;margin-top:-18px;
     }
 
     .traveler-message{
         font-size:11px;
         padding:6px 12px;
-        top:-48px;
+        top:-46px;
     }
 
     .station-card{
-        width:calc(100% - 60px);
+        width:calc(100% - 50px);
         padding:18px 16px;
     }
 
     .station-card h3{font-size:16px;}
     .station-card p{font-size:12px;}
 
-    .road-wrapper{
-        min-height:3000px;
-    }
+    .road-wrapper{min-height:3200px;}
 }
-
 
 @media(prefers-reduced-motion:reduce){
     *,*::before,*::after{
@@ -1849,25 +1646,16 @@ footer{
 </style>
 </head>
 
-
 <body>
 
 <div class="background-glow glow-one"></div>
 <div class="background-glow glow-two"></div>
 
-<canvas id="neuralCanvas" aria-hidden="true"></canvas>
-
 <div class="progress-bar" id="progressBar" aria-hidden="true"></div>
-
-
-<!-- =========================================================
-     HEADER
-========================================================= -->
 
 <header id="header">
 <div class="container">
 <nav class="navbar">
-
 <a href="#" class="logo" aria-label="همسفر AI - خانه">
 <span class="logo-mark" aria-hidden="true">
 <span class="dot-one"></span>
@@ -1876,48 +1664,36 @@ footer{
 </span>
 <span>Hamsafar AI</span>
 </a>
-
 <div class="nav-menu">
 <a href="#journey">مسیر یادگیری</a>
 <a href="#tools">ابزارهای AI</a>
 <a href="#projects">پروژه‌ها</a>
 <a href="#community">جامعه</a>
 </div>
-
 <a href="#journey" class="nav-cta">شروع یادگیری</a>
-
 </nav>
 </div>
 </header>
 
 
-
-<!-- =========================================================
-     HERO
-========================================================= -->
-
+<!-- HERO -->
 <section class="hero">
-
 <div class="horizon"></div>
 
 <div class="container hero-content">
 <div class="hero-content">
-
 <div class="label reveal">hamsafar_ai</div>
-
 <h1 class="hero-title reveal delay-1">
 با <span class="orange">AI</span>
 <br>
 <span class="cyan">همسفر شو.</span>
 </h1>
-
 <p class="hero-text reveal delay-2">
 هوش مصنوعی را فقط تماشا نکن.
 <strong>یاد بگیر، امتحان کن و با آن چیزی واقعی بساز.</strong>
 از اولین قدم تا اجرای پروژه‌های واقعی،
 مسیر یادگیری را کنار هم طی می‌کنیم.
 </p>
-
 <div class="hero-actions reveal delay-3">
 <a href="#journey" class="btn-primary">
 مسیرم را شروع می‌کنم
@@ -1927,18 +1703,13 @@ footer{
 اول ببین چه می‌سازیم
 </a>
 </div>
-
 </div>
 </div>
-
-
 
 <div class="hero-visual">
-
 <div class="ai-orbit"></div>
 <div class="horizon-light"></div>
 
-<!-- تصویر کانال با فریم دایره‌ای متوسط -->
 <div class="hero-circle reveal delay-1">
 <img src="https://raw.githubusercontent.com/shamdun/hamsafarAI/main/assets/hero.jpg"
      alt="همسفر AI"
@@ -1948,20 +1719,13 @@ footer{
 <div class="floating-card card-one">learning <span>AI</span></div>
 <div class="floating-card card-two">idea <span>→</span> project</div>
 <div class="floating-card card-three">with <span>AI</span></div>
-
 </div>
-
 </section>
 
 
-
-<!-- =========================================================
-     INTRO
-========================================================= -->
-
+<!-- INTRO -->
 <section class="intro">
 <div class="container intro-inner">
-
 <div class="reveal">
 <div class="label">why_hamsafar</div>
 <h2>
@@ -1969,207 +1733,264 @@ AI را یاد نمی‌گیریم؛
 با آن جلو می‌رویم.
 </h2>
 </div>
-
 <p class="reveal delay-1">
 دنیای هوش مصنوعی هر روز تغییر می‌کند.
 به‌جای حفظ کردن ابزارها، قرار است یاد بگیریم
 چطور مسئله را پیدا کنیم، ابزار مناسب را انتخاب کنیم
 و از AI برای حل مسائل واقعی استفاده کنیم.
 </p>
-
 </div>
 </section>
 
 
-
-<!-- =========================================================
-     JOURNEY — جاده منحنی با همسفر
-========================================================= -->
-
+<!-- JOURNEY -->
 <section class="journey" id="journey">
-
 <div class="container">
-
 <div class="journey-header reveal">
 <div class="label">the_path</div>
 <h2>پنج ایستگاه تا <em>ساختن با AI</em></h2>
 <p>اسکرول کن — همسفرت با تو حرکت می‌کنه. هر ایستگاه یه قدم واقعیه.</p>
 </div>
-
 </div>
 
 <div class="road-wrapper" id="roadWrapper">
 
-<!-- SVG جاده -->
-<svg class="road-svg" id="roadSvg" viewBox="0 0 1000 3000" preserveAspectRatio="xMidYMid meet">
+<svg class="road-svg" id="roadSvg" viewBox="0 0 1000 3200" preserveAspectRatio="xMidYMid meet">
 
 <defs>
-<!-- گرادیان جاده -->
-<linearGradient id="roadGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-<stop offset="0%" stop-color="#FEF3C7"/>
-<stop offset="30%" stop-color="#FBBF24"/>
-<stop offset="70%" stop-color="#F59E0B"/>
+<linearGradient id="roadGradient" x1="0%" y1="100%" x2="0%" y2="0%">
+<stop offset="0%" stop-color="#22D3EE"/>
+<stop offset="50%" stop-color="#FBBF24"/>
 <stop offset="100%" stop-color="#F59E0B"/>
 </linearGradient>
 
-<!-- درخشش جاده -->
-<filter id="roadGlow" x="-50%" y="-50%" width="200%" height="200%">
-<feGaussianBlur stdDeviation="6" result="blur"/>
-<feMerge>
-<feMergeNode in="blur"/>
-<feMergeNode in="SourceGraphic"/>
-</feMerge>
-</filter>
+<linearGradient id="brainGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+<stop offset="0%" stop-color="#FEF3C7"/>
+<stop offset="100%" stop-color="#F59E0B"/>
+</linearGradient>
 
-<!-- درخشش ایستگاه -->
-<filter id="stationGlow" x="-100%" y="-100%" width="300%" height="300%">
-<feGaussianBlur stdDeviation="4" result="blur"/>
-<feMerge>
-<feMergeNode in="blur"/>
-<feMergeNode in="SourceGraphic"/>
-</feMerge>
+<filter id="roadGlow" x="-50%" y="-50%" width="200%" height="200%">
+<feGaussianBlur stdDeviation="5" result="blur"/>
+<feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
 </filter>
 
 <filter id="stationGlowActive" x="-150%" y="-150%" width="400%" height="400%">
-<feGaussianBlur stdDeviation="8" result="blur"/>
-<feMerge>
-<feMergeNode in="blur"/>
-<feMergeNode in="SourceGraphic"/>
-</feMerge>
+<feGaussianBlur stdDeviation="6" result="blur"/>
+<feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
 </filter>
 
-<!-- درخشش مغز -->
 <filter id="brainGlow" x="-100%" y="-100%" width="300%" height="300%">
-<feGaussianBlur stdDeviation="6" result="blur"/>
-<feMerge>
-<feMergeNode in="blur"/>
-<feMergeNode in="SourceGraphic"/>
-</feMerge>
+<feGaussianBlur stdDeviation="4" result="blur"/>
+<feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
 </filter>
 
 <filter id="nodeGlow" x="-200%" y="-200%" width="500%" height="500%">
-<feGaussianBlur stdDeviation="4" result="blur"/>
-<feMerge>
-<feMergeNode in="blur"/>
-<feMergeNode in="SourceGraphic"/>
-</feMerge>
+<feGaussianBlur stdDeviation="3" result="blur"/>
+<feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
 </filter>
 
-<filter id="lineGlow" x="-100%" y="-100%" width="300%" height="300%">
-<feGaussianBlur stdDeviation="2" result="blur"/>
-<feMerge>
-<feMergeNode in="blur"/>
-<feMergeNode in="SourceGraphic"/>
-</feMerge>
+<filter id="nodeGlowStrong" x="-300%" y="-300%" width="700%" height="700%">
+<feGaussianBlur stdDeviation="6" result="blur"/>
+<feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
 </filter>
 </defs>
 
-<!-- مسیر نامرئی برای اندازه‌گیری -->
+<!-- مسیر نامرئی -->
 <path id="roadPath"
-      d="M 500 60
-         C 500 260, 320 360, 320 560
-         C 320 760, 680 860, 680 1060
-         C 680 1260, 320 1360, 320 1560
-         C 320 1760, 680 1860, 680 2060
-         C 680 2260, 500 2360, 500 2560
-         L 500 2800"
-      fill="none"
-      stroke="none"/>
+      d="M 500 3120
+         C 500 2960, 320 2900, 320 2720
+         C 320 2540, 680 2480, 680 2300
+         C 680 2120, 320 2060, 320 1880
+         C 320 1700, 680 1640, 680 1460
+         C 680 1280, 320 1220, 320 1040
+         C 320 860, 680 800, 680 620
+         C 680 440, 500 380, 500 200"
+      fill="none" stroke="none"/>
 
 <!-- سایه جاده -->
-<path class="road-shadow"
-      d="M 500 60
-         C 500 260, 320 360, 320 560
-         C 320 760, 680 860, 680 1060
-         C 680 1260, 320 1360, 320 1560
-         C 320 1760, 680 1860, 680 2060
-         C 680 2260, 500 2360, 500 2560
-         L 500 2800"/>
+<path class="road-glow-line"
+      d="M 500 3120
+         C 500 2960, 320 2900, 320 2720
+         C 320 2540, 680 2480, 680 2300
+         C 680 2120, 320 2060, 320 1880
+         C 320 1700, 680 1640, 680 1460
+         C 680 1280, 320 1220, 320 1040
+         C 320 860, 680 800, 680 620
+         C 680 440, 500 380, 500 200"/>
 
-<!-- خط‌چین وسط جاده -->
-<path class="road-dash"
-      d="M 500 60
-         C 500 260, 320 360, 320 560
-         C 320 760, 680 860, 680 1060
-         C 680 1260, 320 1360, 320 1560
-         C 320 1760, 680 1860, 680 2060
-         C 680 2260, 500 2360, 500 2560
-         L 500 2800"/>
+<!-- خط اصلی جاده -->
+<path id="roadStroke" class="road-line"
+      d="M 500 3120
+         C 500 2960, 320 2900, 320 2720
+         C 320 2540, 680 2480, 680 2300
+         C 680 2120, 320 2060, 320 1880
+         C 320 1700, 680 1640, 680 1460
+         C 680 1280, 320 1220, 320 1040
+         C 320 860, 680 800, 680 620
+         C 680 440, 500 380, 500 200"/>
 
-<!-- جاده اصلی -->
-<path id="roadStroke"
-      class="road-path"
-      d="M 500 60
-         C 500 260, 320 360, 320 560
-         C 320 760, 680 860, 680 1060
-         C 680 1260, 320 1360, 320 1560
-         C 320 1760, 680 1860, 680 2060
-         C 680 2260, 500 2360, 500 2560
-         L 500 2800"/>
+<!-- خطوط جانبی شبکه (شاخه‌ها) -->
+<g class="branches" opacity=".6">
+<line class="branch-line" x1="320" y1="2720" x2="180" y2="2660"/>
+<line class="branch-line" x1="680" y1="2300" x2="830" y2="2240"/>
+<line class="branch-line" x1="320" y1="1880" x2="180" y2="1820"/>
+<line class="branch-line" x1="680" y1="1460" x2="830" y2="1400"/>
+<line class="branch-line" x1="320" y1="1040" x2="180" y2="980"/>
+<line class="branch-line" x1="680" y1="620" x2="830" y2="560"/>
+</g>
+
+<!-- گره‌های شبکه روی جاده -->
+<g class="road-nodes">
+<circle class="road-node dot" cx="440" cy="3020" r="3"/>
+<circle class="road-node dot" cx="380" cy="2920" r="3"/>
+<circle class="road-node dot" cx="340" cy="2820" r="3"/>
+<circle class="road-node dot" cx="330" cy="2720" r="4"/>
+<circle class="road-node dot" cx="400" cy="2620" r="3"/>
+<circle class="road-node dot" cx="520" cy="2560" r="3"/>
+<circle class="road-node dot" cx="620" cy="2480" r="3"/>
+<circle class="road-node dot" cx="675" cy="2400" r="4"/>
+<circle class="road-node dot" cx="680" cy="2300" r="3"/>
+<circle class="road-node dot" cx="600" cy="2200" r="3"/>
+<circle class="road-node dot" cx="480" cy="2140" r="3"/>
+<circle class="road-node dot" cx="380" cy="2060" r="3"/>
+<circle class="road-node dot" cx="325" cy="1960" r="4"/>
+<circle class="road-node dot" cx="320" cy="1880" r="3"/>
+<circle class="road-node dot" cx="400" cy="1780" r="3"/>
+<circle class="road-node dot" cx="520" cy="1720" r="3"/>
+<circle class="road-node dot" cx="620" cy="1640" r="3"/>
+<circle class="road-node dot" cx="675" cy="1540" r="4"/>
+<circle class="road-node dot" cx="680" cy="1460" r="3"/>
+<circle class="road-node dot" cx="600" cy="1360" r="3"/>
+<circle class="road-node dot" cx="480" cy="1300" r="3"/>
+<circle class="road-node dot" cx="380" cy="1220" r="3"/>
+<circle class="road-node dot" cx="325" cy="1120" r="4"/>
+<circle class="road-node dot" cx="320" cy="1040" r="3"/>
+<circle class="road-node dot" cx="400" cy="940" r="3"/>
+<circle class="road-node dot" cx="520" cy="880" r="3"/>
+<circle class="road-node dot" cx="620" cy="800" r="3"/>
+<circle class="road-node dot" cx="675" cy="700" r="4"/>
+<circle class="road-node dot" cx="680" cy="620" r="3"/>
+<circle class="road-node dot" cx="600" cy="520" r="3"/>
+<circle class="road-node dot" cx="520" cy="440" r="3"/>
+<circle class="road-node dot" cx="500" cy="360" r="4"/>
+<circle class="road-node dot" cx="500" cy="280" r="3"/>
+</g>
 
 <!-- ایستگاه ۱ -->
 <g class="station-group" data-station="1">
-<circle class="station-dot" cx="410" cy="360" r="22" filter="url(#stationGlow)"/>
-<circle class="station-dot-inner" cx="410" cy="360" r="7"/>
+<circle class="station-circle-glow" cx="320" cy="2720" r="34"/>
+<circle class="station-circle" cx="320" cy="2720" r="24"/>
+<text class="station-number" x="320" y="2720">۰۱</text>
 </g>
 
 <!-- ایستگاه ۲ -->
 <g class="station-group" data-station="2">
-<circle class="station-dot" cx="590" cy="860" r="22" filter="url(#stationGlow)"/>
-<circle class="station-dot-inner" cx="590" cy="860" r="7"/>
+<circle class="station-circle-glow" cx="680" cy="2300" r="34"/>
+<circle class="station-circle" cx="680" cy="2300" r="24"/>
+<text class="station-number" x="680" y="2300">۰۲</text>
 </g>
 
 <!-- ایستگاه ۳ -->
 <g class="station-group" data-station="3">
-<circle class="station-dot" cx="410" cy="1360" r="22" filter="url(#stationGlow)"/>
-<circle class="station-dot-inner" cx="410" cy="1360" r="7"/>
+<circle class="station-circle-glow" cx="320" cy="1880" r="34"/>
+<circle class="station-circle" cx="320" cy="1880" r="24"/>
+<text class="station-number" x="320" y="1880">۰۳</text>
 </g>
 
 <!-- ایستگاه ۴ -->
 <g class="station-group" data-station="4">
-<circle class="station-dot" cx="590" cy="1860" r="22" filter="url(#stationGlow)"/>
-<circle class="station-dot-inner" cx="590" cy="1860" r="7"/>
+<circle class="station-circle-glow" cx="680" cy="1460" r="34"/>
+<circle class="station-circle" cx="680" cy="1460" r="24"/>
+<text class="station-number" x="680" y="1460">۰۴</text>
 </g>
 
 <!-- ایستگاه ۵ -->
 <g class="station-group" data-station="5">
-<circle class="station-dot" cx="500" cy="2360" r="22" filter="url(#stationGlow)"/>
-<circle class="station-dot-inner" cx="500" cy="2360" r="7"/>
+<circle class="station-circle-glow" cx="320" cy="1040" r="34"/>
+<circle class="station-circle" cx="320" cy="1040" r="24"/>
+<text class="station-number" x="320" y="1040">۰۵</text>
 </g>
 
 <!-- مقصد: مغز شبکه‌ای -->
-<g class="destination-brain" id="destinationBrain" transform="translate(500, 2700)">
-<!-- خطوط -->
-<line class="brain-line" x1="-60" y1="0" x2="-30" y2="-30"/>
-<line class="brain-line" x1="-30" y1="-30" x2="0" y2="-45"/>
-<line class="brain-line" x1="0" y1="-45" x2="30" y2="-30"/>
-<line class="brain-line" x1="30" y1="-30" x2="60" y2="0"/>
-<line class="brain-line" x1="60" y1="0" x2="30" y2="25"/>
-<line class="brain-line" x1="30" y1="25" x2="0" y2="35"/>
-<line class="brain-line" x1="0" y1="35" x2="-30" y2="25"/>
-<line class="brain-line" x1="-30" y1="25" x2="-60" y2="0"/>
-<line class="brain-line" x1="-30" y1="-30" x2="-30" y2="25"/>
-<line class="brain-line" x1="30" y1="-30" x2="30" y2="25"/>
-<line class="brain-line" x1="0" y1="-45" x2="0" y2="35"/>
-<line class="brain-line" x1="-60" y1="0" x2="-30" y2="-30"/>
-<line class="brain-line" x1="-30" y1="25" x2="0" y2="-45"/>
+<g class="brain-container" id="brainContainer" transform="translate(500, 220)">
+
+<!-- حلقه چرخان -->
+<circle class="brain-ring" cx="0" cy="0" r="110"/>
+<circle class="brain-ring" cx="0" cy="0" r="140" style="animation-duration:50s; animation-direction:reverse;"/>
+
+<!-- خطوط مغز (شبکه) -->
+<g class="brain-lines">
+<!-- هگزاگون مرکزی -->
+<line class="brain-line" x1="-60" y1="-35" x2="0" y2="-70"/>
+<line class="brain-line" x1="0" y1="-70" x2="60" y2="-35"/>
+<line class="brain-line" x1="60" y1="-35" x2="60" y2="35"/>
+<line class="brain-line" x1="60" y1="35" x2="0" y2="70"/>
+<line class="brain-line" x1="0" y1="70" x2="-60" y2="35"/>
+<line class="brain-line" x1="-60" y1="35" x2="-60" y2="-35"/>
+
+<!-- خطوط داخلی -->
+<line class="brain-line" x1="-60" y1="-35" x2="0" y2="0"/>
+<line class="brain-line" x1="0" y1="-70" x2="0" y2="0"/>
+<line class="brain-line" x1="60" y1="-35" x2="0" y2="0"/>
+<line class="brain-line" x1="60" y1="35" x2="0" y2="0"/>
+<line class="brain-line" x1="0" y1="70" x2="0" y2="0"/>
+<line class="brain-line" x1="-60" y1="35" x2="0" y2="0"/>
+
+<!-- خطوط خارجی -->
+<line class="brain-line" x1="-60" y1="-35" x2="-100" y2="-70"/>
+<line class="brain-line" x1="60" y1="-35" x2="100" y2="-70"/>
+<line class="brain-line" x1="-60" y1="35" x2="-100" y2="70"/>
+<line class="brain-line" x1="60" y1="35" x2="100" y2="70"/>
+<line class="brain-line" x1="0" y1="-70" x2="0" y2="-110"/>
+<line class="brain-line" x1="0" y1="70" x2="0" y2="110"/>
+<line class="brain-line" x1="-100" y1="-70" x2="-100" y2="0"/>
+<line class="brain-line" x1="100" y1="-70" x2="100" y2="0"/>
+<line class="brain-line" x1="-100" y1="0" x2="-100" y2="70"/>
+<line class="brain-line" x1="100" y1="0" x2="100" y2="70"/>
+<line class="brain-line" x1="-100" y1="0" x2="-60" y2="-35"/>
+<line class="brain-line" x1="100" y1="0" x2="60" y2="-35"/>
+<line class="brain-line" x1="-100" y1="0" x2="-60" y2="35"/>
+<line class="brain-line" x1="100" y1="0" x2="60" y2="35"/>
+</g>
+
+<!-- خطوط درخشان (فعال می‌شن) -->
+<g class="brain-lines-glow">
+<line class="brain-line glow" x1="-60" y1="-35" x2="0" y2="-70"/>
+<line class="brain-line glow" x1="0" y1="-70" x2="60" y2="-35"/>
+<line class="brain-line glow" x1="60" y1="-35" x2="60" y2="35"/>
+<line class="brain-line glow" x1="60" y1="35" x2="0" y2="70"/>
+<line class="brain-line glow" x1="0" y1="70" x2="-60" y2="35"/>
+<line class="brain-line glow" x1="-60" y1="35" x2="-60" y2="-35"/>
+<line class="brain-line glow" x1="-60" y1="-35" x2="0" y2="0"/>
+<line class="brain-line glow" x1="0" y1="-70" x2="0" y2="0"/>
+<line class="brain-line glow" x1="60" y1="-35" x2="0" y2="0"/>
+<line class="brain-line glow" x1="60" y1="35" x2="0" y2="0"/>
+<line class="brain-line glow" x1="0" y1="70" x2="0" y2="0"/>
+<line class="brain-line glow" x1="-60" y1="35" x2="0" y2="0"/>
+</g>
 
 <!-- گره‌ها -->
-<circle class="brain-node" cx="-60" cy="0" r="5"/>
-<circle class="brain-node" cx="-30" cy="-30" r="6"/>
-<circle class="brain-node" cx="0" cy="-45" r="7"/>
-<circle class="brain-node" cx="30" cy="-30" r="6"/>
-<circle class="brain-node" cx="60" cy="0" r="5"/>
-<circle class="brain-node" cx="30" cy="25" r="5"/>
-<circle class="brain-node" cx="0" cy="35" r="6"/>
-<circle class="brain-node" cx="-30" cy="25" r="5"/>
-<circle class="brain-node" cx="0" cy="0" r="8"/>
+<circle class="brain-node core" cx="0" cy="0" r="9"/>
+<circle class="brain-node" cx="-60" cy="-35" r="6"/>
+<circle class="brain-node" cx="0" cy="-70" r="7"/>
+<circle class="brain-node" cx="60" cy="-35" r="6"/>
+<circle class="brain-node" cx="60" cy="35" r="6"/>
+<circle class="brain-node" cx="0" cy="70" r="7"/>
+<circle class="brain-node" cx="-60" cy="35" r="6"/>
+<circle class="brain-node" cx="-100" cy="-70" r="5"/>
+<circle class="brain-node" cx="100" cy="-70" r="5"/>
+<circle class="brain-node" cx="-100" cy="70" r="5"/>
+<circle class="brain-node" cx="100" cy="70" r="5"/>
+<circle class="brain-node" cx="0" cy="-110" r="5"/>
+<circle class="brain-node" cx="0" cy="110" r="5"/>
+<circle class="brain-node" cx="-100" cy="0" r="5"/>
+<circle class="brain-node" cx="100" cy="0" r="5"/>
 </g>
 
 </svg>
 
 
-<!-- نقطه نورانی همسفر -->
+<!-- نور همسفر -->
 <div class="traveler" id="traveler" style="opacity:0;">
 <div class="traveler-ring"></div>
 <div class="traveler-ring"></div>
@@ -2181,8 +2002,8 @@ AI را یاد نمی‌گیریم؛
 <!-- کارت‌های ایستگاه -->
 <div class="stations-wrap">
 
-<!-- ایستگاه ۱ — راست -->
-<div class="station-card right" data-station="1" style="top: 280px;">
+<!-- ایستگاه ۱ — چپ (چون ایستگاه ۱ تو SVG سمت چپه) -->
+<div class="station-card left" data-station="1" style="top: 2600px;">
 <div class="station-head">
 <div class="station-icon">🧭</div>
 <div>
@@ -2201,8 +2022,8 @@ AI را یاد نمی‌گیریم؛
 </div>
 </div>
 
-<!-- ایستگاه ۲ — چپ -->
-<div class="station-card left" data-station="2" style="top: 780px;">
+<!-- ایستگاه ۲ — راست -->
+<div class="station-card right" data-station="2" style="top: 2180px;">
 <div class="station-head">
 <div class="station-icon">🛠️</div>
 <div>
@@ -2221,8 +2042,8 @@ AI را یاد نمی‌گیریم؛
 </div>
 </div>
 
-<!-- ایستگاه ۳ — راست -->
-<div class="station-card right" data-station="3" style="top: 1280px;">
+<!-- ایستگاه ۳ — چپ -->
+<div class="station-card left" data-station="3" style="top: 1760px;">
 <div class="station-head">
 <div class="station-icon">🧠</div>
 <div>
@@ -2241,8 +2062,8 @@ AI را یاد نمی‌گیریم؛
 </div>
 </div>
 
-<!-- ایستگاه ۴ — چپ -->
-<div class="station-card left" data-station="4" style="top: 1780px;">
+<!-- ایستگاه ۴ — راست -->
+<div class="station-card right" data-station="4" style="top: 1340px;">
 <div class="station-head">
 <div class="station-icon">⚡</div>
 <div>
@@ -2261,8 +2082,8 @@ AI را یاد نمی‌گیریم؛
 </div>
 </div>
 
-<!-- ایستگاه ۵ — راست -->
-<div class="station-card right" data-station="5" style="top: 2280px;">
+<!-- ایستگاه ۵ — چپ -->
+<div class="station-card left" data-station="5" style="top: 920px;">
 <div class="station-head">
 <div class="station-icon">🚀</div>
 <div>
@@ -2282,11 +2103,8 @@ AI را یاد نمی‌گیریم؛
 </div>
 
 </div>
-
 </div>
 
-
-<!-- پیام پایان -->
 <div class="journey-message" id="journeyMessage">
 <h3>رسیدی. حالا وقت ساختنه.</h3>
 <p>هر چی یاد گرفتی، الان آماده‌ای به یه پروژه واقعی تبدیلش کنی.</p>
@@ -2295,18 +2113,12 @@ AI را یاد نمی‌گیریم؛
 </section>
 
 
-
-<!-- =========================================================
-     TERMINAL
-========================================================= -->
-
+<!-- TERMINAL -->
 <section class="terminal-section">
 <div class="container terminal-wrapper">
-
 <div class="reveal">
 <div class="label" style="margin-bottom:24px;">live_terminal</div>
 </div>
-
 <div class="terminal reveal delay-1">
 <div class="terminal-header">
 <span class="term-dot red"></span>
@@ -2316,30 +2128,17 @@ AI را یاد نمی‌گیریم؛
 </div>
 <div class="terminal-body" id="terminalBody"></div>
 </div>
-
 </div>
 </section>
 
 
-
-<!-- =========================================================
-     TOOLS
-========================================================= -->
-
+<!-- TOOLS -->
 <section class="tools" id="tools">
 <div class="container tools-grid">
-
 <div class="tools-copy reveal">
 <div class="label">ai_toolbox</div>
-<h2>
-ابزارها را بشناس،
-نه اینکه فقط اسمشان را حفظ کنی.
-</h2>
-<p>
-از تولید محتوا و تصویر گرفته تا برنامه‌نویسی،
-تحقیق، تحلیل و اتوماسیون؛
-هر ابزار را در یک مسئله واقعی امتحان می‌کنیم.
-</p>
+<h2>ابزارها را بشناس،<br>نه اینکه فقط اسمشان را حفظ کنی.</h2>
+<p>از تولید محتوا و تصویر گرفته تا برنامه‌نویسی، تحقیق، تحلیل و اتوماسیون؛ هر ابزار را در یک مسئله واقعی امتحان می‌کنیم.</p>
 <div class="tool-list">
 <span class="tool">ChatGPT</span>
 <span class="tool">Claude</span>
@@ -2349,7 +2148,6 @@ AI را یاد نمی‌گیریم؛
 <span class="tool">Coding AI</span>
 </div>
 </div>
-
 <div class="tool-board reveal delay-1">
 <div class="board-top">
 <span class="board-dot"></span>
@@ -2375,54 +2173,38 @@ AI را یاد نمی‌گیریم؛
 </div>
 </div>
 </div>
-
 </div>
 </section>
 
 
-
-<!-- =========================================================
-     STATS
-========================================================= -->
-
+<!-- STATS -->
 <section class="stats-strip">
 <div class="container stats-grid">
-
 <div class="stat-item reveal">
 <div class="stat-value" data-target="12">0</div>
 <div class="stat-label">پروژه عملی</div>
 </div>
-
 <div class="stat-item reveal delay-1">
 <div class="stat-value" data-target="48">0</div>
 <div class="stat-label">مطلب آموزشی</div>
 </div>
-
 <div class="stat-item reveal delay-2">
 <div class="stat-value" data-target="100">0<span class="unit">%</span></div>
 <div class="stat-label">رایگان</div>
 </div>
-
 </div>
 </section>
 
 
-
-<!-- =========================================================
-     PROJECTS
-========================================================= -->
-
+<!-- PROJECTS -->
 <section class="projects" id="projects">
 <div class="container">
-
 <div class="section-heading reveal">
 <div class="label">learn_by_building</div>
 <h2>آخر مسیر، یک پروژه واقعی داری.</h2>
 <p>آموزش وقتی ارزش دارد که بتوانی از آن چیزی بسازی.</p>
 </div>
-
 <div class="project-grid">
-
 <article class="project project-large reveal">
 <div class="project-number">PROJECT_01</div>
 <div>
@@ -2431,7 +2213,6 @@ AI را یاد نمی‌گیریم؛
 </div>
 <div class="project-arrow">← مشاهده پروژه</div>
 </article>
-
 <article class="project reveal delay-1">
 <div class="project-number">PROJECT_02</div>
 <div>
@@ -2440,7 +2221,6 @@ AI را یاد نمی‌گیریم؛
 </div>
 <div class="project-arrow">←</div>
 </article>
-
 <article class="project reveal delay-2">
 <div class="project-number">PROJECT_03</div>
 <div>
@@ -2449,41 +2229,27 @@ AI را یاد نمی‌گیریم؛
 </div>
 <div class="project-arrow">←</div>
 </article>
-
 </div>
 </div>
 </section>
 
 
-
-<!-- =========================================================
-     TELEGRAM — با تصویر کانال تو آواتار
-========================================================= -->
-
+<!-- TELEGRAM -->
 <section class="telegram-section" id="community">
 <div class="container telegram-inner">
-
 <div class="telegram-copy reveal">
 <div class="label">hamsafar_community</div>
 <h2>توی تلگرام <em>با هم</em> ادامه می‌دیم.</h2>
-<p>
-هر مطلب جدید، اول تو کانال تلگرام منتشر می‌شه.
-اونجا راحت‌تر می‌تونی سوال بپرسی،
-با بقیه همراه بشی، و مسیر رو ادامه بدی.
-</p>
+<p>هر مطلب جدید، اول تو کانال تلگرام منتشر می‌شه. اونجا راحت‌تر می‌تونی سوال بپرسی، با بقیه همراه بشی، و مسیر رو ادامه بدی.</p>
 <a href="https://t.me/hamsafar_ai" class="btn-primary" target="_blank" rel="noopener">
 عضویت در کانال
 <span class="arrow">←</span>
 </a>
 </div>
-
 <div class="tg-visual reveal delay-1">
-
 <div class="tg-glow"></div>
 <div class="tg-orbit"></div>
-
 <div class="tg-phone">
-
 <div class="tg-header">
 <div class="tg-header-avatar">
 <img src="https://raw.githubusercontent.com/shamdun/hamsafarAI/main/assets/hero.jpg"
@@ -2495,56 +2261,28 @@ AI را یاد نمی‌گیریم؛
 <div class="tg-header-status">online</div>
 </div>
 </div>
-
 <div class="tg-chat">
-<div class="tg-msg in tg-msg-1">
-سلام همسفر 👋<br>
-خوش اومدی به مسیر.
-<span class="tg-msg-time">10:24</span>
+<div class="tg-msg in tg-msg-1">سلام همسفر 👋<br>خوش اومدی به مسیر.<span class="tg-msg-time">10:24</span></div>
+<div class="tg-msg out tg-msg-2">هر مطلب جدید اینجا<br>اول منتشر می‌شه.<span class="tg-msg-time">10:24</span></div>
+<div class="tg-msg in tg-msg-3">بیا با هم یاد بگیریم،<br>با هم بسازیم.<span class="tg-msg-time">10:25</span></div>
+<div class="tg-msg out tg-msg-4">منتظرتم تو کانال ✨<span class="tg-msg-time">10:25</span></div>
+<div class="tg-typing"><span></span><span></span><span></span></div>
 </div>
-<div class="tg-msg out tg-msg-2">
-هر مطلب جدید اینجا<br>
-اول منتشر می‌شه.
-<span class="tg-msg-time">10:24</span>
-</div>
-<div class="tg-msg in tg-msg-3">
-بیا با هم یاد بگیریم،<br>
-با هم بسازیم.
-<span class="tg-msg-time">10:25</span>
-</div>
-<div class="tg-msg out tg-msg-4">
-منتظرتم تو کانال ✨
-<span class="tg-msg-time">10:25</span>
-</div>
-<div class="tg-typing">
-<span></span><span></span><span></span>
-</div>
-</div>
-
 <div class="tg-input">
 <div class="tg-input-text">پیام...</div>
 <div class="tg-input-btn">
-<svg viewBox="0 0 24 24" fill="#071923">
-<path d="M3 12 L21 4 L14 21 L11 14 Z"/>
-</svg>
+<svg viewBox="0 0 24 24" fill="#071923"><path d="M3 12 L21 4 L14 21 L11 14 Z"/></svg>
 </div>
 </div>
-
 </div>
 </div>
-
 </div>
 </section>
 
 
-
-<!-- =========================================================
-     FOOTER
-========================================================= -->
-
+<!-- FOOTER -->
 <footer>
 <div class="footer-inner">
-
 <div class="footer-brand">
 <h4>
 <span class="logo-mark" style="width:28px;height:28px;display:inline-flex;">
@@ -2554,12 +2292,8 @@ AI را یاد نمی‌گیریم؛
 </span>
 Hamsafar AI
 </h4>
-<p>
-مسیر واقعی یادگیری هوش مصنوعی، از صفر، رایگان، با هم.
-بدون وعده پول‌سازی، بدون دوره فروشی.
-</p>
+<p>مسیر واقعی یادگیری هوش مصنوعی، از صفر، رایگان، با هم. بدون وعده پول‌سازی، بدون دوره فروشی.</p>
 </div>
-
 <div class="footer-col">
 <h5>navigate</h5>
 <ul>
@@ -2569,7 +2303,6 @@ Hamsafar AI
 <li><a href="#community">جامعه</a></li>
 </ul>
 </div>
-
 <div class="footer-col">
 <h5>connect</h5>
 <ul>
@@ -2577,15 +2310,12 @@ Hamsafar AI
 <li><a href="https://github.com/shamdun" target="_blank" rel="noopener">گیت‌هاب</a></li>
 </ul>
 </div>
-
 </div>
-
 <div class="footer-bottom">
 <span>made with <span class="heart">♥</span> for learners</span>
 <span>© 2026 Hamsafar AI</span>
 </div>
 </footer>
-
 
 
 <script>
@@ -2595,10 +2325,7 @@ Hamsafar AI
 const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 
-/* =========================================================
-   Progress bar + Header
-========================================================= */
-
+/* Progress bar + Header */
 const progressBar = document.getElementById('progressBar');
 const header = document.getElementById('header');
 
@@ -2618,10 +2345,7 @@ window.addEventListener('scroll', () => {
 }, { passive: true });
 
 
-/* =========================================================
-   Scroll reveal
-========================================================= */
-
+/* Scroll reveal */
 const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -2634,10 +2358,7 @@ const revealObserver = new IntersectionObserver((entries) => {
 document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
 
-/* =========================================================
-   Counters
-========================================================= */
-
+/* Counters */
 const counterObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (!entry.isIntersecting) return;
@@ -2668,29 +2389,23 @@ const counterObserver = new IntersectionObserver((entries) => {
 document.querySelectorAll('.stat-value').forEach(el => counterObserver.observe(el));
 
 
-/* =========================================================
-   JOURNEY — جاده منحنی با همسفر
-========================================================= */
-
+/* JOURNEY */
 const roadWrapper = document.getElementById('roadWrapper');
 const roadSvg = document.getElementById('roadSvg');
 const roadPath = document.getElementById('roadPath');
 const roadStroke = document.getElementById('roadStroke');
 const traveler = document.getElementById('traveler');
 const travelerMessage = document.getElementById('travelerMessage');
-const destinationBrain = document.getElementById('destinationBrain');
+const brainContainer = document.getElementById('brainContainer');
 const journeyMessage = document.getElementById('journeyMessage');
 const stationGroups = document.querySelectorAll('.station-group');
 const stationCards = document.querySelectorAll('.station-card');
 
 const pathLength = roadPath.getTotalLength();
 
-// تنظیم اولیه: جاده نامرئی
 roadStroke.style.strokeDasharray = pathLength;
 roadStroke.style.strokeDashoffset = pathLength;
 
-
-// پیام‌های همراه
 const stationMessages = [
     'از اینجا شروع می‌شه',
     'داری جلو می‌ری',
@@ -2700,18 +2415,13 @@ const stationMessages = [
     'رسیدی!'
 ];
 
-
-// محاسبه طول مسیر نزدیک‌ترین به یه نقطه
 function getLengthAtPoint(targetX, targetY) {
     let low = 0, high = pathLength, best = 0, bestDist = Infinity;
     for (let i = 0; i < 30; i++) {
         const mid = (low + high) / 2;
         const p = roadPath.getPointAtLength(mid);
         const d = Math.hypot(p.x - targetX, p.y - targetY);
-        if (d < bestDist) {
-            bestDist = d;
-            best = mid;
-        }
+        if (d < bestDist) { bestDist = d; best = mid; }
         const p2 = roadPath.getPointAtLength(mid + 10);
         const d2 = Math.hypot(p2.x - targetX, p2.y - targetY);
         if (d2 < d) low = mid;
@@ -2720,41 +2430,32 @@ function getLengthAtPoint(targetX, targetY) {
     return best;
 }
 
-
-// طول مسیر هر ایستگاه
 const stationLengths = [];
 stationGroups.forEach(group => {
-    const dot = group.querySelector('.station-dot');
+    const dot = group.querySelector('.station-circle');
     const cx = +dot.getAttribute('cx');
     const cy = +dot.getAttribute('cy');
     stationLengths.push(getLengthAtPoint(cx, cy));
 });
 
-
 function updateJourney() {
-
     const rect = roadWrapper.getBoundingClientRect();
     const vh = window.innerHeight;
 
-    // progress: از وقتی بالای wrapper به 80% صفحه رسید
     const start = vh * 0.8;
     const end = -rect.height + vh * 0.2;
 
     let progress = (start - rect.top) / (start - end);
     progress = Math.max(0, Math.min(1, progress));
 
-    // رسم جاده
     const drawLength = pathLength * progress;
     roadStroke.style.strokeDashoffset = pathLength - drawLength;
 
-    // نقطه نورانی
     if (progress > 0.005 && progress < 0.998) {
         const point = roadPath.getPointAtLength(drawLength);
-
-        // تبدیل مختصات SVG به پیکسل
         const svgRect = roadSvg.getBoundingClientRect();
         const scaleX = svgRect.width / 1000;
-        const scaleY = svgRect.height / 3000;
+        const scaleY = svgRect.height / 3200;
 
         const x = (svgRect.left - rect.left) + point.x * scaleX;
         const y = (svgRect.top - rect.top) + point.y * scaleY;
@@ -2763,12 +2464,9 @@ function updateJourney() {
         traveler.style.top = y + 'px';
         traveler.style.opacity = 1;
 
-        // پیام همراه بر اساس پیشرفت
         let msgIndex = 0;
         for (let i = 0; i < stationLengths.length; i++) {
-            if (drawLength >= stationLengths[i] - 30) {
-                msgIndex = i + 1;
-            }
+            if (drawLength >= stationLengths[i] - 30) msgIndex = i + 1;
         }
         if (msgIndex > 5) msgIndex = 5;
         if (travelerMessage.textContent !== stationMessages[msgIndex]) {
@@ -2782,7 +2480,6 @@ function updateJourney() {
         traveler.style.opacity = 0;
     }
 
-    // فعال‌سازی ایستگاه‌ها
     stationGroups.forEach((group, i) => {
         const stationLen = stationLengths[i];
         if (drawLength >= stationLen - 40) {
@@ -2794,17 +2491,15 @@ function updateJourney() {
         }
     });
 
-    // مقصد — وقتی همه ایستگاه‌ها رد شدن
     const lastStation = stationLengths[stationLengths.length - 1];
     if (drawLength >= lastStation + 200) {
-        destinationBrain.classList.add('complete');
+        brainContainer.classList.add('complete');
         journeyMessage.classList.add('show');
     } else {
-        destinationBrain.classList.remove('complete');
+        brainContainer.classList.remove('complete');
         journeyMessage.classList.remove('show');
     }
 }
-
 
 window.addEventListener('scroll', () => {
     if (!ticking) {
@@ -2820,10 +2515,7 @@ window.addEventListener('resize', updateJourney);
 setTimeout(updateJourney, 200);
 
 
-/* =========================================================
-   TERMINAL
-========================================================= */
-
+/* TERMINAL */
 const terminalBody = document.getElementById('terminalBody');
 
 const script = [
@@ -2841,15 +2533,10 @@ const script = [
 function createLine(type, text) {
     const line = document.createElement('div');
     line.className = 'term-line';
-    if (type === 'cmd') {
-        line.innerHTML = '<span class="t-prompt">$</span><span class="t-cmd">' + text + '</span>';
-    } else if (type === 'out') {
-        line.innerHTML = '<span class="t-out">' + text + '</span>';
-    } else if (type === 'ok') {
-        line.innerHTML = '<span class="t-out t-ok">' + text + '</span>';
-    } else if (type === 'info') {
-        line.innerHTML = '<span class="t-out t-info">' + text + '</span>';
-    }
+    if (type === 'cmd') line.innerHTML = '<span class="t-prompt">$</span><span class="t-cmd">' + text + '</span>';
+    else if (type === 'out') line.innerHTML = '<span class="t-out">' + text + '</span>';
+    else if (type === 'ok') line.innerHTML = '<span class="t-out t-ok">' + text + '</span>';
+    else if (type === 'info') line.innerHTML = '<span class="t-out t-info">' + text + '</span>';
     return line;
 }
 
@@ -2860,10 +2547,7 @@ function typeText(element, text, speed) {
         const timer = setInterval(() => {
             element.textContent += text[i];
             i++;
-            if (i >= text.length) {
-                clearInterval(timer);
-                resolve();
-            }
+            if (i >= text.length) { clearInterval(timer); resolve(); }
         }, speed);
     });
 }
@@ -2873,11 +2557,9 @@ async function runTerminal() {
         script.forEach(s => terminalBody.appendChild(createLine(s.type, s.text)));
         return;
     }
-
     for (const step of script) {
         const line = document.createElement('div');
         line.className = 'term-line';
-
         if (step.type === 'cmd') {
             line.innerHTML = '<span class="t-prompt">$</span><span class="t-cmd"></span>';
             terminalBody.appendChild(line);
@@ -2885,10 +2567,8 @@ async function runTerminal() {
         } else {
             terminalBody.appendChild(createLine(step.type, step.text));
         }
-
         await new Promise(r => setTimeout(r, step.delay || 300));
     }
-
     const cursorLine = document.createElement('div');
     cursorLine.className = 'term-line';
     cursorLine.innerHTML = '<span class="t-prompt">$</span><span class="term-cursor"></span>';
@@ -2905,109 +2585,6 @@ const terminalObserver = new IntersectionObserver((entries) => {
 }, { threshold: 0.3 });
 
 if (terminalBody) terminalObserver.observe(terminalBody);
-
-
-/* =========================================================
-   NEURAL CANVAS
-========================================================= */
-
-const canvas = document.getElementById('neuralCanvas');
-const ctx = canvas.getContext('2d');
-
-let particles = [];
-let mouse = { x: -1000, y: -1000 };
-let animId;
-
-function resize() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    initParticles();
-}
-
-function initParticles() {
-    const count = window.innerWidth < 768 ? 22 : 50;
-    particles = [];
-    for (let i = 0; i < count; i++) {
-        particles.push({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
-            vx: (Math.random() - 0.5) * 0.3,
-            vy: (Math.random() - 0.5) * 0.3,
-            r: Math.random() * 1.4 + 0.6
-        });
-    }
-}
-
-function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    for (let i = 0; i < particles.length; i++) {
-        const p = particles[i];
-
-        for (let j = i + 1; j < particles.length; j++) {
-            const p2 = particles[j];
-            const dx = p.x - p2.x;
-            const dy = p.y - p2.y;
-            const dist = Math.sqrt(dx * dx + dy * dy);
-
-            if (dist < 130) {
-                const opacity = 0.1 * (1 - dist / 130);
-                ctx.beginPath();
-                ctx.moveTo(p.x, p.y);
-                ctx.lineTo(p2.x, p2.y);
-                ctx.strokeStyle = 'rgba(34, 211, 238, ' + opacity + ')';
-                ctx.lineWidth = 0.6;
-                ctx.stroke();
-            }
-        }
-
-        const mdx = p.x - mouse.x;
-        const mdy = p.y - mouse.y;
-        const mdist = Math.sqrt(mdx * mdx + mdy * mdy);
-        if (mdist < 160) {
-            const opacity = 0.22 * (1 - mdist / 160);
-            ctx.beginPath();
-            ctx.moveTo(p.x, p.y);
-            ctx.lineTo(mouse.x, mouse.y);
-            ctx.strokeStyle = 'rgba(245, 158, 11, ' + opacity + ')';
-            ctx.lineWidth = 0.7;
-            ctx.stroke();
-        }
-    }
-
-    for (const p of particles) {
-        p.x += p.vx;
-        p.y += p.vy;
-
-        if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
-        if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
-
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(34, 211, 238, 0.5)';
-        ctx.fill();
-    }
-
-    animId = requestAnimationFrame(draw);
-}
-
-if (!prefersReduced) {
-    resize();
-    draw();
-    window.addEventListener('resize', resize);
-    window.addEventListener('mousemove', (e) => {
-        mouse.x = e.clientX;
-        mouse.y = e.clientY;
-    }, { passive: true });
-    window.addEventListener('mouseleave', () => {
-        mouse.x = -1000;
-        mouse.y = -1000;
-    });
-} else {
-    resize();
-    draw();
-    cancelAnimationFrame(animId);
-}
 
 </script>
 

@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>همسفر AI — با هوش مصنوعی همسفر شو</title>
-<meta name="description" content="همسفر AI؛ یادگیری هوش مصنوعی از مفاهیم پایه تا ساخت پروژه‌های واقعی.">
+<title>مسیر همسفر AI</title>
 <meta name="theme-color" content="#071923">
 
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
@@ -13,7 +11,6 @@
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 
 <style>
-
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
 
@@ -24,19 +21,9 @@ body{
     overflow-x:hidden;
     font-size:16px;
     line-height:1.8;
+    direction:rtl;
     -webkit-font-smoothing:antialiased;
 }
-
-a{color:inherit;text-decoration:none;}
-button{font:inherit;}
-
-::selection{background:#22D3EE;color:#071923;}
-:focus-visible{outline:2px solid #22D3EE;outline-offset:3px;border-radius:4px;}
-
-::-webkit-scrollbar{width:10px;}
-::-webkit-scrollbar-track{background:#071923;}
-::-webkit-scrollbar-thumb{background:#1a3a48;border-radius:5px;}
-::-webkit-scrollbar-thumb:hover{background:#22D3EE;}
 
 :root{
     --bg:#071923;
@@ -50,14 +37,25 @@ button{font:inherit;}
     --line:rgba(255,255,255,.09);
 }
 
-.container{
-    width:min(1180px, calc(100% - 40px));
-    margin:auto;
+::selection{background:#22D3EE;color:#071923;}
+
+/* ========================
+   بخش مسیر
+======================== */
+
+.journey{
+    position:relative;
+    padding:100px 20px 80px;
+    max-width:1100px;
+    margin:0 auto;
 }
 
-section{position:relative;}
+.journey-header{
+    text-align:center;
+    margin-bottom:80px;
+}
 
-.label{
+.journey-header .label{
     display:inline-flex;
     align-items:center;
     gap:9px;
@@ -70,382 +68,28 @@ section{position:relative;}
     direction:ltr;
 }
 
-.label::before{
+.journey-header .label::before{
     content:"";
     width:7px;height:7px;
     border-radius:50%;
     background:var(--cyan);
     box-shadow:0 0 14px var(--cyan);
-    animation:pulseDot 2s infinite;
 }
 
-@keyframes pulseDot{
-    0%,100%{opacity:1;transform:scale(1);}
-    50%{opacity:.6;transform:scale(1.2);}
-}
-
-/* BACKGROUND */
-.background-glow{
-    position:fixed;
-    width:600px;height:600px;
-    border-radius:50%;
-    filter:blur(120px);
-    pointer-events:none;
-    opacity:.08;
-    z-index:0;
-}
-.glow-one{background:var(--cyan);top:-300px;right:-250px;}
-.glow-two{background:var(--orange);bottom:-300px;left:-250px;}
-
-.progress-bar{
-    position:fixed;
-    top:0;right:0;
-    height:2px;
-    background:linear-gradient(90deg,var(--orange),var(--cyan));
-    z-index:999;
-    width:0;
-    transition:width .1s linear;
-    box-shadow:0 0 12px rgba(34,211,238,.5);
-}
-
-/* NAV */
-header{
-    position:fixed;
-    top:0;left:0;right:0;
-    z-index:100;
-    transition:all .3s;
-}
-header.scrolled{
-    background:rgba(7,25,35,.85);
-    backdrop-filter:blur(20px);
-    border-bottom:1px solid var(--line);
-}
-.navbar{
-    height:86px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    transition:height .3s;
-}
-header.scrolled .navbar{height:70px;}
-
-.logo{
-    display:flex;
-    align-items:center;
-    gap:11px;
-    direction:ltr;
-    font-size:18px;
-    font-weight:800;
-}
-.logo-mark{
-    position:relative;
-    width:39px;height:39px;
-    border-radius:50%;
-    border:1px solid rgba(255,255,255,.18);
-    background:#061620;
-    flex-shrink:0;
-}
-.logo-mark .dot-one{
-    position:absolute;
-    width:8px;height:8px;
-    border-radius:50%;
-    background:var(--orange);
-    left:8px;bottom:8px;
-    box-shadow:0 0 15px rgba(245,158,11,.65);
-}
-.logo-mark .dot-two{
-    position:absolute;
-    width:8px;height:8px;
-    border-radius:50%;
-    background:var(--cyan);
-    right:8px;top:8px;
-    box-shadow:0 0 15px rgba(34,211,238,.65);
-}
-.logo-mark .path{
-    position:absolute;
-    width:25px;height:17px;
-    border-top:2px solid var(--cream);
-    border-radius:50%;
-    left:7px;top:11px;
-    transform:rotate(-27deg);
-}
-.nav-menu{
-    display:flex;
-    align-items:center;
-    gap:32px;
-    color:#9DAFB9;
-    font-size:13px;
-}
-.nav-menu a{transition:.25s;}
-.nav-menu a:hover{color:white;}
-
-.nav-cta{
-    padding:10px 17px;
-    border:1px solid rgba(34,211,238,.3);
-    border-radius:12px;
-    color:var(--cyan);
-    font-size:12px;
-    font-weight:600;
-    transition:.25s;
-    background:rgba(34,211,238,.04);
-}
-.nav-cta:hover{
-    background:rgba(34,211,238,.12);
-    border-color:var(--cyan);
-}
-
-/* HERO */
-.hero{
-    min-height:850px;
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    align-items:center;
-    padding-top:70px;
-    position:relative;
-    overflow:hidden;
-    z-index:2;
-}
-.horizon{
-    position:absolute;
-    left:0;right:0;top:50%;
-    height:1px;
-    background:linear-gradient(90deg,transparent,rgba(34,211,238,.15),rgba(254,243,199,.6),rgba(245,158,11,.2),transparent);
-    box-shadow:0 0 40px rgba(254,243,199,.18);
-}
-.hero-content{
-    padding-top:30px;
-    position:relative;
-    z-index:4;
-}
-.hero-title{
-    font-size:clamp(46px, 6vw, 82px);
-    line-height:1.1;
-    letter-spacing:-3px;
-    font-weight:900;
-    margin-bottom:25px;
-}
-.hero-title .orange{color:var(--orange);}
-.hero-title .cyan{
-    color:var(--cyan);
-    position:relative;
-}
-.hero-title .cyan::after{
-    content:"";
-    position:absolute;
-    bottom:0.05em;right:0;left:0;
-    height:.12em;
-    background:var(--cyan);
-    opacity:.2;
-    z-index:-1;
-}
-.hero-text{
-    max-width:570px;
-    color:var(--muted);
-    font-size:17px;
-    line-height:2;
-    margin-bottom:34px;
-}
-.hero-text strong{color:var(--white);font-weight:600;}
-
-.hero-actions{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    flex-wrap:wrap;
-}
-
-.btn-primary{
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    gap:8px;
-    padding:14px 24px;
-    background:var(--orange);
-    color:#101820;
-    border-radius:13px;
-    font-weight:700;
-    font-size:13px;
-    transition:.25s;
-    box-shadow:0 12px 35px rgba(245,158,11,.14);
-    border:none;
-    cursor:pointer;
-    font-family:inherit;
-}
-.btn-primary:hover{
-    transform:translateY(-3px);
-    box-shadow:0 16px 40px rgba(245,158,11,.3);
-}
-.btn-primary .arrow{transition:transform .25s;display:inline-flex;}
-.btn-primary:hover .arrow{transform:translateX(-4px);}
-
-.btn-secondary{
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    gap:8px;
-    padding:13px 21px;
-    border-radius:13px;
-    border:1px solid rgba(255,255,255,.15);
-    color:#d6e0e5;
-    font-size:13px;
-    background:rgba(255,255,255,.025);
-    transition:.25s;
-}
-.btn-secondary:hover{
-    border-color:var(--cyan);
-    color:var(--cyan);
-    background:rgba(34,211,238,.05);
-}
-
-/* HERO VISUAL — تصویر کانال متوسط */
-.hero-visual{
-    height:600px;
-    position:relative;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-}
-.ai-orbit{
-    position:absolute;
-    width:440px;height:440px;
-    border-radius:50%;
-    border:1px solid rgba(34,211,238,.1);
-    animation:orbitSpin 80s linear infinite;
-}
-@keyframes orbitSpin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
-.ai-orbit::before{
-    content:"";
-    position:absolute;
-    inset:40px;
-    border-radius:50%;
-    border:1px dashed rgba(255,255,255,.06);
-}
-.hero-circle{
-    position:relative;
-    width:300px;height:300px;
-    border-radius:50%;
-    overflow:hidden;
-    border:2px solid var(--orange);
-    box-shadow:0 0 0 8px rgba(245,158,11,.05), 0 0 50px rgba(245,158,11,.18), 0 0 100px rgba(34,211,238,.12);
-    background:#061620;
-    z-index:3;
-    animation:circleFloat 8s ease-in-out infinite;
-}
-@keyframes circleFloat{
-    0%,100%{transform:translateY(0);}
-    50%{transform:translateY(-10px);}
-}
-.hero-circle img{
-    width:100%;height:100%;
-    object-fit:cover;
-    display:block;
-}
-.horizon-light{
-    position:absolute;
-    width:160px;height:160px;
-    border-radius:50%;
-    background:var(--orange);
-    filter:blur(70px);
-    opacity:.22;
-    bottom:60px;right:40px;
-    z-index:1;
-    animation:lightPulse 4s ease-in-out infinite;
-}
-@keyframes lightPulse{
-    0%,100%{opacity:.2;transform:scale(1);}
-    50%{opacity:.4;transform:scale(1.15);}
-}
-
-.floating-card{
-    position:absolute;
-    padding:10px 14px;
-    background:rgba(7,25,35,.85);
-    border:1px solid var(--line);
-    backdrop-filter:blur(12px);
-    border-radius:12px;
-    color:#b8c7cf;
-    font-size:11px;
-    font-family:'JetBrains Mono',monospace;
-    direction:ltr;
-    animation:floatY 5s ease-in-out infinite;
-    z-index:4;
-}
-@keyframes floatY{
-    0%,100%{transform:translateY(0);}
-    50%{transform:translateY(-8px);}
-}
-.card-one{top:80px;right:20px;}
-.card-two{bottom:100px;left:20px;animation-delay:1s;}
-.card-three{top:180px;left:10px;animation-delay:2s;}
-.card-one span,.card-two span,.card-three span{color:var(--cyan);}
-
-/* INTRO */
-.intro{
-    padding:70px 0;
-    border-top:1px solid var(--line);
-    border-bottom:1px solid var(--line);
-    position:relative;
-    z-index:2;
-}
-.intro-inner{
-    display:grid;
-    grid-template-columns:1fr 2fr;
-    gap:80px;
-    align-items:center;
-}
-.intro h2{
-    font-size:34px;
-    line-height:1.5;
-    font-weight:800;
-}
-.intro p{
-    color:var(--muted);
-    max-width:700px;
-    font-size:15px;
-    line-height:2.2;
-}
-
-/* SECTION HEADING */
-.section-heading{
-    max-width:650px;
-    margin-bottom:65px;
-}
-.section-heading h2{
-    font-size:44px;
-    line-height:1.4;
-    margin-bottom:15px;
-    font-weight:800;
-    letter-spacing:-1px;
-}
-.section-heading p{
-    color:var(--muted);
-    font-size:15px;
-}
-
-/* JOURNEY */
-.journey{
-    position:relative;
-    z-index:2;
-    padding:120px 0 100px;
-}
-
-.journey-header{
-    text-align:center;
-    margin-bottom:60px;
-}
-.journey-header .label{justify-content:center;}
 .journey-header h2{
-    font-size:clamp(32px, 5vw, 52px);
+    font-size:clamp(30px, 4.5vw, 46px);
     font-weight:900;
     line-height:1.3;
-    letter-spacing:-2px;
-    margin-bottom:18px;
+    letter-spacing:-1.5px;
+    margin-bottom:16px;
 }
+
 .journey-header h2 em{
     font-style:normal;
     color:var(--cyan);
     position:relative;
 }
+
 .journey-header h2 em::after{
     content:"";
     position:absolute;
@@ -455,287 +99,181 @@ header.scrolled .navbar{height:70px;}
     opacity:.18;
     z-index:-1;
 }
+
 .journey-header p{
     color:var(--muted);
     font-size:15px;
-    max-width:600px;
+    max-width:560px;
     margin:0 auto;
 }
 
-/* ROAD WRAPPER */
-.road-wrapper{
+/* ========================
+   ظرف مسیر
+======================== */
+
+.timeline{
     position:relative;
-    width:100%;
-    max-width:1000px;
+    max-width:900px;
     margin:0 auto;
-    height:3200px;
+    padding:40px 0;
 }
 
-/* SVG ROAD */
-.road-svg{
+/* خط عمودی مرکزی */
+.timeline-line{
     position:absolute;
-    inset:0;
-    width:100%;
-    height:100%;
-    overflow:visible;
-    pointer-events:none;
+    top:0;
+    bottom:0;
+    right:50%;
+    transform:translateX(50%);
+    width:2px;
+    background:linear-gradient(180deg,
+        transparent 0%,
+        rgba(34,211,238,.15) 4%,
+        rgba(34,211,238,.4) 30%,
+        rgba(245,158,11,.4) 70%,
+        rgba(245,158,11,.15) 96%,
+        transparent 100%);
+    box-shadow:0 0 20px rgba(34,211,238,.15);
     z-index:1;
 }
 
-/* جاده‌ی شبکه‌ای — خطوط و گره‌ها */
-.road-line{
-    fill:none;
-    stroke:url(#roadGradient);
-    stroke-width:2.5;
-    stroke-linecap:round;
-    stroke-linejoin:round;
-    opacity:.55;
-}
-
-.road-glow-line{
-    fill:none;
-    stroke:url(#roadGradient);
-    stroke-width:6;
-    stroke-linecap:round;
-    stroke-linejoin:round;
-    filter:url(#roadGlow);
-    opacity:.4;
-}
-
-/* گره‌های شبکه روی جاده */
-.road-node{
-    fill:#061720;
-    stroke:var(--cyan);
-    stroke-width:1.5;
-    opacity:.6;
-    transition:all .4s;
-}
-
-.road-node.dot{
-    fill:var(--cyan);
-    stroke:none;
-    opacity:.5;
-}
-
-/* خطوط جانبی شبکه (شاخه‌ها) */
-.branch-line{
-    fill:none;
-    stroke:rgba(34,211,238,.25);
-    stroke-width:1;
-    stroke-dasharray:3 5;
-}
-
-.branch-node{
-    fill:var(--cyan);
-    opacity:.4;
-}
-
-/* ایستگاه‌ها */
-.station-circle{
-    fill:#061720;
-    stroke:var(--cyan);
-    stroke-width:2.5;
-    transition:all .6s;
-}
-
-.station-circle-glow{
-    fill:none;
-    stroke:var(--cyan);
-    stroke-width:1;
-    opacity:.4;
-    transition:all .6s;
-}
-
-.station-number{
-    fill:var(--cyan);
-    font-family:'JetBrains Mono',monospace;
-    font-size:16px;
-    font-weight:700;
-    text-anchor:middle;
-    dominant-baseline:central;
-    transition:all .6s;
-}
-
-.station-group.active .station-circle{
-    stroke:var(--orange);
-    stroke-width:3.5;
-    filter:url(#stationGlowActive);
-}
-
-.station-group.active .station-circle-glow{
-    stroke:var(--orange);
-    opacity:1;
-}
-
-.station-group.active .station-number{
-    fill:var(--orange);
-}
-
-/* مقصد مغز شبکه‌ای */
-.brain-container{
-    opacity:.3;
-    transition:all 1.2s;
-}
-
-.brain-container.complete{
-    opacity:1;
-}
-
-.brain-line{
-    stroke:rgba(34,211,238,.5);
-    stroke-width:1.5;
-    fill:none;
-    transition:all .8s;
-}
-
-.brain-line.glow{
-    stroke:url(#brainGradient);
-    stroke-width:2.5;
-    filter:url(#brainGlow);
-    opacity:0;
-    transition:opacity 1s;
-}
-
-.brain-container.complete .brain-line.glow{
-    opacity:1;
-}
-
-.brain-node{
-    fill:var(--cyan);
-    transition:all .8s;
-}
-
-.brain-container.complete .brain-node{
-    fill:var(--cream);
-    filter:url(#nodeGlow);
-}
-
-.brain-node.core{
-    fill:var(--orange);
-}
-
-.brain-container.complete .brain-node.core{
-    fill:#fff;
-    filter:url(#nodeGlowStrong);
-}
-
-.brain-ring{
-    fill:none;
-    stroke:rgba(34,211,238,.3);
-    stroke-width:1;
-    stroke-dasharray:4 6;
-    animation:brainRingSpin 30s linear infinite;
-    transform-origin:center;
-}
-
-@keyframes brainRingSpin{
-    from{transform:rotate(0deg);}
-    to{transform:rotate(360deg);}
-}
-
-.brain-container.complete .brain-ring{
-    stroke:var(--orange);
-    opacity:.6;
-}
-
-/* TRAVELER */
-.traveler{
+/* خط پر شده (با اسکرول) */
+.timeline-line-fill{
     position:absolute;
-    width:44px;height:44px;
-    margin-left:-22px;margin-top:-22px;
-    pointer-events:none;
-    z-index:10;
-    transition:opacity .3s;
+    top:0;
+    right:50%;
+    transform:translateX(50%);
+    width:2px;
+    height:0;
+    background:linear-gradient(180deg,
+        var(--cyan) 0%,
+        var(--cream) 50%,
+        var(--orange) 100%);
+    box-shadow:
+        0 0 8px var(--cyan),
+        0 0 20px rgba(34,211,238,.6);
+    z-index:2;
+    transition:height .1s linear;
 }
 
-.traveler-core{
+/* نور متحرک روی خط */
+.timeline-glow{
     position:absolute;
-    inset:11px;
+    right:50%;
+    transform:translate(50%, -50%);
+    width:24px;
+    height:24px;
     border-radius:50%;
-    background:radial-gradient(circle, #fff 0%, var(--cyan) 60%, var(--cyan) 100%);
+    background:radial-gradient(circle, #fff 0%, var(--cyan) 40%, transparent 70%);
     box-shadow:
         0 0 20px var(--cyan),
         0 0 50px rgba(34,211,238,.6),
-        0 0 90px rgba(34,211,238,.3);
+        0 0 80px rgba(34,211,238,.3);
+    z-index:10;
+    pointer-events:none;
+    transition:opacity .3s;
 }
 
-.traveler-ring{
-    position:absolute;
-    inset:0;
-    border-radius:50%;
-    border:1.5px solid rgba(34,211,238,.6);
-    animation:travelerRing 2s ease-out infinite;
-}
-
-.traveler-ring:nth-child(3){animation-delay:1s;}
-
-@keyframes travelerRing{
-    0%{transform:scale(.5);opacity:.8;}
-    100%{transform:scale(1.9);opacity:0;}
-}
-
-.traveler-message{
-    position:absolute;
-    top:-52px;
-    left:50%;
-    transform:translateX(-50%);
-    padding:8px 16px;
-    background:rgba(7,25,35,.95);
-    border:1px solid rgba(34,211,238,.3);
-    border-radius:20px;
-    color:var(--cream);
-    font-size:12px;
-    font-weight:600;
-    white-space:nowrap;
-    box-shadow:0 8px 30px rgba(0,0,0,.5), 0 0 20px rgba(34,211,238,.15);
-    backdrop-filter:blur(10px);
-    transition:opacity .4s;
-    direction:rtl;
-}
-
-.traveler-message::after{
+.timeline-glow::before{
     content:"";
     position:absolute;
-    bottom:-6px;
-    left:50%;
-    transform:translateX(-50%) rotate(45deg);
-    width:10px;height:10px;
-    background:rgba(7,25,35,.95);
-    border-right:1px solid rgba(34,211,238,.3);
-    border-bottom:1px solid rgba(34,211,238,.3);
+    inset:-10px;
+    border-radius:50%;
+    border:1.5px solid rgba(34,211,238,.6);
+    animation:ringPulse 2s ease-out infinite;
 }
 
-/* STATION CARDS */
-.stations-wrap{
+.timeline-glow::after{
+    content:"";
     position:absolute;
-    inset:0;
-    pointer-events:none;
+    inset:-10px;
+    border-radius:50%;
+    border:1.5px solid rgba(34,211,238,.6);
+    animation:ringPulse 2s ease-out infinite 1s;
+}
+
+@keyframes ringPulse{
+    0%{transform:scale(.5);opacity:.8;}
+    100%{transform:scale(2);opacity:0;}
+}
+
+/* ========================
+   ایستگاه‌ها
+======================== */
+
+.station{
+    position:relative;
+    display:grid;
+    grid-template-columns:1fr 80px 1fr;
+    margin-bottom:80px;
+    align-items:center;
     z-index:5;
 }
 
+.station:last-child{
+    margin-bottom:0;
+}
+
+/* دایره‌ی ایستگاه (تو ستون وسط) */
+.station-dot-wrap{
+    grid-column:2;
+    display:flex;
+    justify-content:center;
+}
+
+.station-dot{
+    width:56px;
+    height:56px;
+    border-radius:50%;
+    background:#061720;
+    border:2px solid rgba(34,211,238,.5);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:'JetBrains Mono',monospace;
+    font-size:14px;
+    font-weight:700;
+    color:var(--cyan);
+    box-shadow:
+        0 0 0 6px var(--bg),
+        0 0 20px rgba(34,211,238,.3);
+    transition:all .6s;
+    z-index:6;
+    position:relative;
+}
+
+.station-dot.active{
+    border-color:var(--orange);
+    color:var(--orange);
+    box-shadow:
+        0 0 0 6px var(--bg),
+        0 0 30px rgba(245,158,11,.6),
+        0 0 60px rgba(245,158,11,.3);
+    transform:scale(1.1);
+}
+
+/* کارت ایستگاه */
 .station-card{
-    position:absolute;
-    width:320px;
     background:linear-gradient(145deg, rgba(13,38,51,.95), rgba(7,25,35,.98));
     border:1px solid var(--line);
     border-radius:18px;
     padding:22px 20px;
     backdrop-filter:blur(20px);
-    pointer-events:auto;
+    -webkit-backdrop-filter:blur(20px);
+    position:relative;
+    overflow:hidden;
     opacity:0;
     transform:translateY(30px);
     transition:all .7s cubic-bezier(.4,0,.2,1);
-    overflow:hidden;
 }
 
 .station-card::before{
     content:"";
     position:absolute;
-    top:0;right:0;
-    width:100%;height:2px;
+    top:0;
+    width:100%;
+    height:2px;
     background:linear-gradient(90deg, transparent, var(--cyan), transparent);
-    transform:translateX(100%);
-    transition:transform .9s;
 }
 
 .station-card.active{
@@ -745,12 +283,38 @@ header.scrolled .navbar{height:70px;}
     box-shadow:0 20px 50px rgba(0,0,0,.5), 0 0 40px rgba(34,211,238,.06);
 }
 
-.station-card.active::before{
-    transform:translateX(-100%);
+/* کارت سمت راست (ستون 1) */
+.station.right .station-card{
+    grid-column:1;
+    margin-left:20px;
 }
 
-.station-card.right{right:0;}
-.station-card.left{left:0;}
+/* کارت سمت چپ (ستون 3) */
+.station.left .station-card{
+    grid-column:3;
+    margin-right:20px;
+}
+
+/* اتصال کارت به دایره (خط افقی کوچیک) */
+.station.right .station-card::after{
+    content:"";
+    position:absolute;
+    top:50%;
+    left:100%;
+    width:20px;
+    height:1px;
+    background:linear-gradient(90deg, var(--cyan), transparent);
+}
+
+.station.left .station-card::after{
+    content:"";
+    position:absolute;
+    top:50%;
+    right:100%;
+    width:20px;
+    height:1px;
+    background:linear-gradient(270deg, var(--cyan), transparent);
+}
 
 .station-head{
     display:flex;
@@ -760,7 +324,8 @@ header.scrolled .navbar{height:70px;}
 }
 
 .station-icon{
-    width:46px;height:46px;
+    width:46px;
+    height:46px;
     border-radius:12px;
     background:rgba(34,211,238,.08);
     border:1px solid rgba(34,211,238,.2);
@@ -769,7 +334,7 @@ header.scrolled .navbar{height:70px;}
     justify-content:center;
     font-size:22px;
     flex-shrink:0;
-    transition:.5s;
+    transition:all .5s;
 }
 
 .station-card.active .station-icon{
@@ -790,6 +355,7 @@ header.scrolled .navbar{height:70px;}
     font-weight:800;
     margin-bottom:8px;
     letter-spacing:-.4px;
+    color:var(--white);
 }
 
 .station-card p{
@@ -839,23 +405,102 @@ header.scrolled .navbar{height:70px;}
     border-top:1px solid var(--line);
 }
 
+/* ========================
+   مقصد — مغز شبکه‌ای
+======================== */
+
+.destination{
+    position:relative;
+    margin-top:100px;
+    display:flex;
+    justify-content:center;
+    z-index:5;
+}
+
+.brain{
+    width:200px;
+    height:200px;
+    position:relative;
+    opacity:.3;
+    transition:all 1s;
+}
+
+.brain.complete{
+    opacity:1;
+}
+
+.brain svg{
+    width:100%;
+    height:100%;
+    overflow:visible;
+}
+
+.brain-line{
+    stroke:rgba(34,211,238,.4);
+    stroke-width:1.5;
+    fill:none;
+    transition:all .8s;
+}
+
+.brain.complete .brain-line{
+    stroke:var(--cyan);
+    stroke-width:2;
+    filter:drop-shadow(0 0 4px var(--cyan));
+}
+
+.brain-node{
+    fill:var(--cyan);
+    transition:all .8s;
+}
+
+.brain.complete .brain-node{
+    fill:var(--cream);
+    filter:drop-shadow(0 0 6px var(--cream));
+}
+
+.brain-node.core{
+    fill:var(--orange);
+}
+
+.brain.complete .brain-node.core{
+    fill:#fff;
+    filter:drop-shadow(0 0 10px #fff) drop-shadow(0 0 20px var(--orange));
+}
+
+.brain-ring{
+    fill:none;
+    stroke:rgba(34,211,238,.2);
+    stroke-width:1;
+    stroke-dasharray:4 8;
+    transform-origin:center;
+    animation:brainSpin 30s linear infinite;
+}
+
+.brain.complete .brain-ring{
+    stroke:var(--orange);
+    opacity:.5;
+}
+
+@keyframes brainSpin{
+    from{transform:rotate(0deg);}
+    to{transform:rotate(360deg);}
+}
+
 /* پیام پایان */
-.journey-message{
+.journey-end-message{
     text-align:center;
-    margin-top:60px;
+    margin-top:50px;
     opacity:0;
     transform:translateY(20px);
     transition:all 1s;
-    position:relative;
-    z-index:6;
 }
 
-.journey-message.show{
+.journey-end-message.show{
     opacity:1;
     transform:translateY(0);
 }
 
-.journey-message h3{
+.journey-end-message h3{
     font-size:clamp(24px, 3.5vw, 36px);
     font-weight:900;
     margin-bottom:12px;
@@ -865,1726 +510,369 @@ header.scrolled .navbar{height:70px;}
     background-clip:text;
 }
 
-.journey-message p{
+.journey-end-message p{
     color:var(--muted);
     font-size:15px;
     max-width:520px;
     margin:0 auto;
 }
 
-/* TERMINAL */
-.terminal-section{
-    padding:100px 0;
-    position:relative;
-    z-index:2;
-}
+/* ========================
+   ریسپانسیو
+======================== */
 
-.terminal-wrapper{
-    max-width:820px;
-    margin:0 auto;
-}
+@media(max-width:768px){
 
-.terminal{
-    background:#061720;
-    border:1px solid var(--line);
-    border-radius:16px;
-    overflow:hidden;
-    box-shadow:0 40px 80px rgba(0,0,0,.6);
-}
+    .journey{padding:60px 16px 60px;}
 
-.terminal-header{
-    display:flex;
-    align-items:center;
-    gap:8px;
-    padding:14px 18px;
-    background:#0a1f2b;
-    border-bottom:1px solid var(--line);
-}
-
-.term-dot{width:11px;height:11px;border-radius:50%;}
-.term-dot.red{background:#EF4444;}
-.term-dot.yellow{background:#F59E0B;}
-.term-dot.green{background:#22C55E;}
-
-.term-title{
-    margin-right:auto;
-    margin-left:12px;
-    font-family:'JetBrains Mono',monospace;
-    font-size:12px;
-    color:var(--muted);
-    direction:ltr;
-}
-
-.terminal-body{
-    padding:24px;
-    font-family:'JetBrains Mono',monospace;
-    font-size:13px;
-    line-height:2.2;
-    min-height:280px;
-    direction:ltr;
-}
-
-.term-line{display:flex;gap:10px;flex-wrap:wrap;}
-.term-line + .term-line{margin-top:2px;}
-
-.t-prompt{color:var(--cyan);}
-.t-cmd{color:var(--white);}
-.t-out{color:var(--muted);padding-left:20px;display:block;}
-.t-ok{color:#22C55E;}
-.t-info{color:var(--cyan);}
-
-.term-cursor{
-    display:inline-block;
-    width:8px;height:14px;
-    background:var(--cyan);
-    animation:blink 1s infinite;
-    vertical-align:middle;
-    margin-left:4px;
-}
-
-@keyframes blink{
-    0%,50%{opacity:1;}
-    51%,100%{opacity:0;}
-}
-
-/* TOOLS */
-.tools{
-    padding:100px 0;
-    background:#081d28;
-    border-top:1px solid var(--line);
-    border-bottom:1px solid var(--line);
-    position:relative;
-    z-index:2;
-}
-
-.tools-grid{
-    display:grid;
-    grid-template-columns:1.1fr 1fr;
-    gap:80px;
-    align-items:center;
-}
-
-.tools-copy h2{
-    font-size:42px;
-    line-height:1.4;
-    margin-bottom:20px;
-    font-weight:800;
-    letter-spacing:-1px;
-}
-
-.tools-copy p{
-    color:var(--muted);
-    line-height:2;
-    font-size:14px;
-    margin-bottom:25px;
-}
-
-.tool-list{display:flex;flex-wrap:wrap;gap:9px;}
-
-.tool{
-    padding:9px 14px;
-    border:1px solid var(--line);
-    border-radius:50px;
-    color:#c3d0d7;
-    font-size:11px;
-    background:rgba(255,255,255,.025);
-    font-family:'JetBrains Mono',monospace;
-    direction:ltr;
-    transition:.25s;
-}
-
-.tool:hover{
-    border-color:var(--cyan);
-    color:var(--cyan);
-    background:rgba(34,211,238,.06);
-    transform:translateY(-2px);
-}
-
-.tool-board{
-    min-height:360px;
-    border:1px solid var(--line);
-    border-radius:25px;
-    background:#061720;
-    padding:25px;
-    position:relative;
-    overflow:hidden;
-    box-shadow:0 30px 60px rgba(0,0,0,.4);
-}
-
-.tool-board::before{
-    content:"";
-    position:absolute;
-    width:300px;height:300px;
-    border-radius:50%;
-    background:var(--cyan);
-    filter:blur(100px);
-    opacity:.07;
-    top:-150px;right:-100px;
-}
-
-.board-top{
-    display:flex;
-    align-items:center;
-    gap:7px;
-    padding-bottom:20px;
-    border-bottom:1px solid var(--line);
-}
-
-.board-dot{width:7px;height:7px;border-radius:50%;}
-.board-dot:nth-child(1){background:#EF4444;}
-.board-dot:nth-child(2){background:#F59E0B;}
-.board-dot:nth-child(3){background:#22C55E;}
-
-.board-content{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:14px;
-    margin-top:25px;
-    position:relative;
-    z-index:1;
-}
-
-.tool-box{
-    min-height:120px;
-    padding:18px;
-    border-radius:17px;
-    background:rgba(255,255,255,.035);
-    border:1px solid var(--line);
-    transition:.3s;
-}
-
-.tool-box:hover{
-    background:rgba(255,255,255,.06);
-    transform:translateY(-2px);
-}
-
-.tool-box strong{
-    display:block;
-    font-size:13px;
-    margin-bottom:10px;
-    font-family:'JetBrains Mono',monospace;
-    color:var(--cream);
-    direction:ltr;
-}
-
-.tool-box small{
-    color:var(--muted);
-    font-size:10px;
-    line-height:1.8;
-    display:block;
-}
-
-.tool-box.active{
-    border-color:rgba(34,211,238,.3);
-    box-shadow:inset 0 0 40px rgba(34,211,238,.035);
-}
-
-.tool-box.active strong{color:var(--cyan);}
-
-/* STATS */
-.stats-strip{
-    padding:60px 0;
-    border-top:1px solid var(--line);
-    border-bottom:1px solid var(--line);
-    position:relative;
-    z-index:2;
-}
-
-.stats-grid{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:20px;
-}
-
-.stat-item{text-align:center;}
-
-.stat-value{
-    font-family:'JetBrains Mono',monospace;
-    font-size:44px;
-    font-weight:700;
-    color:var(--white);
-    line-height:1.2;
-    direction:ltr;
-}
-
-.stat-value .unit{color:var(--cyan);font-size:.6em;}
-
-.stat-label{color:var(--muted);font-size:13px;margin-top:6px;}
-
-/* PROJECTS */
-.projects{
-    padding:130px 0;
-    position:relative;
-    z-index:2;
-}
-
-.project-grid{
-    display:grid;
-    grid-template-columns:1.3fr 1fr 1fr;
-    gap:16px;
-}
-
-.project{
-    min-height:290px;
-    border-radius:24px;
-    border:1px solid var(--line);
-    background:linear-gradient(145deg,rgba(255,255,255,.05),rgba(255,255,255,.015));
-    padding:27px;
-    display:flex;
-    flex-direction:column;
-    justify-content:space-between;
-    overflow:hidden;
-    position:relative;
-    transition:.35s;
-    cursor:pointer;
-}
-
-.project:hover{
-    transform:translateY(-4px);
-    border-color:rgba(34,211,238,.3);
-}
-
-.project-large{
-    min-height:430px;
-    background:radial-gradient(circle at 80% 20%,rgba(245,158,11,.12),transparent 35%), rgba(255,255,255,.025);
-}
-
-.project-number{
-    color:var(--orange);
-    font-size:11px;
-    font-family:'JetBrains Mono',monospace;
-    direction:ltr;
-    letter-spacing:.05em;
-}
-
-.project h3{
-    font-size:22px;
-    line-height:1.5;
-    margin-bottom:10px;
-    font-weight:700;
-    letter-spacing:-.5px;
-}
-
-.project p{color:var(--muted);font-size:12px;line-height:2;}
-
-.project-arrow{
-    color:var(--cyan);
-    font-size:13px;
-    display:flex;
-    align-items:center;
-    gap:6px;
-    font-family:'JetBrains Mono',monospace;
-    direction:ltr;
-    transition:.3s;
-}
-
-.project:hover .project-arrow{
-    transform:translateX(-6px);
-    color:var(--orange);
-}
-
-/* TELEGRAM */
-.telegram-section{
-    padding:120px 0;
-    position:relative;
-    z-index:2;
-    overflow:hidden;
-}
-
-.telegram-inner{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:80px;
-    align-items:center;
-}
-
-.telegram-copy h2{
-    font-size:44px;
-    line-height:1.35;
-    margin-bottom:20px;
-    font-weight:800;
-    letter-spacing:-1px;
-}
-
-.telegram-copy h2 em{
-    font-style:normal;
-    color:var(--cyan);
-    position:relative;
-}
-
-.telegram-copy h2 em::after{
-    content:"";
-    position:absolute;
-    bottom:.08em;right:0;left:0;
-    height:.15em;
-    background:var(--cyan);
-    opacity:.18;
-    z-index:-1;
-}
-
-.telegram-copy p{
-    color:var(--muted);
-    font-size:15px;
-    line-height:2.2;
-    margin-bottom:30px;
-    max-width:500px;
-}
-
-.tg-visual{
-    position:relative;
-    height:520px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-}
-
-.tg-glow{
-    position:absolute;
-    width:400px;height:400px;
-    border-radius:50%;
-    background:var(--cyan);
-    filter:blur(120px);
-    opacity:.12;
-    animation:lightPulse 5s ease-in-out infinite;
-}
-
-.tg-orbit{
-    position:absolute;
-    width:460px;height:460px;
-    border-radius:50%;
-    border:1px dashed rgba(34,211,238,.12);
-    animation:orbitSpin 90s linear infinite;
-}
-
-.tg-orbit::before{
-    content:"";
-    position:absolute;
-    width:8px;height:8px;
-    border-radius:50%;
-    background:var(--orange);
-    top:-4px;left:50%;
-    box-shadow:0 0 15px rgba(245,158,11,.8);
-}
-
-.tg-phone{
-    position:relative;
-    width:290px;
-    background:#061720;
-    border:1px solid rgba(34,211,238,.25);
-    border-radius:28px;
-    padding:18px 14px 14px;
-    box-shadow:0 30px 80px rgba(0,0,0,.6), 0 0 60px rgba(34,211,238,.08);
-    z-index:2;
-}
-
-.tg-phone::before{
-    content:"";
-    position:absolute;
-    top:8px;left:50%;
-    transform:translateX(-50%);
-    width:50px;height:5px;
-    border-radius:5px;
-    background:rgba(255,255,255,.15);
-}
-
-.tg-header{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    padding:14px 8px 12px;
-    border-bottom:1px solid var(--line);
-}
-
-.tg-header-avatar{
-    width:40px;height:40px;
-    border-radius:50%;
-    overflow:hidden;
-    position:relative;
-    flex-shrink:0;
-    border:2px solid var(--orange);
-    box-shadow:0 0 15px rgba(245,158,11,.6), 0 0 30px rgba(34,211,238,.2);
-}
-
-.tg-header-avatar img{
-    width:100%;height:100%;
-    object-fit:cover;
-    display:block;
-}
-
-.tg-header-avatar::after{
-    content:"";
-    position:absolute;
-    bottom:0;right:0;
-    width:11px;height:11px;
-    border-radius:50%;
-    background:#22C55E;
-    border:2px solid #061720;
-    box-shadow:0 0 8px #22C55E;
-}
-
-.tg-header-info{flex:1;}
-.tg-header-name{font-size:13px;font-weight:700;color:var(--white);}
-.tg-header-status{font-size:10px;color:#22C55E;font-family:'JetBrains Mono',monospace;direction:ltr;}
-
-.tg-chat{
-    padding:14px 6px;
-    display:flex;
-    flex-direction:column;
-    gap:10px;
-    min-height:280px;
-}
-
-.tg-msg{
-    max-width:85%;
-    padding:10px 13px;
-    border-radius:14px;
-    font-size:11.5px;
-    line-height:1.75;
-    opacity:0;
-    transform:translateY(10px);
-    animation:msgIn .5s forwards;
-}
-
-@keyframes msgIn{to{opacity:1;transform:translateY(0);}}
-
-.tg-msg.in{
-    align-self:flex-end;
-    background:rgba(34,211,238,.12);
-    border:1px solid rgba(34,211,238,.2);
-    color:var(--white);
-    border-bottom-left-radius:4px;
-}
-
-.tg-msg.out{
-    align-self:flex-start;
-    background:rgba(255,255,255,.05);
-    border:1px solid var(--line);
-    color:#c3d0d7;
-    border-bottom-right-radius:4px;
-}
-
-.tg-msg-time{
-    display:block;
-    font-size:9px;
-    color:var(--muted-2);
-    margin-top:4px;
-    font-family:'JetBrains Mono',monospace;
-    direction:ltr;
-}
-
-.tg-msg-1{animation-delay:.2s;}
-.tg-msg-2{animation-delay:.8s;}
-.tg-msg-3{animation-delay:1.4s;}
-.tg-msg-4{animation-delay:2s;}
-
-.tg-typing{
-    display:flex;
-    gap:4px;
-    padding:10px 14px;
-    background:rgba(255,255,255,.05);
-    border:1px solid var(--line);
-    border-radius:14px;
-    align-self:flex-start;
-    width:fit-content;
-    opacity:0;
-    animation:msgIn .5s 2.6s forwards;
-}
-
-.tg-typing span{
-    width:6px;height:6px;
-    border-radius:50%;
-    background:var(--muted);
-    animation:typing 1.4s infinite;
-}
-
-.tg-typing span:nth-child(2){animation-delay:.2s;}
-.tg-typing span:nth-child(3){animation-delay:.4s;}
-
-@keyframes typing{
-    0%,60%,100%{transform:translateY(0);opacity:.5;}
-    30%{transform:translateY(-4px);opacity:1;}
-}
-
-.tg-input{
-    display:flex;
-    align-items:center;
-    gap:8px;
-    padding:10px 12px;
-    background:rgba(255,255,255,.04);
-    border:1px solid var(--line);
-    border-radius:12px;
-    margin-top:6px;
-}
-
-.tg-input-text{flex:1;font-size:11px;color:var(--muted);}
-
-.tg-input-btn{
-    width:26px;height:26px;
-    border-radius:50%;
-    background:var(--cyan);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    flex-shrink:0;
-}
-
-.tg-input-btn svg{width:12px;height:12px;}
-
-/* FOOTER */
-footer{
-    border-top:1px solid var(--line);
-    padding:50px 20px 35px;
-    position:relative;
-    z-index:2;
-    background:#061720;
-}
-
-.footer-inner{
-    width:min(1180px,100%);
-    margin:auto;
-    display:grid;
-    grid-template-columns:2fr 1fr 1fr;
-    gap:50px;
-    margin-bottom:40px;
-}
-
-.footer-brand h4{
-    font-size:18px;
-    font-weight:800;
-    margin-bottom:12px;
-    display:flex;
-    align-items:center;
-    gap:9px;
-    direction:ltr;
-}
-
-.footer-brand p{
-    color:var(--muted);
-    font-size:13px;
-    line-height:2;
-    max-width:340px;
-}
-
-.footer-col h5{
-    font-family:'JetBrains Mono',monospace;
-    font-size:11px;
-    color:var(--muted-2);
-    margin-bottom:16px;
-    direction:ltr;
-    letter-spacing:.1em;
-    font-weight:500;
-}
-
-.footer-col ul{
-    list-style:none;
-    display:flex;
-    flex-direction:column;
-    gap:10px;
-}
-
-.footer-col a{
-    color:#b8c7cf;
-    font-size:13px;
-    transition:.2s;
-}
-
-.footer-col a:hover{color:var(--cyan);}
-
-.footer-bottom{
-    width:min(1180px,100%);
-    margin:auto;
-    padding-top:30px;
-    border-top:1px solid var(--line);
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    flex-wrap:wrap;
-    gap:12px;
-    font-size:12px;
-    color:var(--muted-2);
-    font-family:'JetBrains Mono',monospace;
-    direction:ltr;
-}
-
-.footer-bottom .heart{
-    color:var(--orange);
-    display:inline-block;
-    animation:heartbeat 1.8s infinite;
-}
-
-@keyframes heartbeat{
-    0%,100%{transform:scale(1);}
-    15%{transform:scale(1.18);}
-    30%{transform:scale(1);}
-}
-
-/* SCROLL REVEAL */
-.reveal{
-    opacity:0;
-    transform:translateY(24px);
-    transition:opacity .8s cubic-bezier(.4,0,.2,1), transform .8s cubic-bezier(.4,0,.2,1);
-}
-
-.reveal.visible{opacity:1;transform:translateY(0);}
-.reveal.delay-1{transition-delay:.08s;}
-.reveal.delay-2{transition-delay:.16s;}
-.reveal.delay-3{transition-delay:.24s;}
-.reveal.delay-4{transition-delay:.32s;}
-
-/* RESPONSIVE */
-@media(max-width:1000px){
-    .road-wrapper{height:3400px;}
-}
-
-@media(max-width:900px){
-    .nav-menu{display:none;}
-
-    .hero{
-        grid-template-columns:1fr;
-        min-height:auto;
-        padding-top:130px;
-        text-align:center;
+    .timeline-line,
+    .timeline-line-fill{
+        right:28px;
+        transform:none;
     }
 
-    .hero-content{
-        display:flex;
-        flex-direction:column;
-        align-items:center;
+    .timeline-glow{
+        right:28px;
+        transform:translate(50%, -50%);
+        width:20px;
+        height:20px;
     }
 
-    .hero-text{font-size:15px;}
-
-    .hero-visual{
-        order:-1;
-        height:420px;
+    .station{
+        grid-template-columns:56px 1fr;
+        gap:20px;
+        margin-bottom:60px;
     }
 
-    .ai-orbit{width:320px;height:320px;}
-    .hero-circle{width:240px;height:240px;}
-
-    .intro-inner{grid-template-columns:1fr;gap:20px;}
-
-    .road-wrapper{height:auto;min-height:3400px;}
-
-    .station-card{
-        width:calc(100% - 70px);
-        padding:20px 18px;
+    .station-dot-wrap{
+        grid-column:1;
+        justify-content:flex-start;
     }
 
-    .station-card.right{right:0;}
-    .station-card.left{left:0;right:auto;}
-
-    .tools-grid{grid-template-columns:1fr;gap:40px;}
-    .project-grid{grid-template-columns:1fr;}
-    .project-large{min-height:300px;}
-
-    .telegram-inner{grid-template-columns:1fr;gap:50px;}
-    .telegram-copy h2{font-size:34px;}
-    .tg-visual{height:480px;}
-
-    .footer-inner{grid-template-columns:1fr;gap:30px;}
-    .stats-grid{grid-template-columns:1fr;gap:30px;}
-    .section-heading h2{font-size:34px;}
-    .tools-copy h2{font-size:32px;}
-}
-
-@media(max-width:600px){
-    .container{width:min(100% - 28px,1180px);}
-    .hero-title{font-size:43px;letter-spacing:-2px;}
-
-    .hero-actions{flex-direction:column;width:100%;}
-    .btn-primary,.btn-secondary{width:100%;}
-
-    .hero-visual{height:360px;}
-    .ai-orbit{width:280px;height:280px;}
-    .hero-circle{width:200px;height:200px;}
-
-    .floating-card{display:none;}
-
-    .section-heading h2,.tools-copy h2{font-size:32px;}
-    .telegram-copy h2{font-size:30px;}
-    .board-content{grid-template-columns:1fr;}
-    .tg-phone{width:260px;}
-    .tg-visual{height:440px;}
-    .stat-value{font-size:34px;}
-
-    .footer-bottom{flex-direction:column;text-align:center;}
-
-    .terminal-body{font-size:11px;padding:18px;}
-
-    .traveler{
-        width:36px;height:36px;
-        margin-left:-18px;margin-top:-18px;
+    .station-dot{
+        width:48px;
+        height:48px;
+        font-size:12px;
     }
 
-    .traveler-message{
-        font-size:11px;
-        padding:6px 12px;
-        top:-46px;
+    .station.right .station-card,
+    .station.left .station-card{
+        grid-column:2;
+        margin-left:0;
+        margin-right:0;
     }
 
-    .station-card{
-        width:calc(100% - 50px);
-        padding:18px 16px;
+    .station.right .station-card::after,
+    .station.left .station-card::after{
+        display:none;
     }
 
+    .station-card{padding:18px 16px;}
     .station-card h3{font-size:16px;}
     .station-card p{font-size:12px;}
 
-    .road-wrapper{min-height:3200px;}
-}
+    .brain{width:150px;height:150px;}
 
-@media(prefers-reduced-motion:reduce){
-    *,*::before,*::after{
-        animation-duration:.01ms !important;
-        animation-iteration-count:1 !important;
-        transition-duration:.01ms !important;
-        scroll-behavior:auto !important;
-    }
+    .destination{margin-top:60px;}
+    .journey-header{margin-bottom:50px;}
 }
-
 </style>
 </head>
-
 <body>
 
-<div class="background-glow glow-one"></div>
-<div class="background-glow glow-two"></div>
 
-<div class="progress-bar" id="progressBar" aria-hidden="true"></div>
+<!-- =========================
+     مسیر
+========================= -->
 
-<header id="header">
-<div class="container">
-<nav class="navbar">
-<a href="#" class="logo" aria-label="همسفر AI - خانه">
-<span class="logo-mark" aria-hidden="true">
-<span class="dot-one"></span>
-<span class="dot-two"></span>
-<span class="path"></span>
-</span>
-<span>Hamsafar AI</span>
-</a>
-<div class="nav-menu">
-<a href="#journey">مسیر یادگیری</a>
-<a href="#tools">ابزارهای AI</a>
-<a href="#projects">پروژه‌ها</a>
-<a href="#community">جامعه</a>
-</div>
-<a href="#journey" class="nav-cta">شروع یادگیری</a>
-</nav>
-</div>
-</header>
-
-
-<!-- HERO -->
-<section class="hero">
-<div class="horizon"></div>
-
-<div class="container hero-content">
-<div class="hero-content">
-<div class="label reveal">hamsafar_ai</div>
-<h1 class="hero-title reveal delay-1">
-با <span class="orange">AI</span>
-<br>
-<span class="cyan">همسفر شو.</span>
-</h1>
-<p class="hero-text reveal delay-2">
-هوش مصنوعی را فقط تماشا نکن.
-<strong>یاد بگیر، امتحان کن و با آن چیزی واقعی بساز.</strong>
-از اولین قدم تا اجرای پروژه‌های واقعی،
-مسیر یادگیری را کنار هم طی می‌کنیم.
-</p>
-<div class="hero-actions reveal delay-3">
-<a href="#journey" class="btn-primary">
-مسیرم را شروع می‌کنم
-<span class="arrow">←</span>
-</a>
-<a href="#projects" class="btn-secondary">
-اول ببین چه می‌سازیم
-</a>
-</div>
-</div>
-</div>
-
-<div class="hero-visual">
-<div class="ai-orbit"></div>
-<div class="horizon-light"></div>
-
-<div class="hero-circle reveal delay-1">
-<img src="https://raw.githubusercontent.com/shamdun/hamsafarAI/main/assets/hero.jpg"
-     alt="همسفر AI"
-     onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#F59E0B,#22D3EE)';">
-</div>
-
-<div class="floating-card card-one">learning <span>AI</span></div>
-<div class="floating-card card-two">idea <span>→</span> project</div>
-<div class="floating-card card-three">with <span>AI</span></div>
-</div>
-</section>
-
-
-<!-- INTRO -->
-<section class="intro">
-<div class="container intro-inner">
-<div class="reveal">
-<div class="label">why_hamsafar</div>
-<h2>
-AI را یاد نمی‌گیریم؛
-با آن جلو می‌رویم.
-</h2>
-</div>
-<p class="reveal delay-1">
-دنیای هوش مصنوعی هر روز تغییر می‌کند.
-به‌جای حفظ کردن ابزارها، قرار است یاد بگیریم
-چطور مسئله را پیدا کنیم، ابزار مناسب را انتخاب کنیم
-و از AI برای حل مسائل واقعی استفاده کنیم.
-</p>
-</div>
-</section>
-
-
-<!-- JOURNEY -->
 <section class="journey" id="journey">
-<div class="container">
-<div class="journey-header reveal">
-<div class="label">the_path</div>
-<h2>پنج ایستگاه تا <em>ساختن با AI</em></h2>
-<p>اسکرول کن — همسفرت با تو حرکت می‌کنه. هر ایستگاه یه قدم واقعیه.</p>
-</div>
-</div>
 
-<div class="road-wrapper" id="roadWrapper">
-
-<svg class="road-svg" id="roadSvg" viewBox="0 0 1000 3200" preserveAspectRatio="xMidYMid meet">
-
-<defs>
-<linearGradient id="roadGradient" x1="0%" y1="100%" x2="0%" y2="0%">
-<stop offset="0%" stop-color="#22D3EE"/>
-<stop offset="50%" stop-color="#FBBF24"/>
-<stop offset="100%" stop-color="#F59E0B"/>
-</linearGradient>
-
-<linearGradient id="brainGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-<stop offset="0%" stop-color="#FEF3C7"/>
-<stop offset="100%" stop-color="#F59E0B"/>
-</linearGradient>
-
-<filter id="roadGlow" x="-50%" y="-50%" width="200%" height="200%">
-<feGaussianBlur stdDeviation="5" result="blur"/>
-<feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-</filter>
-
-<filter id="stationGlowActive" x="-150%" y="-150%" width="400%" height="400%">
-<feGaussianBlur stdDeviation="6" result="blur"/>
-<feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-</filter>
-
-<filter id="brainGlow" x="-100%" y="-100%" width="300%" height="300%">
-<feGaussianBlur stdDeviation="4" result="blur"/>
-<feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-</filter>
-
-<filter id="nodeGlow" x="-200%" y="-200%" width="500%" height="500%">
-<feGaussianBlur stdDeviation="3" result="blur"/>
-<feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-</filter>
-
-<filter id="nodeGlowStrong" x="-300%" y="-300%" width="700%" height="700%">
-<feGaussianBlur stdDeviation="6" result="blur"/>
-<feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-</filter>
-</defs>
-
-<!-- مسیر نامرئی -->
-<path id="roadPath"
-      d="M 500 3120
-         C 500 2960, 320 2900, 320 2720
-         C 320 2540, 680 2480, 680 2300
-         C 680 2120, 320 2060, 320 1880
-         C 320 1700, 680 1640, 680 1460
-         C 680 1280, 320 1220, 320 1040
-         C 320 860, 680 800, 680 620
-         C 680 440, 500 380, 500 200"
-      fill="none" stroke="none"/>
-
-<!-- سایه جاده -->
-<path class="road-glow-line"
-      d="M 500 3120
-         C 500 2960, 320 2900, 320 2720
-         C 320 2540, 680 2480, 680 2300
-         C 680 2120, 320 2060, 320 1880
-         C 320 1700, 680 1640, 680 1460
-         C 680 1280, 320 1220, 320 1040
-         C 320 860, 680 800, 680 620
-         C 680 440, 500 380, 500 200"/>
-
-<!-- خط اصلی جاده -->
-<path id="roadStroke" class="road-line"
-      d="M 500 3120
-         C 500 2960, 320 2900, 320 2720
-         C 320 2540, 680 2480, 680 2300
-         C 680 2120, 320 2060, 320 1880
-         C 320 1700, 680 1640, 680 1460
-         C 680 1280, 320 1220, 320 1040
-         C 320 860, 680 800, 680 620
-         C 680 440, 500 380, 500 200"/>
-
-<!-- خطوط جانبی شبکه (شاخه‌ها) -->
-<g class="branches" opacity=".6">
-<line class="branch-line" x1="320" y1="2720" x2="180" y2="2660"/>
-<line class="branch-line" x1="680" y1="2300" x2="830" y2="2240"/>
-<line class="branch-line" x1="320" y1="1880" x2="180" y2="1820"/>
-<line class="branch-line" x1="680" y1="1460" x2="830" y2="1400"/>
-<line class="branch-line" x1="320" y1="1040" x2="180" y2="980"/>
-<line class="branch-line" x1="680" y1="620" x2="830" y2="560"/>
-</g>
-
-<!-- گره‌های شبکه روی جاده -->
-<g class="road-nodes">
-<circle class="road-node dot" cx="440" cy="3020" r="3"/>
-<circle class="road-node dot" cx="380" cy="2920" r="3"/>
-<circle class="road-node dot" cx="340" cy="2820" r="3"/>
-<circle class="road-node dot" cx="330" cy="2720" r="4"/>
-<circle class="road-node dot" cx="400" cy="2620" r="3"/>
-<circle class="road-node dot" cx="520" cy="2560" r="3"/>
-<circle class="road-node dot" cx="620" cy="2480" r="3"/>
-<circle class="road-node dot" cx="675" cy="2400" r="4"/>
-<circle class="road-node dot" cx="680" cy="2300" r="3"/>
-<circle class="road-node dot" cx="600" cy="2200" r="3"/>
-<circle class="road-node dot" cx="480" cy="2140" r="3"/>
-<circle class="road-node dot" cx="380" cy="2060" r="3"/>
-<circle class="road-node dot" cx="325" cy="1960" r="4"/>
-<circle class="road-node dot" cx="320" cy="1880" r="3"/>
-<circle class="road-node dot" cx="400" cy="1780" r="3"/>
-<circle class="road-node dot" cx="520" cy="1720" r="3"/>
-<circle class="road-node dot" cx="620" cy="1640" r="3"/>
-<circle class="road-node dot" cx="675" cy="1540" r="4"/>
-<circle class="road-node dot" cx="680" cy="1460" r="3"/>
-<circle class="road-node dot" cx="600" cy="1360" r="3"/>
-<circle class="road-node dot" cx="480" cy="1300" r="3"/>
-<circle class="road-node dot" cx="380" cy="1220" r="3"/>
-<circle class="road-node dot" cx="325" cy="1120" r="4"/>
-<circle class="road-node dot" cx="320" cy="1040" r="3"/>
-<circle class="road-node dot" cx="400" cy="940" r="3"/>
-<circle class="road-node dot" cx="520" cy="880" r="3"/>
-<circle class="road-node dot" cx="620" cy="800" r="3"/>
-<circle class="road-node dot" cx="675" cy="700" r="4"/>
-<circle class="road-node dot" cx="680" cy="620" r="3"/>
-<circle class="road-node dot" cx="600" cy="520" r="3"/>
-<circle class="road-node dot" cx="520" cy="440" r="3"/>
-<circle class="road-node dot" cx="500" cy="360" r="4"/>
-<circle class="road-node dot" cx="500" cy="280" r="3"/>
-</g>
-
-<!-- ایستگاه ۱ -->
-<g class="station-group" data-station="1">
-<circle class="station-circle-glow" cx="320" cy="2720" r="34"/>
-<circle class="station-circle" cx="320" cy="2720" r="24"/>
-<text class="station-number" x="320" y="2720">۰۱</text>
-</g>
-
-<!-- ایستگاه ۲ -->
-<g class="station-group" data-station="2">
-<circle class="station-circle-glow" cx="680" cy="2300" r="34"/>
-<circle class="station-circle" cx="680" cy="2300" r="24"/>
-<text class="station-number" x="680" y="2300">۰۲</text>
-</g>
-
-<!-- ایستگاه ۳ -->
-<g class="station-group" data-station="3">
-<circle class="station-circle-glow" cx="320" cy="1880" r="34"/>
-<circle class="station-circle" cx="320" cy="1880" r="24"/>
-<text class="station-number" x="320" y="1880">۰۳</text>
-</g>
-
-<!-- ایستگاه ۴ -->
-<g class="station-group" data-station="4">
-<circle class="station-circle-glow" cx="680" cy="1460" r="34"/>
-<circle class="station-circle" cx="680" cy="1460" r="24"/>
-<text class="station-number" x="680" y="1460">۰۴</text>
-</g>
-
-<!-- ایستگاه ۵ -->
-<g class="station-group" data-station="5">
-<circle class="station-circle-glow" cx="320" cy="1040" r="34"/>
-<circle class="station-circle" cx="320" cy="1040" r="24"/>
-<text class="station-number" x="320" y="1040">۰۵</text>
-</g>
-
-<!-- مقصد: مغز شبکه‌ای -->
-<g class="brain-container" id="brainContainer" transform="translate(500, 220)">
-
-<!-- حلقه چرخان -->
-<circle class="brain-ring" cx="0" cy="0" r="110"/>
-<circle class="brain-ring" cx="0" cy="0" r="140" style="animation-duration:50s; animation-direction:reverse;"/>
-
-<!-- خطوط مغز (شبکه) -->
-<g class="brain-lines">
-<!-- هگزاگون مرکزی -->
-<line class="brain-line" x1="-60" y1="-35" x2="0" y2="-70"/>
-<line class="brain-line" x1="0" y1="-70" x2="60" y2="-35"/>
-<line class="brain-line" x1="60" y1="-35" x2="60" y2="35"/>
-<line class="brain-line" x1="60" y1="35" x2="0" y2="70"/>
-<line class="brain-line" x1="0" y1="70" x2="-60" y2="35"/>
-<line class="brain-line" x1="-60" y1="35" x2="-60" y2="-35"/>
-
-<!-- خطوط داخلی -->
-<line class="brain-line" x1="-60" y1="-35" x2="0" y2="0"/>
-<line class="brain-line" x1="0" y1="-70" x2="0" y2="0"/>
-<line class="brain-line" x1="60" y1="-35" x2="0" y2="0"/>
-<line class="brain-line" x1="60" y1="35" x2="0" y2="0"/>
-<line class="brain-line" x1="0" y1="70" x2="0" y2="0"/>
-<line class="brain-line" x1="-60" y1="35" x2="0" y2="0"/>
-
-<!-- خطوط خارجی -->
-<line class="brain-line" x1="-60" y1="-35" x2="-100" y2="-70"/>
-<line class="brain-line" x1="60" y1="-35" x2="100" y2="-70"/>
-<line class="brain-line" x1="-60" y1="35" x2="-100" y2="70"/>
-<line class="brain-line" x1="60" y1="35" x2="100" y2="70"/>
-<line class="brain-line" x1="0" y1="-70" x2="0" y2="-110"/>
-<line class="brain-line" x1="0" y1="70" x2="0" y2="110"/>
-<line class="brain-line" x1="-100" y1="-70" x2="-100" y2="0"/>
-<line class="brain-line" x1="100" y1="-70" x2="100" y2="0"/>
-<line class="brain-line" x1="-100" y1="0" x2="-100" y2="70"/>
-<line class="brain-line" x1="100" y1="0" x2="100" y2="70"/>
-<line class="brain-line" x1="-100" y1="0" x2="-60" y2="-35"/>
-<line class="brain-line" x1="100" y1="0" x2="60" y2="-35"/>
-<line class="brain-line" x1="-100" y1="0" x2="-60" y2="35"/>
-<line class="brain-line" x1="100" y1="0" x2="60" y2="35"/>
-</g>
-
-<!-- خطوط درخشان (فعال می‌شن) -->
-<g class="brain-lines-glow">
-<line class="brain-line glow" x1="-60" y1="-35" x2="0" y2="-70"/>
-<line class="brain-line glow" x1="0" y1="-70" x2="60" y2="-35"/>
-<line class="brain-line glow" x1="60" y1="-35" x2="60" y2="35"/>
-<line class="brain-line glow" x1="60" y1="35" x2="0" y2="70"/>
-<line class="brain-line glow" x1="0" y1="70" x2="-60" y2="35"/>
-<line class="brain-line glow" x1="-60" y1="35" x2="-60" y2="-35"/>
-<line class="brain-line glow" x1="-60" y1="-35" x2="0" y2="0"/>
-<line class="brain-line glow" x1="0" y1="-70" x2="0" y2="0"/>
-<line class="brain-line glow" x1="60" y1="-35" x2="0" y2="0"/>
-<line class="brain-line glow" x1="60" y1="35" x2="0" y2="0"/>
-<line class="brain-line glow" x1="0" y1="70" x2="0" y2="0"/>
-<line class="brain-line glow" x1="-60" y1="35" x2="0" y2="0"/>
-</g>
-
-<!-- گره‌ها -->
-<circle class="brain-node core" cx="0" cy="0" r="9"/>
-<circle class="brain-node" cx="-60" cy="-35" r="6"/>
-<circle class="brain-node" cx="0" cy="-70" r="7"/>
-<circle class="brain-node" cx="60" cy="-35" r="6"/>
-<circle class="brain-node" cx="60" cy="35" r="6"/>
-<circle class="brain-node" cx="0" cy="70" r="7"/>
-<circle class="brain-node" cx="-60" cy="35" r="6"/>
-<circle class="brain-node" cx="-100" cy="-70" r="5"/>
-<circle class="brain-node" cx="100" cy="-70" r="5"/>
-<circle class="brain-node" cx="-100" cy="70" r="5"/>
-<circle class="brain-node" cx="100" cy="70" r="5"/>
-<circle class="brain-node" cx="0" cy="-110" r="5"/>
-<circle class="brain-node" cx="0" cy="110" r="5"/>
-<circle class="brain-node" cx="-100" cy="0" r="5"/>
-<circle class="brain-node" cx="100" cy="0" r="5"/>
-</g>
-
-</svg>
-
-
-<!-- نور همسفر -->
-<div class="traveler" id="traveler" style="opacity:0;">
-<div class="traveler-ring"></div>
-<div class="traveler-ring"></div>
-<div class="traveler-core"></div>
-<div class="traveler-message" id="travelerMessage">از اینجا شروع می‌شه</div>
+<div class="journey-header">
+    <div class="label">the_path</div>
+    <h2>پنج ایستگاه تا <em>ساختن با AI</em></h2>
+    <p>اسکرول کن — نور با تو حرکت می‌کنه. هر ایستگاه یه قدم واقعیه.</p>
 </div>
 
+<div class="timeline" id="timeline">
 
-<!-- کارت‌های ایستگاه -->
-<div class="stations-wrap">
+    <!-- خط عمودی -->
+    <div class="timeline-line"></div>
+    <div class="timeline-line-fill" id="timelineFill"></div>
 
-<!-- ایستگاه ۱ — چپ (چون ایستگاه ۱ تو SVG سمت چپه) -->
-<div class="station-card left" data-station="1" style="top: 2600px;">
-<div class="station-head">
-<div class="station-icon">🧭</div>
-<div>
-<div class="station-num-label">STATION_01</div>
-<h3>کشف AI</h3>
-</div>
-</div>
-<p>هوش مصنوعی چیه، چی نیست، و چه انتظاری باید ازش داشت.</p>
-<div class="station-task">
-<span class="task-label">TASK</span>
-<span>با ChatGPT یه متن ۲۰۰ کلمه‌ای درباره خودت بنویس</span>
-</div>
-<div class="station-meta">
-<span>⏱ ۱ هفته</span>
-<span>📝 ۳ تمرین</span>
-</div>
-</div>
+    <!-- نور متحرک -->
+    <div class="timeline-glow" id="timelineGlow" style="top:0;opacity:0;"></div>
 
-<!-- ایستگاه ۲ — راست -->
-<div class="station-card right" data-station="2" style="top: 2180px;">
-<div class="station-head">
-<div class="station-icon">🛠️</div>
-<div>
-<div class="station-num-label">STATION_02</div>
-<h3>کار با ابزارها</h3>
-</div>
-</div>
-<p>با ابزارهای واقعی کار می‌کنیم — تصویر، ویدیو، متن، صدا. بدون کد.</p>
-<div class="station-task">
-<span class="task-label">TASK</span>
-<span>با Midjourney یا DALL-E یه تصویر از یه صحنه خیالی بساز</span>
-</div>
-<div class="station-meta">
-<span>⏱ ۱.۵ هفته</span>
-<span>📝 ۴ تمرین</span>
-</div>
-</div>
 
-<!-- ایستگاه ۳ — چپ -->
-<div class="station-card left" data-station="3" style="top: 1760px;">
-<div class="station-head">
-<div class="station-icon">🧠</div>
-<div>
-<div class="station-num-label">STATION_03</div>
-<h3>Prompt</h3>
-</div>
-</div>
-<p>یاد می‌گیریم چطور با مدل‌های هوشمند درست ارتباط بگیریم.</p>
-<div class="station-task">
-<span class="task-label">TASK</span>
-<span>یه prompt بنویس که ۳ بار پشت سر هم همون خروجی رو بده</span>
-</div>
-<div class="station-meta">
-<span>⏱ ۱ هفته</span>
-<span>📝 ۳ تمرین</span>
-</div>
-</div>
+    <!-- ایستگاه ۱ -->
+    <div class="station right" data-station="1">
+        <div class="station-dot-wrap">
+            <div class="station-dot">۰۱</div>
+        </div>
+        <div class="station-card">
+            <div class="station-head">
+                <div class="station-icon">🧭</div>
+                <div>
+                    <div class="station-num-label">STATION_01</div>
+                    <h3>کشف AI</h3>
+                </div>
+            </div>
+            <p>هوش مصنوعی چیه، چی نیست، و چه انتظاری باید ازش داشت.</p>
+            <div class="station-task">
+                <span class="task-label">TASK</span>
+                <span>با ChatGPT یه متن ۲۰۰ کلمه‌ای درباره خودت بنویس</span>
+            </div>
+            <div class="station-meta">
+                <span>⏱ ۱ هفته</span>
+                <span>📝 ۳ تمرین</span>
+            </div>
+        </div>
+    </div>
 
-<!-- ایستگاه ۴ — راست -->
-<div class="station-card right" data-station="4" style="top: 1340px;">
-<div class="station-head">
-<div class="station-icon">⚡</div>
-<div>
-<div class="station-num-label">STATION_04</div>
-<h3>اتوماسیون</h3>
-</div>
-</div>
-<p>کارهای تکراری رو به سیستم‌های هوشمند بسپار. وقتت رو آزاد کن.</p>
-<div class="station-task">
-<span class="task-label">TASK</span>
-<span>یه workflow ساده بساز که هر روز صبح یه خلاصه خبر بفرسته</span>
-</div>
-<div class="station-meta">
-<span>⏱ ۲ هفته</span>
-<span>📝 ۴ تمرین</span>
-</div>
-</div>
 
-<!-- ایستگاه ۵ — چپ -->
-<div class="station-card left" data-station="5" style="top: 920px;">
-<div class="station-head">
-<div class="station-icon">🚀</div>
-<div>
-<div class="station-num-label">STATION_05</div>
-<h3>ساخت پروژه</h3>
-</div>
-</div>
-<p>دانسته‌هات رو به یه خروجی واقعی تبدیل کن.</p>
-<div class="station-task">
-<span class="task-label">TASK</span>
-<span>یه ابزار کوچیک با AI بساز و منتشرش کن</span>
-</div>
-<div class="station-meta">
-<span>⏱ ۳ هفته</span>
-<span>📝 ۵ تمرین</span>
-</div>
-</div>
+    <!-- ایستگاه ۲ -->
+    <div class="station left" data-station="2">
+        <div class="station-dot-wrap">
+            <div class="station-dot">۰۲</div>
+        </div>
+        <div class="station-card">
+            <div class="station-head">
+                <div class="station-icon">🛠️</div>
+                <div>
+                    <div class="station-num-label">STATION_02</div>
+                    <h3>کار با ابزارها</h3>
+                </div>
+            </div>
+            <p>با ابزارهای واقعی کار می‌کنیم — تصویر، ویدیو، متن، صدا. بدون کد.</p>
+            <div class="station-task">
+                <span class="task-label">TASK</span>
+                <span>با Midjourney یا DALL-E یه تصویر از یه صحنه خیالی بساز</span>
+            </div>
+            <div class="station-meta">
+                <span>⏱ ۱.۵ هفته</span>
+                <span>📝 ۴ تمرین</span>
+            </div>
+        </div>
+    </div>
 
-</div>
-</div>
 
-<div class="journey-message" id="journeyMessage">
-<h3>رسیدی. حالا وقت ساختنه.</h3>
-<p>هر چی یاد گرفتی، الان آماده‌ای به یه پروژه واقعی تبدیلش کنی.</p>
+    <!-- ایستگاه ۳ -->
+    <div class="station right" data-station="3">
+        <div class="station-dot-wrap">
+            <div class="station-dot">۰۳</div>
+        </div>
+        <div class="station-card">
+            <div class="station-head">
+                <div class="station-icon">🧠</div>
+                <div>
+                    <div class="station-num-label">STATION_03</div>
+                    <h3>Prompt</h3>
+                </div>
+            </div>
+            <p>یاد می‌گیریم چطور با مدل‌های هوشمند درست ارتباط بگیریم.</p>
+            <div class="station-task">
+                <span class="task-label">TASK</span>
+                <span>یه prompt بنویس که ۳ بار پشت سر هم همون خروجی رو بده</span>
+            </div>
+            <div class="station-meta">
+                <span>⏱ ۱ هفته</span>
+                <span>📝 ۳ تمرین</span>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ایستگاه ۴ -->
+    <div class="station left" data-station="4">
+        <div class="station-dot-wrap">
+            <div class="station-dot">۰۴</div>
+        </div>
+        <div class="station-card">
+            <div class="station-head">
+                <div class="station-icon">⚡</div>
+                <div>
+                    <div class="station-num-label">STATION_04</div>
+                    <h3>اتوماسیون</h3>
+                </div>
+            </div>
+            <p>کارهای تکراری رو به سیستم‌های هوشمند بسپار. وقتت رو آزاد کن.</p>
+            <div class="station-task">
+                <span class="task-label">TASK</span>
+                <span>یه workflow ساده بساز که هر روز صبح یه خلاصه خبر بفرسته</span>
+            </div>
+            <div class="station-meta">
+                <span>⏱ ۲ هفته</span>
+                <span>📝 ۴ تمرین</span>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ایستگاه ۵ -->
+    <div class="station right" data-station="5">
+        <div class="station-dot-wrap">
+            <div class="station-dot">۰۵</div>
+        </div>
+        <div class="station-card">
+            <div class="station-head">
+                <div class="station-icon">🚀</div>
+                <div>
+                    <div class="station-num-label">STATION_05</div>
+                    <h3>ساخت پروژه</h3>
+                </div>
+            </div>
+            <p>دانسته‌هات رو به یه خروجی واقعی تبدیل کن.</p>
+            <div class="station-task">
+                <span class="task-label">TASK</span>
+                <span>یه ابزار کوچیک با AI بساز و منتشرش کن</span>
+            </div>
+            <div class="station-meta">
+                <span>⏱ ۳ هفته</span>
+                <span>📝 ۵ تمرین</span>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- مقصد: مغز شبکه‌ای -->
+    <div class="destination">
+        <div class="brain" id="brain">
+            <svg viewBox="-120 -120 240 240">
+                <!-- حلقه چرخان -->
+                <circle class="brain-ring" cx="0" cy="0" r="110"/>
+
+                <!-- خطوط -->
+                <g>
+                    <line class="brain-line" x1="-60" y1="-35" x2="0" y2="-70"/>
+                    <line class="brain-line" x1="0" y1="-70" x2="60" y2="-35"/>
+                    <line class="brain-line" x1="60" y1="-35" x2="60" y2="35"/>
+                    <line class="brain-line" x1="60" y1="35" x2="0" y2="70"/>
+                    <line class="brain-line" x1="0" y1="70" x2="-60" y2="35"/>
+                    <line class="brain-line" x1="-60" y1="35" x2="-60" y2="-35"/>
+                    <line class="brain-line" x1="-60" y1="-35" x2="0" y2="0"/>
+                    <line class="brain-line" x1="0" y1="-70" x2="0" y2="0"/>
+                    <line class="brain-line" x1="60" y1="-35" x2="0" y2="0"/>
+                    <line class="brain-line" x1="60" y1="35" x2="0" y2="0"/>
+                    <line class="brain-line" x1="0" y1="70" x2="0" y2="0"/>
+                    <line class="brain-line" x1="-60" y1="35" x2="0" y2="0"/>
+                    <line class="brain-line" x1="-60" y1="-35" x2="-100" y2="-70"/>
+                    <line class="brain-line" x1="60" y1="-35" x2="100" y2="-70"/>
+                    <line class="brain-line" x1="-60" y1="35" x2="-100" y2="70"/>
+                    <line class="brain-line" x1="60" y1="35" x2="100" y2="70"/>
+                    <line class="brain-line" x1="0" y1="-70" x2="0" y2="-105"/>
+                    <line class="brain-line" x1="0" y1="70" x2="0" y2="105"/>
+                    <line class="brain-line" x1="-100" y1="-70" x2="-100" y2="0"/>
+                    <line class="brain-line" x1="100" y1="-70" x2="100" y2="0"/>
+                    <line class="brain-line" x1="-100" y1="0" x2="-100" y2="70"/>
+                    <line class="brain-line" x1="100" y1="0" x2="100" y2="70"/>
+                </g>
+
+                <!-- گره‌ها -->
+                <circle class="brain-node core" cx="0" cy="0" r="9"/>
+                <circle class="brain-node" cx="-60" cy="-35" r="6"/>
+                <circle class="brain-node" cx="0" cy="-70" r="7"/>
+                <circle class="brain-node" cx="60" cy="-35" r="6"/>
+                <circle class="brain-node" cx="60" cy="35" r="6"/>
+                <circle class="brain-node" cx="0" cy="70" r="7"/>
+                <circle class="brain-node" cx="-60" cy="35" r="6"/>
+                <circle class="brain-node" cx="-100" cy="-70" r="5"/>
+                <circle class="brain-node" cx="100" cy="-70" r="5"/>
+                <circle class="brain-node" cx="-100" cy="70" r="5"/>
+                <circle class="brain-node" cx="100" cy="70" r="5"/>
+                <circle class="brain-node" cx="0" cy="-105" r="5"/>
+                <circle class="brain-node" cx="0" cy="105" r="5"/>
+                <circle class="brain-node" cx="-100" cy="0" r="5"/>
+                <circle class="brain-node" cx="100" cy="0" r="5"/>
+            </svg>
+        </div>
+    </div>
+
+    <!-- پیام پایان -->
+    <div class="journey-end-message" id="journeyEnd">
+        <h3>رسیدی. حالا وقت ساختنه.</h3>
+        <p>هر چی یاد گرفتی، الان آماده‌ای به یه پروژه واقعی تبدیلش کنی.</p>
+    </div>
+
 </div>
 
 </section>
 
-
-<!-- TERMINAL -->
-<section class="terminal-section">
-<div class="container terminal-wrapper">
-<div class="reveal">
-<div class="label" style="margin-bottom:24px;">live_terminal</div>
-</div>
-<div class="terminal reveal delay-1">
-<div class="terminal-header">
-<span class="term-dot red"></span>
-<span class="term-dot yellow"></span>
-<span class="term-dot green"></span>
-<span class="term-title">hamsafar@ai: ~/journey</span>
-</div>
-<div class="terminal-body" id="terminalBody"></div>
-</div>
-</div>
-</section>
-
-
-<!-- TOOLS -->
-<section class="tools" id="tools">
-<div class="container tools-grid">
-<div class="tools-copy reveal">
-<div class="label">ai_toolbox</div>
-<h2>ابزارها را بشناس،<br>نه اینکه فقط اسمشان را حفظ کنی.</h2>
-<p>از تولید محتوا و تصویر گرفته تا برنامه‌نویسی، تحقیق، تحلیل و اتوماسیون؛ هر ابزار را در یک مسئله واقعی امتحان می‌کنیم.</p>
-<div class="tool-list">
-<span class="tool">ChatGPT</span>
-<span class="tool">Claude</span>
-<span class="tool">Gemini</span>
-<span class="tool">Image AI</span>
-<span class="tool">Automation</span>
-<span class="tool">Coding AI</span>
-</div>
-</div>
-<div class="tool-board reveal delay-1">
-<div class="board-top">
-<span class="board-dot"></span>
-<span class="board-dot"></span>
-<span class="board-dot"></span>
-</div>
-<div class="board-content">
-<div class="tool-box active">
-<strong>idea</strong>
-<small>یک مسئله واقعی که می‌خواهی حل کنی.</small>
-</div>
-<div class="tool-box">
-<strong>prompt</strong>
-<small>تبدیل مسئله به دستور قابل فهم برای AI.</small>
-</div>
-<div class="tool-box">
-<strong>ai</strong>
-<small>انتخاب مدل و ابزار مناسب برای مسئله.</small>
-</div>
-<div class="tool-box active">
-<strong>output</strong>
-<small>تبدیل پاسخ AI به نتیجه قابل استفاده.</small>
-</div>
-</div>
-</div>
-</div>
-</section>
-
-
-<!-- STATS -->
-<section class="stats-strip">
-<div class="container stats-grid">
-<div class="stat-item reveal">
-<div class="stat-value" data-target="12">0</div>
-<div class="stat-label">پروژه عملی</div>
-</div>
-<div class="stat-item reveal delay-1">
-<div class="stat-value" data-target="48">0</div>
-<div class="stat-label">مطلب آموزشی</div>
-</div>
-<div class="stat-item reveal delay-2">
-<div class="stat-value" data-target="100">0<span class="unit">%</span></div>
-<div class="stat-label">رایگان</div>
-</div>
-</div>
-</section>
-
-
-<!-- PROJECTS -->
-<section class="projects" id="projects">
-<div class="container">
-<div class="section-heading reveal">
-<div class="label">learn_by_building</div>
-<h2>آخر مسیر، یک پروژه واقعی داری.</h2>
-<p>آموزش وقتی ارزش دارد که بتوانی از آن چیزی بسازی.</p>
-</div>
-<div class="project-grid">
-<article class="project project-large reveal">
-<div class="project-number">PROJECT_01</div>
-<div>
-<h3>ساخت یک سیستم هوشمند از صفر</h3>
-<p>یک ایده را انتخاب کن، با AI آن را طراحی کن، اجرا کن و به یک محصول واقعی تبدیلش کن.</p>
-</div>
-<div class="project-arrow">← مشاهده پروژه</div>
-</article>
-<article class="project reveal delay-1">
-<div class="project-number">PROJECT_02</div>
-<div>
-<h3>اتوماسیون کارهای روزمره</h3>
-<p>کاری که هر روز تکرار می‌کنی را پیدا کن و با AI هوشمندش کن.</p>
-</div>
-<div class="project-arrow">←</div>
-</article>
-<article class="project reveal delay-2">
-<div class="project-number">PROJECT_03</div>
-<div>
-<h3>ساخت دستیار شخصی AI</h3>
-<p>یک دستیار متناسب با نیاز و workflow خودت بساز.</p>
-</div>
-<div class="project-arrow">←</div>
-</article>
-</div>
-</div>
-</section>
-
-
-<!-- TELEGRAM -->
-<section class="telegram-section" id="community">
-<div class="container telegram-inner">
-<div class="telegram-copy reveal">
-<div class="label">hamsafar_community</div>
-<h2>توی تلگرام <em>با هم</em> ادامه می‌دیم.</h2>
-<p>هر مطلب جدید، اول تو کانال تلگرام منتشر می‌شه. اونجا راحت‌تر می‌تونی سوال بپرسی، با بقیه همراه بشی، و مسیر رو ادامه بدی.</p>
-<a href="https://t.me/hamsafar_ai" class="btn-primary" target="_blank" rel="noopener">
-عضویت در کانال
-<span class="arrow">←</span>
-</a>
-</div>
-<div class="tg-visual reveal delay-1">
-<div class="tg-glow"></div>
-<div class="tg-orbit"></div>
-<div class="tg-phone">
-<div class="tg-header">
-<div class="tg-header-avatar">
-<img src="https://raw.githubusercontent.com/shamdun/hamsafarAI/main/assets/hero.jpg"
-     alt="همسفر AI"
-     onerror="this.parentElement.style.background='linear-gradient(135deg,#F59E0B,#22D3EE)';this.style.display='none';">
-</div>
-<div class="tg-header-info">
-<div class="tg-header-name">همسفر AI</div>
-<div class="tg-header-status">online</div>
-</div>
-</div>
-<div class="tg-chat">
-<div class="tg-msg in tg-msg-1">سلام همسفر 👋<br>خوش اومدی به مسیر.<span class="tg-msg-time">10:24</span></div>
-<div class="tg-msg out tg-msg-2">هر مطلب جدید اینجا<br>اول منتشر می‌شه.<span class="tg-msg-time">10:24</span></div>
-<div class="tg-msg in tg-msg-3">بیا با هم یاد بگیریم،<br>با هم بسازیم.<span class="tg-msg-time">10:25</span></div>
-<div class="tg-msg out tg-msg-4">منتظرتم تو کانال ✨<span class="tg-msg-time">10:25</span></div>
-<div class="tg-typing"><span></span><span></span><span></span></div>
-</div>
-<div class="tg-input">
-<div class="tg-input-text">پیام...</div>
-<div class="tg-input-btn">
-<svg viewBox="0 0 24 24" fill="#071923"><path d="M3 12 L21 4 L14 21 L11 14 Z"/></svg>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section>
-
-
-<!-- FOOTER -->
-<footer>
-<div class="footer-inner">
-<div class="footer-brand">
-<h4>
-<span class="logo-mark" style="width:28px;height:28px;display:inline-flex;">
-<span class="dot-one" style="width:6px;height:6px;left:6px;bottom:6px;"></span>
-<span class="dot-two" style="width:6px;height:6px;right:6px;top:6px;"></span>
-<span class="path" style="width:18px;height:12px;left:5px;top:8px;border-top-width:1.5px;"></span>
-</span>
-Hamsafar AI
-</h4>
-<p>مسیر واقعی یادگیری هوش مصنوعی، از صفر، رایگان، با هم. بدون وعده پول‌سازی، بدون دوره فروشی.</p>
-</div>
-<div class="footer-col">
-<h5>navigate</h5>
-<ul>
-<li><a href="#journey">مسیر یادگیری</a></li>
-<li><a href="#tools">ابزارها</a></li>
-<li><a href="#projects">پروژه‌ها</a></li>
-<li><a href="#community">جامعه</a></li>
-</ul>
-</div>
-<div class="footer-col">
-<h5>connect</h5>
-<ul>
-<li><a href="https://t.me/hamsafar_ai" target="_blank" rel="noopener">تلگرام</a></li>
-<li><a href="https://github.com/shamdun" target="_blank" rel="noopener">گیت‌هاب</a></li>
-</ul>
-</div>
-</div>
-<div class="footer-bottom">
-<span>made with <span class="heart">♥</span> for learners</span>
-<span>© 2026 Hamsafar AI</span>
-</div>
-</footer>
 
 
 <script>
 
 'use strict';
 
-const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const timeline = document.getElementById('timeline');
+const timelineFill = document.getElementById('timelineFill');
+const timelineGlow = document.getElementById('timelineGlow');
+const brain = document.getElementById('brain');
+const journeyEnd = document.getElementById('journeyEnd');
+const stations = document.querySelectorAll('.station');
 
 
-/* Progress bar + Header */
-const progressBar = document.getElementById('progressBar');
-const header = document.getElementById('header');
+function updateTimeline() {
+
+    const rect = timeline.getBoundingClientRect();
+    const vh = window.innerHeight;
+
+    // progress: از وقتی بالای timeline به 70% صفحه رسید،
+    // تا وقتی پایینش به 30% صفحه رسید
+    const start = vh * 0.7;
+    const end = -rect.height + vh * 0.3;
+
+    let progress = (start - rect.top) / (start - end);
+    progress = Math.max(0, Math.min(1, progress));
+
+    // پر شدن خط
+    const fillHeight = rect.height * progress;
+    timelineFill.style.height = fillHeight + 'px';
+
+    // نور متحرک
+    if (progress > 0.01 && progress < 0.995) {
+        timelineGlow.style.top = fillHeight + 'px';
+        timelineGlow.style.opacity = 1;
+    } else {
+        timelineGlow.style.opacity = 0;
+    }
+
+    // فعال‌سازی ایستگاه‌ها
+    stations.forEach(station => {
+        const sRect = station.getBoundingClientRect();
+        const sCenter = sRect.top + sRect.height / 2;
+
+        if (sCenter < vh * 0.75 && sCenter > -100) {
+            station.querySelector('.station-dot').classList.add('active');
+            station.querySelector('.station-card').classList.add('active');
+        } else {
+            station.querySelector('.station-dot').classList.remove('active');
+            station.querySelector('.station-card').classList.remove('active');
+        }
+    });
+
+    // مغز مقصد — وقتی progress به آخر رسید
+    if (progress > 0.92) {
+        brain.classList.add('complete');
+        journeyEnd.classList.add('show');
+    } else {
+        brain.classList.remove('complete');
+        journeyEnd.classList.remove('show');
+    }
+}
+
 
 let ticking = false;
 window.addEventListener('scroll', () => {
     if (!ticking) {
         window.requestAnimationFrame(() => {
-            const scrollTop = window.scrollY;
-            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-            const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-            progressBar.style.width = progress + '%';
-            header.classList.toggle('scrolled', scrollTop > 60);
+            updateTimeline();
             ticking = false;
         });
         ticking = true;
     }
 }, { passive: true });
 
-
-/* Scroll reveal */
-const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-            revealObserver.unobserve(entry.target);
-        }
-    });
-}, { threshold: 0.12, rootMargin: '0px 0px -50px 0px' });
-
-document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
-
-
-/* Counters */
-const counterObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
-        const el = entry.target;
-        const unit = el.querySelector('.unit');
-        const target = +el.dataset.target;
-        const duration = 1400;
-        const start = performance.now();
-
-        function tick(now) {
-            const elapsed = now - start;
-            const progress = Math.min(elapsed / duration, 1);
-            const eased = 1 - Math.pow(1 - progress, 3);
-            const value = Math.floor(eased * target);
-            el.textContent = value;
-            if (unit) el.appendChild(unit);
-            if (progress < 1) requestAnimationFrame(tick);
-            else {
-                el.textContent = target;
-                if (unit) el.appendChild(unit);
-            }
-        }
-        requestAnimationFrame(tick);
-        counterObserver.unobserve(el);
-    });
-}, { threshold: 0.5 });
-
-document.querySelectorAll('.stat-value').forEach(el => counterObserver.observe(el));
-
-
-/* JOURNEY */
-const roadWrapper = document.getElementById('roadWrapper');
-const roadSvg = document.getElementById('roadSvg');
-const roadPath = document.getElementById('roadPath');
-const roadStroke = document.getElementById('roadStroke');
-const traveler = document.getElementById('traveler');
-const travelerMessage = document.getElementById('travelerMessage');
-const brainContainer = document.getElementById('brainContainer');
-const journeyMessage = document.getElementById('journeyMessage');
-const stationGroups = document.querySelectorAll('.station-group');
-const stationCards = document.querySelectorAll('.station-card');
-
-const pathLength = roadPath.getTotalLength();
-
-roadStroke.style.strokeDasharray = pathLength;
-roadStroke.style.strokeDashoffset = pathLength;
-
-const stationMessages = [
-    'از اینجا شروع می‌شه',
-    'داری جلو می‌ری',
-    'حالا جدی شدی',
-    'داری حرفه‌ای می‌شی',
-    'نزدیک مقصدی',
-    'رسیدی!'
-];
-
-function getLengthAtPoint(targetX, targetY) {
-    let low = 0, high = pathLength, best = 0, bestDist = Infinity;
-    for (let i = 0; i < 30; i++) {
-        const mid = (low + high) / 2;
-        const p = roadPath.getPointAtLength(mid);
-        const d = Math.hypot(p.x - targetX, p.y - targetY);
-        if (d < bestDist) { bestDist = d; best = mid; }
-        const p2 = roadPath.getPointAtLength(mid + 10);
-        const d2 = Math.hypot(p2.x - targetX, p2.y - targetY);
-        if (d2 < d) low = mid;
-        else high = mid;
-    }
-    return best;
-}
-
-const stationLengths = [];
-stationGroups.forEach(group => {
-    const dot = group.querySelector('.station-circle');
-    const cx = +dot.getAttribute('cx');
-    const cy = +dot.getAttribute('cy');
-    stationLengths.push(getLengthAtPoint(cx, cy));
-});
-
-function updateJourney() {
-    const rect = roadWrapper.getBoundingClientRect();
-    const vh = window.innerHeight;
-
-    const start = vh * 0.8;
-    const end = -rect.height + vh * 0.2;
-
-    let progress = (start - rect.top) / (start - end);
-    progress = Math.max(0, Math.min(1, progress));
-
-    const drawLength = pathLength * progress;
-    roadStroke.style.strokeDashoffset = pathLength - drawLength;
-
-    if (progress > 0.005 && progress < 0.998) {
-        const point = roadPath.getPointAtLength(drawLength);
-        const svgRect = roadSvg.getBoundingClientRect();
-        const scaleX = svgRect.width / 1000;
-        const scaleY = svgRect.height / 3200;
-
-        const x = (svgRect.left - rect.left) + point.x * scaleX;
-        const y = (svgRect.top - rect.top) + point.y * scaleY;
-
-        traveler.style.left = x + 'px';
-        traveler.style.top = y + 'px';
-        traveler.style.opacity = 1;
-
-        let msgIndex = 0;
-        for (let i = 0; i < stationLengths.length; i++) {
-            if (drawLength >= stationLengths[i] - 30) msgIndex = i + 1;
-        }
-        if (msgIndex > 5) msgIndex = 5;
-        if (travelerMessage.textContent !== stationMessages[msgIndex]) {
-            travelerMessage.style.opacity = 0;
-            setTimeout(() => {
-                travelerMessage.textContent = stationMessages[msgIndex];
-                travelerMessage.style.opacity = 1;
-            }, 200);
-        }
-    } else {
-        traveler.style.opacity = 0;
-    }
-
-    stationGroups.forEach((group, i) => {
-        const stationLen = stationLengths[i];
-        if (drawLength >= stationLen - 40) {
-            group.classList.add('active');
-            if (stationCards[i]) stationCards[i].classList.add('active');
-        } else {
-            group.classList.remove('active');
-            if (stationCards[i]) stationCards[i].classList.remove('active');
-        }
-    });
-
-    const lastStation = stationLengths[stationLengths.length - 1];
-    if (drawLength >= lastStation + 200) {
-        brainContainer.classList.add('complete');
-        journeyMessage.classList.add('show');
-    } else {
-        brainContainer.classList.remove('complete');
-        journeyMessage.classList.remove('show');
-    }
-}
-
-window.addEventListener('scroll', () => {
-    if (!ticking) {
-        window.requestAnimationFrame(() => {
-            updateJourney();
-            ticking = false;
-        });
-        ticking = true;
-    }
-}, { passive: true });
-
-window.addEventListener('resize', updateJourney);
-setTimeout(updateJourney, 200);
-
-
-/* TERMINAL */
-const terminalBody = document.getElementById('terminalBody');
-
-const script = [
-    { type: 'cmd', text: 'hamsafar start --journey' },
-    { type: 'out', text: 'Initializing your path...', delay: 400 },
-    { type: 'ok',  text: '✓ Station 01: کشف AI — unlocked', delay: 500 },
-    { type: 'ok',  text: '✓ Station 02: کار با ابزارها — unlocked', delay: 400 },
-    { type: 'ok',  text: '✓ Station 03: Prompt — unlocked', delay: 400 },
-    { type: 'info', text: '→ Next: اتوماسیون', delay: 500 },
-    { type: 'cmd', text: 'hamsafar learn --together', delay: 700 },
-    { type: 'out', text: 'Loading companion mode...', delay: 400 },
-    { type: 'ok',  text: '✓ Ready. بیا شروع کنیم.', delay: 600 }
-];
-
-function createLine(type, text) {
-    const line = document.createElement('div');
-    line.className = 'term-line';
-    if (type === 'cmd') line.innerHTML = '<span class="t-prompt">$</span><span class="t-cmd">' + text + '</span>';
-    else if (type === 'out') line.innerHTML = '<span class="t-out">' + text + '</span>';
-    else if (type === 'ok') line.innerHTML = '<span class="t-out t-ok">' + text + '</span>';
-    else if (type === 'info') line.innerHTML = '<span class="t-out t-info">' + text + '</span>';
-    return line;
-}
-
-function typeText(element, text, speed) {
-    return new Promise(resolve => {
-        let i = 0;
-        element.textContent = '';
-        const timer = setInterval(() => {
-            element.textContent += text[i];
-            i++;
-            if (i >= text.length) { clearInterval(timer); resolve(); }
-        }, speed);
-    });
-}
-
-async function runTerminal() {
-    if (prefersReduced) {
-        script.forEach(s => terminalBody.appendChild(createLine(s.type, s.text)));
-        return;
-    }
-    for (const step of script) {
-        const line = document.createElement('div');
-        line.className = 'term-line';
-        if (step.type === 'cmd') {
-            line.innerHTML = '<span class="t-prompt">$</span><span class="t-cmd"></span>';
-            terminalBody.appendChild(line);
-            await typeText(line.querySelector('.t-cmd'), step.text, 45);
-        } else {
-            terminalBody.appendChild(createLine(step.type, step.text));
-        }
-        await new Promise(r => setTimeout(r, step.delay || 300));
-    }
-    const cursorLine = document.createElement('div');
-    cursorLine.className = 'term-line';
-    cursorLine.innerHTML = '<span class="t-prompt">$</span><span class="term-cursor"></span>';
-    terminalBody.appendChild(cursorLine);
-}
-
-const terminalObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            runTerminal();
-            terminalObserver.unobserve(entry.target);
-        }
-    });
-}, { threshold: 0.3 });
-
-if (terminalBody) terminalObserver.observe(terminalBody);
+window.addEventListener('resize', updateTimeline);
+setTimeout(updateTimeline, 200);
 
 </script>
 

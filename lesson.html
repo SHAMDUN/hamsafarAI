@@ -440,23 +440,25 @@ header.scrolled .navbar{height:70px;}
 }
 
 .lesson-content pre{
-    background:rgba(0,0,0,.45);
-    border:1px solid var(--line);
-    padding:18px 20px;
+    background:#0a0f14;
+    border:1px solid rgba(34, 211, 238, 0.2);
+    padding:20px;
     border-radius:12px;
     overflow-x:auto;
     margin:20px 0;
     direction:ltr;
     text-align:left;
-    line-height:1.8;
+    line-height:1.7;
 }
 
 .lesson-content pre code{
     background:none;
     padding:0;
-    color:var(--cream);
-    font-size:14px;
+    color:#cbd5e1;
+    font-size:13px;
     display:block;
+    white-space:pre;
+    font-family:'JetBrains Mono',monospace;
 }
 
 .lesson-content blockquote{
@@ -525,38 +527,15 @@ header.scrolled .navbar{height:70px;}
     accent-color:var(--cyan);
     transform:scale(1.1);
 }
- .lesson-content pre {
-    background: #0a0f14;
-    border: 1px solid rgba(34, 211, 238, 0.2);
-    padding: 20px;
-    border-radius: 12px;
-    overflow-x: auto;
-    margin: 20px 0;
-    direction: ltr;
-    text-align: left;
-    line-height: 1.7;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 13px;
-}
 
-.lesson-content pre code {
-    background: none;
-    padding: 0;
-    color: #cbd5e1;
-    font-size: 13px;
-    display: block;
-    white-space: pre;
-    font-family: inherit;
+.lesson-content iframe{
+    width:100%;
+    border:1px solid rgba(34, 211, 238, 0.2);
+    border-radius:16px;
+    background:#071923;
+    min-height:600px;
+    margin:20px 0;
 }
-
-.lesson-content iframe {
-    width: 100%;
-    border: 1px solid rgba(34, 211, 238, 0.2);
-    border-radius: 16px;
-    background: #071923;
-    min-height: 600px;
-    margin: 20px 0;
-}   
 
 
 /* =========================================================
@@ -1029,7 +1008,7 @@ footer{
 </a>
 
 <div class="nav-menu">
-<a href="index.html#journey">مسیر یادگیری</a>
+<a href="courses.html">مسیر یادگیری</a>
 <a href="courses.html">دوره‌ها</a>
 <a href="index.html#tools">ابزارها</a>
 <a href="about.html">درباره</a>
@@ -1183,7 +1162,6 @@ const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
             });
         }
 
-        // جفت‌بازها
         for(let i = 0; i < TOTAL_NODES; i++){
             const a = nodesA[i];
             const b = nodesB[i];
@@ -1204,7 +1182,6 @@ const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
             ctx.stroke();
         }
 
-        // خطوط طولی A
         for(let i = 0; i < nodesA.length - 1; i++){
             const p1 = nodesA[i];
             const p2 = nodesA[i + 1];
@@ -1220,7 +1197,6 @@ const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
             ctx.stroke();
         }
 
-        // خطوط طولی B
         for(let i = 0; i < nodesB.length - 1; i++){
             const p1 = nodesB[i];
             const p2 = nodesB[i + 1];
@@ -1236,7 +1212,6 @@ const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
             ctx.stroke();
         }
 
-        // گره‌ها
         const allNodes = [...nodesA, ...nodesB];
         allNodes.sort((a, b) => a.z - b.z);
 
@@ -1311,7 +1286,6 @@ async function loadLesson(){
     }
 
     try{
-        // گرفتن درس
         const { data: lesson, error: lessonError } = await sb
             .from('lessons')
             .select('*')
@@ -1324,14 +1298,12 @@ async function loadLesson(){
             return;
         }
 
-        // گرفتن Course
         const { data: course } = await sb
             .from('courses')
             .select('*')
             .eq('id', lesson.course_id)
             .maybeSingle();
 
-        // گرفتن Track
         let track = null;
         if(course && course.track_id){
             const { data: t } = await sb
@@ -1342,7 +1314,6 @@ async function loadLesson(){
             track = t;
         }
 
-        // گرفتن درس‌های همون دوره (برای prev/next)
         let siblings = [];
         if(course){
             const { data: s } = await sb
@@ -1373,13 +1344,13 @@ function renderLesson(lesson, course, track, siblings){
     let contentHtml = '';
     try{
         const rawHtml = marked.parse(lesson.content || '', {
-           breaks: true,
-           gfm: true
-       });
-       contentHtml = DOMPurify.sanitize(rawHtml, {
-           ADD_TAGS: ['iframe'],
-           ADD_ATTR: ['src', 'width', 'height', 'frameborder', 'allow', 'allowfullscreen', 'style']
-       });
+            breaks: true,
+            gfm: true
+        });
+        contentHtml = DOMPurify.sanitize(rawHtml, {
+            ADD_TAGS: ['iframe'],
+            ADD_ATTR: ['src', 'width', 'height', 'frameborder', 'allow', 'allowfullscreen', 'style']
+        });
     }catch(e){
         contentHtml = '<p>خطا در نمایش محتوا</p>';
     }
@@ -1391,13 +1362,10 @@ function renderLesson(lesson, course, track, siblings){
 
     // Breadcrumb
     const breadcrumbHTML = `
-        const breadcrumbHTML = `
-            <div class="breadcrumb">
-                <a href="index.html">🏠 خانه</a>
-                <span class="sep">›</span>
-                <a href="courses.html">📚 دوره‌ها</a>
+        <div class="breadcrumb">
+            <a href="index.html">🏠 خانه</a>
             <span class="sep">›</span>
-            <a href="courses.html">دوره‌ها</a>
+            <a href="courses.html">📚 دوره‌ها</a>
             ${track ? `
                 <span class="sep">›</span>
                 <span>${escapeHtml(track.icon || '')} ${escapeHtml(track.title)}</span>
@@ -1484,7 +1452,6 @@ function renderLesson(lesson, course, track, siblings){
         </section>
     `;
 
-    // اسکرول به بالا
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 

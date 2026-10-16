@@ -137,40 +137,6 @@ section{position:relative;}
 
 
 /* =========================================================
-   TYPE-IN
-========================================================= */
-.type-target{
-    /* ارتفاع قبل از تایپ رزرو می‌شه که layout نپره */
-}
-.type-target .type-char{
-    opacity:0;
-    display:inline;
-    transition:opacity .05s;
-}
-.type-target .type-char.visible{opacity:1;}
-.type-target .type-char.space{white-space:pre;}
-
-.type-target::after{
-    content:'';
-    display:inline-block;
-    width:2px;
-    height:0.95em;
-    background:var(--cyan);
-    margin-right:2px;
-    vertical-align:middle;
-    animation:typeCursorBlink 0.7s infinite;
-    opacity:0;
-    box-shadow:0 0 6px var(--cyan);
-}
-.type-target.is-typing::after{opacity:1;}
-
-@keyframes typeCursorBlink{
-    0%,50%{opacity:1;}
-    51%,100%{opacity:0;}
-}
-
-
-/* =========================================================
    NAV
 ========================================================= */
 header{
@@ -275,6 +241,26 @@ header.scrolled .navbar{height:70px;}
 
 
 /* =========================================================
+   FADE-IN (جای تایپ)
+========================================================= */
+.fade-in{
+    opacity:0;
+    transform:translateY(20px);
+    transition:opacity .9s cubic-bezier(.4,0,.2,1), transform .9s cubic-bezier(.4,0,.2,1);
+}
+
+.fade-in.visible{
+    opacity:1;
+    transform:translateY(0);
+}
+
+.fade-in.delay-1{transition-delay:.1s;}
+.fade-in.delay-2{transition-delay:.2s;}
+.fade-in.delay-3{transition-delay:.3s;}
+.fade-in.delay-4{transition-delay:.4s;}
+
+
+/* =========================================================
    HERO
 ========================================================= */
 .about-hero{
@@ -304,7 +290,6 @@ header.scrolled .navbar{height:70px;}
     justify-content:center;
 }
 
-/* تیتر: تو دسکتاپ یه خط، تو موبایل می‌شکنه */
 .about-hero h1{
     font-size:clamp(32px, 5.5vw, 68px);
     font-weight:900;
@@ -364,14 +349,6 @@ header.scrolled .navbar{height:70px;}
     max-width:340px;
     margin:0 auto;
     aspect-ratio:1;
-    /* ظرف بیرونی برای حلقه‌ها */
-    padding:0;
-}
-
-.me-avatar-inner{
-    position:relative;
-    width:100%;
-    height:100%;
 }
 
 .me-avatar-ring{
@@ -890,21 +867,6 @@ footer{
 
 
 /* =========================================================
-   SCROLL REVEAL
-========================================================= */
-.reveal{
-    opacity:0;
-    transform:translateY(24px);
-    transition:opacity .8s cubic-bezier(.4,0,.2,1), transform .8s cubic-bezier(.4,0,.2,1);
-}
-
-.reveal.visible{opacity:1;transform:translateY(0);}
-.reveal.delay-1{transition-delay:.08s;}
-.reveal.delay-2{transition-delay:.16s;}
-.reveal.delay-3{transition-delay:.24s;}
-
-
-/* =========================================================
    RESPONSIVE — تبلت (تا 1024px)
 ========================================================= */
 @media(max-width:1024px){
@@ -939,7 +901,6 @@ footer{
 
     body{font-size:15px;line-height:1.75;}
 
-    /* Nav */
     .nav-menu{display:none;}
     .navbar{height:70px;gap:12px;}
     header.scrolled .navbar{height:60px;}
@@ -952,7 +913,6 @@ footer{
     .logo-mark .path{width:20px;height:14px;left:6px;top:9px;}
     .nav-cta{padding:8px 12px;font-size:11px;}
 
-    /* Hero */
     .about-hero{
         padding:120px 0 50px;
     }
@@ -961,7 +921,6 @@ footer{
         top:40%;
     }
 
-    /* تیتر: تو موبایل می‌شکنه ولی علامت سوال سر جاشه */
     .about-hero h1{
         font-size:clamp(26px, 8vw, 40px);
         letter-spacing:-1px;
@@ -975,7 +934,6 @@ footer{
         line-height:1.95;
     }
 
-    /* Me */
     .me{
         padding:50px 0;
     }
@@ -1005,16 +963,9 @@ footer{
         line-height:2;
     }
 
-    /* Why */
     .why{padding:60px 0;}
-
     .why-header{margin-bottom:40px;}
-
-    .why-header h2{
-        font-size:24px;
-        letter-spacing:-.5px;
-    }
-
+    .why-header h2{font-size:24px;letter-spacing:-.5px;}
     .why-header p{font-size:14px;}
 
     .why-content{
@@ -1023,16 +974,11 @@ footer{
     }
 
     .why-card{padding:22px 20px;}
-
     .why-card h3{font-size:16px;}
-
     .why-card li{font-size:13px;}
 
-    /* Values */
     .values{padding:60px 0;}
-
     .values-header{margin-bottom:40px;}
-
     .values-header h2{font-size:24px;}
 
     .values-grid{
@@ -1042,7 +988,6 @@ footer{
 
     .value-card{padding:22px 20px;}
 
-    /* CTA */
     .about-cta{padding:60px 0;}
 
     .about-cta-inner{
@@ -1051,7 +996,6 @@ footer{
     }
 
     .about-cta h2{font-size:24px;}
-
     .about-cta p{font-size:14px;}
 
     .btn-telegram{
@@ -1060,7 +1004,6 @@ footer{
         font-size:13.5px;
     }
 
-    /* Footer */
     footer{padding:40px 20px 28px;}
 
     .footer-inner{
@@ -1099,18 +1042,14 @@ footer{
     .container{width:min(100% - 24px, 1180px);}
 
     .about-hero{padding:100px 0 40px;}
-
     .about-hero h1{font-size:26px;}
 
     .me{padding:40px 0;}
-
     .me-avatar{max-width:150px;}
-
     .me-avatar-ring{inset:-8px;}
     .me-avatar-ring2{inset:-16px;}
 
     .me-content h2{font-size:20px;}
-
     .me-content p{font-size:13.5px;line-height:1.95;}
 
     .why, .values, .about-cta{padding:50px 0;}
@@ -1123,11 +1062,9 @@ footer{
     .value-card{padding:18px 16px;}
 
     .why-card h3{font-size:15px;}
-
     .why-card li{font-size:12.5px;}
 
     .value-card h3{font-size:15.5px;}
-
     .value-card p{font-size:12.5px;}
 
     .about-cta-inner{padding:32px 20px;}
@@ -1141,9 +1078,6 @@ footer{
 }
 
 
-/* =========================================================
-   REDUCED MOTION
-========================================================= */
 @media(prefers-reduced-motion:reduce){
     *,*::before,*::after{
         animation-duration:.01ms !important;
@@ -1167,9 +1101,6 @@ footer{
 <div class="progress-bar" id="progressBar" aria-hidden="true"></div>
 
 
-<!-- =========================================================
-     HEADER
-========================================================= -->
 <header id="header">
 <div class="container">
 <nav class="navbar">
@@ -1197,20 +1128,17 @@ footer{
 </header>
 
 
-<!-- =========================================================
-     HERO
-========================================================= -->
 <section class="about-hero">
 
 <div class="horizon"></div>
 
 <div class="container about-hero-inner">
 
-<div class="label">about_hamsafar</div>
+<div class="label fade-in">about_hamsafar</div>
 
-<h1>چرا <span class="orange">همسفر</span> <span class="cyan">AI</span>؟</h1>
+<h1 class="fade-in delay-1">چرا <span class="orange">همسفر</span> <span class="cyan">AI</span>؟</h1>
 
-<p>
+<p class="fade-in delay-2">
 این صفحه داستان کوتاه ماست.
 چرا این مسیر رو ساختیم،
 و چرا فکر می‌کنیم یادگیری AI باید
@@ -1221,41 +1149,36 @@ footer{
 </section>
 
 
-<!-- =========================================================
-     ME
-========================================================= -->
 <section class="me">
 <div class="container me-inner">
 
-<div class="me-avatar reveal">
-<div class="me-avatar-inner">
+<div class="me-avatar fade-in">
 <div class="me-avatar-ring"></div>
 <div class="me-avatar-ring2"></div>
 <div class="me-avatar-img">
 <img src="./telegram.png" alt="همسفر AI">
 </div>
 </div>
-</div>
 
 <div class="me-content">
 
-<div class="label">who_am_i</div>
+<div class="label fade-in">who_am_i</div>
 
-<h2>
+<h2 class="fade-in delay-1">
 یه آدم معمولی که <em>تصمیم گرفت</em> یاد بگیره.
 </h2>
 
-<p>
+<p class="fade-in delay-2">
 سلام. من همسفر AI هستم. نه مهندسم، نه برنامه‌نویس حرفه‌ای، نه گواهی خاصی دارم. فقط یه آدم کنجکاوم که یه روز تصمیم گرفت <strong>هوش مصنوعی رو از صفر یاد بگیره</strong> — بدون بودجه، بدون تیم، بدون کلاس گرون.
 </p>
 
-<p>
+<p class="fade-in delay-3">
 وقتی شروع کردم، دیدم همه‌جا پر از <strong>وعده‌های توخالی</strong>ست:
 «با AI ماهی ۱۰۰ میلیون دربیار»، «فردا دیر می‌شه، الان بخر»، دوره‌های گرون با محتوای تکراری.
 ولی هیچ‌کس نمی‌گفت AI چیه، محدودیت‌هاش کجاست، از کجا باید شروع کنی.
 </p>
 
-<p>
+<p class="fade-in delay-4">
 پس تصمیم گرفتم <strong>خودم مسیر رو بسازم</strong> و با بقیه به اشتراک بذارم.
 اینجا نه وعده درآمد می‌دی، نه سیگنال ترید، نه دوره فروشی.
 فقط یه مسیر واقعی، پروژه‌محور، رایگان.
@@ -1267,25 +1190,22 @@ footer{
 </section>
 
 
-<!-- =========================================================
-     WHY
-========================================================= -->
 <section class="why">
 <div class="container">
 
 <div class="why-header">
-<div class="label">why_hamsafar</div>
-<h2>
+<div class="label fade-in">why_hamsafar</div>
+<h2 class="fade-in delay-1">
 چرا اینجا <em>فرق داره</em>؟
 </h2>
-<p>
+<p class="fade-in delay-2">
 بازار پر از وعده‌های دروغینه. ما اومدیم یه راه دیگه رو امتحان کنیم.
 </p>
 </div>
 
 <div class="why-content">
 
-<div class="why-card bad reveal">
+<div class="why-card bad fade-in">
 <h3>جای دیگه</h3>
 <ul>
 <li>وعده درآمد ماهانه میلیونی</li>
@@ -1297,7 +1217,7 @@ footer{
 </ul>
 </div>
 
-<div class="why-card good reveal delay-1">
+<div class="why-card good fade-in delay-1">
 <h3>همسفر AI</h3>
 <ul>
 <li>مسیر واقعی، بدون وعده پول‌سازی</li>
@@ -1314,38 +1234,35 @@ footer{
 </section>
 
 
-<!-- =========================================================
-     VALUES
-========================================================= -->
 <section class="values">
 <div class="container">
 
 <div class="values-header">
-<div class="label">our_values</div>
-<h2>چهار چیزی که برامون مهمه</h2>
+<div class="label fade-in">our_values</div>
+<h2 class="fade-in delay-1">چهار چیزی که برامون مهمه</h2>
 </div>
 
 <div class="values-grid">
 
-<div class="value-card reveal">
+<div class="value-card fade-in">
 <span class="value-icon">💚</span>
 <h3>رایگان بودن</h3>
 <p>هیچ محتوایی پشت پرده نیست. هر چی اینجا یاد می‌گیری، رایگانه. برای همیشه.</p>
 </div>
 
-<div class="value-card reveal delay-1">
+<div class="value-card fade-in delay-1">
 <span class="value-icon">🔍</span>
 <h3>شفافیت</h3>
 <p>محدودیت‌ها رو می‌گیم. اشتباهاتمون رو می‌گیم. AI جادو نیست، ابزاره.</p>
 </div>
 
-<div class="value-card reveal delay-2">
+<div class="value-card fade-in delay-2">
 <span class="value-icon">🛠️</span>
 <h3>پروژه‌محوری</h3>
 <p>هر چی یاد می‌گیری، همون‌جا با یه پروژه واقعی تمرین می‌کنی. نه فقط تئوری.</p>
 </div>
 
-<div class="value-card reveal delay-3">
+<div class="value-card fade-in delay-3">
 <span class="value-icon">🤝</span>
 <h3>با هم بودن</h3>
 <p>من هم دارم یاد می‌گیرم. کنارت راه می‌رم، نه جلوتر. مسیر رو با هم می‌ریم.</p>
@@ -1356,13 +1273,10 @@ footer{
 </section>
 
 
-<!-- =========================================================
-     CTA
-========================================================= -->
 <section class="about-cta">
 <div class="container">
 
-<div class="about-cta-inner reveal">
+<div class="about-cta-inner fade-in">
 
 <div class="label" style="justify-content:center;">ready_to_start</div>
 
@@ -1389,9 +1303,6 @@ footer{
 </section>
 
 
-<!-- =========================================================
-     FOOTER
-========================================================= -->
 <footer>
 <div class="footer-inner">
 
@@ -1469,102 +1380,18 @@ window.addEventListener('scroll', () => {
 
 
 /* =========================================================
-   Scroll reveal
+   FADE-IN — جای تایپ
 ========================================================= */
-const revealObserver = new IntersectionObserver((entries) => {
+const fadeObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
             entry.target.classList.add('visible');
-            revealObserver.unobserve(entry.target);
+            fadeObserver.unobserve(entry.target);
         }
     });
 }, { threshold: 0.12, rootMargin: '0px 0px -50px 0px' });
 
-document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
-
-
-/* =========================================================
-   TYPE-IN — نسخه‌ی درست (بدون جابه‌جایی)
-========================================================= */
-const typeSelectors = [
-    '.about-hero h1',
-    '.about-hero p',
-    '.me-content h2',
-    '.me-content p',
-    '.why-header h2',
-    '.why-header p',
-    '.values-header h2',
-    '.about-cta h2',
-    '.about-cta p',
-    '.why-card h3',
-    '.why-card li',
-    '.value-card h3',
-    '.value-card p',
-    '.footer-brand p',
-    '.footer-col a'
-].join(', ');
-
-const typeTargets = document.querySelectorAll(typeSelectors);
-
-// آماده‌سازی: متن رو به کاراکترها بشکن، ولی مخفی نگه دار
-typeTargets.forEach(el => {
-    const originalText = el.textContent.trim();
-    if (!originalText) return;
-
-    el.dataset.originalText = originalText;
-    el.dataset.typed = 'false';
-    el.classList.add('type-target');
-
-    // متن رو پاک کن و به کاراکترها بشکن
-    el.textContent = '';
-    for (let i = 0; i < originalText.length; i++) {
-        const span = document.createElement('span');
-        span.className = 'type-char';
-        if (originalText[i] === ' ') {
-            span.classList.add('space');
-            span.innerHTML = '&nbsp;';
-        } else if (originalText[i] === '\n') {
-            span.innerHTML = '<br>';
-            span.className = 'type-char visible';
-        } else {
-            span.textContent = originalText[i];
-        }
-        el.appendChild(span);
-    }
-    // ← ارتفاع رزرو شده چون کاراکترها تو DOM هستن، فقط opacity:0
-});
-
-function typeElement(el) {
-    if (el.dataset.typed === 'true') return;
-    el.dataset.typed = 'true';
-
-    const chars = el.querySelectorAll('.type-char');
-    if (!chars.length) return;
-
-    el.classList.add('is-typing');
-
-    const speed = chars.length > 100 ? 35 : 60;
-
-    chars.forEach((span, i) => {
-        setTimeout(() => {
-            span.classList.add('visible');
-            if (i === chars.length - 1) {
-                el.classList.remove('is-typing');
-            }
-        }, i * speed);
-    });
-}
-
-const typeObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            typeElement(entry.target);
-            typeObserver.unobserve(entry.target);
-        }
-    });
-}, { threshold: 0.15, rootMargin: '0px 0px -30px 0px' });
-
-typeTargets.forEach(el => typeObserver.observe(el));
+document.querySelectorAll('.fade-in').forEach(el => fadeObserver.observe(el));
 
 
 /* =========================================================

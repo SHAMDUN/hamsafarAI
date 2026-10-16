@@ -1828,11 +1828,16 @@ footer{
     .stat-label{font-size:12px;}
 
     /* Projects */
+    /* Projects */
     .projects{padding:60px 0;}
     .project-grid{grid-template-columns:1fr;gap:14px;}
 
     .project,
-    .project-large{min-height:auto;padding:24px 22px;}
+    .project-large{
+        min-height:auto;
+        padding:24px 22px;
+        grid-column:auto;  /* ← این خط مهمه */
+    }
 
     .project h3{font-size:19px;}
     .project p{font-size:12.5px;}

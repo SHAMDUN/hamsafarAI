@@ -48,8 +48,6 @@ button{font:inherit;}
 ========================================================= */
 :root{
     --bg:#071923;
-    --bg-soft:#0b202c;
-    --bg-card:#0d2633;
     --orange:#F59E0B;
     --cyan:#22D3EE;
     --cream:#FEF3C7;
@@ -58,6 +56,10 @@ button{font:inherit;}
     --muted-2:#61798a;
     --line:rgba(255,255,255,.09);
     --line-2:rgba(255,255,255,.15);
+    /* کارت‌های شیشه‌ای */
+    --glass-bg:rgba(13, 38, 51, 0.22);
+    --glass-border:rgba(34, 211, 238, 0.15);
+    --glass-blur:blur(14px);
 }
 
 
@@ -268,7 +270,6 @@ header.scrolled .navbar{height:70px;}
     position:relative;
     z-index:2;
     text-align:center;
-    overflow:hidden;
 }
 
 .about-hero .horizon{
@@ -277,6 +278,7 @@ header.scrolled .navbar{height:70px;}
     height:1px;
     background:linear-gradient(90deg,transparent,rgba(34,211,238,.15),rgba(254,243,199,.5),rgba(245,158,11,.2),transparent);
     box-shadow:0 0 40px rgba(254,243,199,.15);
+    pointer-events:none;
 }
 
 .about-hero-inner{
@@ -291,10 +293,10 @@ header.scrolled .navbar{height:70px;}
 }
 
 .about-hero h1{
-    font-size:clamp(32px, 5.5vw, 68px);
+    font-size:clamp(30px, 5vw, 62px);
     font-weight:900;
     line-height:1.2;
-    letter-spacing:-2px;
+    letter-spacing:-1.5px;
     margin-bottom:24px;
     white-space:nowrap;
 }
@@ -346,7 +348,7 @@ header.scrolled .navbar{height:70px;}
 .me-avatar{
     position:relative;
     width:100%;
-    max-width:340px;
+    max-width:320px;
     margin:0 auto;
     aspect-ratio:1;
 }
@@ -373,7 +375,7 @@ header.scrolled .navbar{height:70px;}
     to{transform:rotate(360deg);}
 }
 
-..me-avatar-img{
+.me-avatar-img{
     position:relative;
     width:100%;
     height:100%;
@@ -397,7 +399,7 @@ header.scrolled .navbar{height:70px;}
 }
 
 .me-content h2{
-    font-size:clamp(26px, 3.5vw, 40px);
+    font-size:clamp(24px, 3.5vw, 38px);
     font-weight:900;
     line-height:1.35;
     letter-spacing:-1px;
@@ -427,7 +429,6 @@ header.scrolled .navbar{height:70px;}
 ========================================================= */
 .why{
     padding:100px 0;
-    background:transparent;
     border-top:1px solid var(--line);
     border-bottom:1px solid var(--line);
     position:relative;
@@ -480,18 +481,18 @@ header.scrolled .navbar{height:70px;}
     margin:0 auto;
 }
 
+/* کارت شیشه‌ای */
 .why-card{
-    background:rgba(13, 38, 51, 0.2);
-    backdrop-filter:blur(14px);
-    -webkit-backdrop-filter:blur(14px);
-    border:1px solid rgba(34, 211, 238, 0.15);
+    background:var(--glass-bg);
+    backdrop-filter:var(--glass-blur);
+    -webkit-backdrop-filter:var(--glass-blur);
+    border:1px solid var(--glass-border);
     border-radius:20px;
     padding:28px 26px;
     position:relative;
     overflow:hidden;
     transition:all .4s;
 }
-
 
 .why-card::before{
     content:"";
@@ -507,9 +508,9 @@ header.scrolled .navbar{height:70px;}
 .why-card:hover::before{transform:translateX(-100%);}
 
 .why-card:hover{
-    border-color:rgba(34,211,238,.3);
+    border-color:rgba(34,211,238,.35);
     transform:translateY(-4px);
-    box-shadow:0 20px 50px rgba(0,0,0,.5);
+    box-shadow:0 20px 50px rgba(0,0,0,.5), 0 0 40px rgba(34,211,238,.1);
 }
 
 .why-card.bad::before{
@@ -517,7 +518,7 @@ header.scrolled .navbar{height:70px;}
 }
 
 .why-card.bad:hover{
-    border-color:rgba(239,68,68,.3);
+    border-color:rgba(239,68,68,.35);
 }
 
 .why-card h3{
@@ -618,11 +619,12 @@ header.scrolled .navbar{height:70px;}
     gap:16px;
 }
 
+/* کارت شیشه‌ای */
 .value-card{
-    background:rgba(13, 38, 51, 0.2);
-    backdrop-filter:blur(14px);
-    -webkit-backdrop-filter:blur(14px);
-    border:1px solid rgba(34, 211, 238, 0.15);
+    background:var(--glass-bg);
+    backdrop-filter:var(--glass-blur);
+    -webkit-backdrop-filter:var(--glass-blur);
+    border:1px solid var(--glass-border);
     border-radius:18px;
     padding:28px 24px;
     transition:all .35s;
@@ -649,8 +651,8 @@ header.scrolled .navbar{height:70px;}
 
 .value-card:hover{
     transform:translateY(-6px);
-    border-color:rgba(34,211,238,.3);
-    box-shadow:0 20px 50px rgba(0,0,0,.5);
+    border-color:rgba(34,211,238,.35);
+    box-shadow:0 20px 50px rgba(0,0,0,.5), 0 0 40px rgba(34,211,238,.1);
 }
 
 .value-icon{
@@ -686,7 +688,7 @@ header.scrolled .navbar{height:70px;}
     z-index:2;
 }
 
-..about-cta-inner{
+.about-cta-inner{
     background:rgba(13, 38, 51, 0.3);
     backdrop-filter:blur(16px);
     -webkit-backdrop-filter:blur(16px);
@@ -716,7 +718,7 @@ header.scrolled .navbar{height:70px;}
 .about-cta-inner > *{position:relative;z-index:1;}
 
 .about-cta h2{
-    font-size:clamp(26px, 4vw, 40px);
+    font-size:clamp(24px, 4vw, 38px);
     font-weight:900;
     line-height:1.3;
     letter-spacing:-1px;
@@ -795,7 +797,6 @@ footer{
     background:rgba(6, 23, 32, 0.7);
     backdrop-filter:blur(14px);
     -webkit-backdrop-filter:blur(14px);
-
 }
 
 .footer-inner{
@@ -879,22 +880,37 @@ footer{
 
 
 /* =========================================================
-   RESPONSIVE
+   RESPONSIVE — تبلت (تا 1024px)
 ========================================================= */
 @media(max-width:1024px){
+
     .container{width:min(100% - 48px, 1180px);}
-    .me-inner{grid-template-columns:1fr 1.4fr;gap:50px;}
+
+    .me-inner{
+        grid-template-columns:1fr 1.4fr;
+        gap:50px;
+    }
+
     .me-avatar{max-width:260px;}
-    .me-content h2{font-size:30px;}
+
+    .me-content h2{font-size:28px;}
+
     .why-content{gap:20px;}
-    .values-grid{grid-template-columns:repeat(2, 1fr);}
-    .about-hero h1{font-size:clamp(30px, 5vw, 56px);}
+
+    .values-grid{
+        grid-template-columns:repeat(2, 1fr);
+    }
 }
 
+
+/* =========================================================
+   RESPONSIVE — موبایل بزرگ (تا 768px)
+========================================================= */
 @media(max-width:768px){
 
     body{font-size:15px;line-height:1.75;}
 
+    /* Nav */
     .nav-menu{display:none;}
     .navbar{height:70px;gap:12px;}
     header.scrolled .navbar{height:60px;}
@@ -907,11 +923,12 @@ footer{
     .logo-mark .path{width:20px;height:14px;left:6px;top:9px;}
     .nav-cta{padding:8px 12px;font-size:11px;}
 
+    /* Hero */
     .about-hero{padding:120px 0 50px;}
     .about-hero .horizon{top:40%;}
 
     .about-hero h1{
-        font-size:clamp(26px, 8vw, 40px);
+        font-size:clamp(24px, 7vw, 36px);
         letter-spacing:-1px;
         line-height:1.25;
         white-space:normal;
@@ -920,6 +937,7 @@ footer{
 
     .about-hero p{font-size:14.5px;line-height:1.95;}
 
+    /* Me */
     .me{padding:50px 0;}
 
     .me-inner{
@@ -928,7 +946,7 @@ footer{
         text-align:center;
     }
 
-    .me-avatar{max-width:180px;margin:0 auto;}
+    .me-avatar{max-width:200px;margin:0 auto;}
 
     .me-avatar-ring{inset:-10px;}
     .me-avatar-ring2{inset:-20px;}
@@ -936,6 +954,7 @@ footer{
     .me-content h2{font-size:24px;letter-spacing:-.5px;line-height:1.4;}
     .me-content p{font-size:14px;line-height:2;}
 
+    /* Why */
     .why{padding:60px 0;}
     .why-header{margin-bottom:40px;}
     .why-header h2{font-size:24px;letter-spacing:-.5px;}
@@ -946,12 +965,14 @@ footer{
     .why-card h3{font-size:16px;}
     .why-card li{font-size:13px;}
 
+    /* Values */
     .values{padding:60px 0;}
     .values-header{margin-bottom:40px;}
     .values-header h2{font-size:24px;}
     .values-grid{grid-template-columns:1fr;gap:14px;}
     .value-card{padding:22px 20px;}
 
+    /* CTA */
     .about-cta{padding:60px 0;}
     .about-cta-inner{padding:40px 24px;border-radius:22px;}
     .about-cta h2{font-size:24px;}
@@ -959,6 +980,7 @@ footer{
 
     .btn-telegram{width:100%;padding:14px 24px;font-size:13.5px;}
 
+    /* Footer */
     footer{padding:40px 20px 28px;}
     .footer-inner{grid-template-columns:1fr;gap:30px;margin-bottom:30px;}
     .footer-brand h4{font-size:16px;}
@@ -981,15 +1003,20 @@ footer{
     }
 }
 
+
+/* =========================================================
+   RESPONSIVE — موبایل کوچک (تا 480px)
+========================================================= */
 @media(max-width:480px){
+
     body{font-size:14.5px;}
     .container{width:min(100% - 24px, 1180px);}
 
     .about-hero{padding:100px 0 40px;}
-    .about-hero h1{font-size:26px;}
+    .about-hero h1{font-size:22px;}
 
     .me{padding:40px 0;}
-    .me-avatar{max-width:150px;}
+    .me-avatar{max-width:160px;}
     .me-avatar-ring{inset:-8px;}
     .me-avatar-ring2{inset:-16px;}
 
@@ -1020,6 +1047,7 @@ footer{
     .logo{font-size:14px;}
     .logo-mark{width:28px;height:28px;}
 }
+
 
 @media(prefers-reduced-motion:reduce){
     *,*::before,*::after{
@@ -1299,7 +1327,6 @@ Hamsafar AI
 <h5>connect</h5>
 <ul>
 <li><a href="https://t.me/hamsafar_ai" target="_blank" rel="noopener">تلگرام</a></li>
-<li><a href="https://github.com/shamdun" target="_blank" rel="noopener">گیت‌هاب</a></li>
 </ul>
 </div>
 
@@ -1409,7 +1436,6 @@ function initNeuro() {
 }
 initNeuro();
 
-// موس
 window.addEventListener('mousemove', (e) => {
     neuroMouse.x = e.clientX;
     neuroMouse.y = e.clientY;
@@ -1420,7 +1446,6 @@ window.addEventListener('mouseleave', () => {
     neuroMouse.y = -1000;
 });
 
-// کلیک
 window.addEventListener('click', (e) => {
     clicks.push({
         x: e.clientX,
@@ -1431,7 +1456,6 @@ window.addEventListener('click', (e) => {
     });
 });
 
-// پالس‌های عصبی
 function spawnPulse() {
     const frontLayer = layers[2];
     if (!frontLayer || !frontLayer.nodes.length) return;
@@ -1463,7 +1487,7 @@ function spawnPulse() {
     }
 }
 
-let pulseInterval = setInterval(spawnPulse, 800);
+setInterval(spawnPulse, 800);
 
 function drawNeuro() {
     if (prefersReduced) return;
@@ -1471,14 +1495,12 @@ function drawNeuro() {
     ctx.clearRect(0, 0, W, H);
     neuroTime += 0.016;
 
-    // پس‌زمینه
     const bgGrad = ctx.createRadialGradient(W/2, H/2, 0, W/2, H/2, Math.max(W, H) * 0.7);
     bgGrad.addColorStop(0, 'rgba(10, 30, 45, 0.4)');
     bgGrad.addColorStop(1, 'rgba(7, 25, 35, 0.9)');
     ctx.fillStyle = bgGrad;
     ctx.fillRect(0, 0, W, H);
 
-    // به‌روزرسانی موقعیت‌ها
     layers.forEach((layer, layerIndex) => {
         layer.nodes.forEach(node => {
             node.x += node.vx;
@@ -1489,7 +1511,6 @@ function drawNeuro() {
             if (node.y < -50) node.y = H + 50;
             if (node.y > H + 50) node.y = -50;
 
-            // جذب به موس — لایه جلو
             if (layerIndex === 2 && neuroMouse.x > 0) {
                 const dx = neuroMouse.x - node.x;
                 const dy = neuroMouse.y - node.y;
@@ -1504,13 +1525,11 @@ function drawNeuro() {
         });
     });
 
-    // رسم لایه‌ها
     layers.forEach((layer, layerIndex) => {
         const maxDist = layerIndex === 0 ? MAX_DIST_BACK :
                         layerIndex === 1 ? MAX_DIST_MID :
                         MAX_DIST_FRONT;
 
-        // خطوط بین گره‌ها
         for (let i = 0; i < layer.nodes.length; i++) {
             const a = layer.nodes[i];
             for (let j = i + 1; j < layer.nodes.length; j++) {
@@ -1537,7 +1556,6 @@ function drawNeuro() {
                 }
             }
 
-            // خط به موس
             if (layerIndex === 2 && neuroMouse.x > 0) {
                 const md = Math.hypot(a.x - neuroMouse.x, a.y - neuroMouse.y);
                 if (md < MOUSE_RADIUS) {
@@ -1552,7 +1570,6 @@ function drawNeuro() {
             }
         }
 
-        // گره‌ها
         layer.nodes.forEach(node => {
             const pulse = 0.7 + Math.sin(neuroTime * node.pulseSpeed + node.pulse) * 0.3;
 
@@ -1580,7 +1597,6 @@ function drawNeuro() {
         });
     });
 
-    // پالس‌های عصبی
     pulses = pulses.filter(pulse => {
         pulse.t += pulse.speed;
         if (pulse.t >= 1) return false;
@@ -1618,7 +1634,6 @@ function drawNeuro() {
         return true;
     });
 
-    // انفجار کلیک
     clicks = clicks.filter(click => {
         click.r += 3;
         click.life = 1 - click.r / click.maxR;
@@ -1640,7 +1655,6 @@ function drawNeuro() {
         return true;
     });
 
-    // موس
     if (neuroMouse.x > 0) {
         const mouseGlow = ctx.createRadialGradient(neuroMouse.x, neuroMouse.y, 0, neuroMouse.x, neuroMouse.y, 60);
         mouseGlow.addColorStop(0, 'rgba(254, 243, 199, 0.3)');

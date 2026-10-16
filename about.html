@@ -1,0 +1,1655 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>درباره همسفر AI — چرا این مسیر رو ساختیم</title>
+<meta name="description" content="درباره همسفر AI؛ چرا این کانال رو ساختیم، اینجا چی پیدا می‌کنی، و چرا رایگانه.">
+<meta name="theme-color" content="#071923">
+
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+
+/* =========================================================
+   RESET
+========================================================= */
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+
+body{
+    font-family:'Vazirmatn',Tahoma,Arial,sans-serif;
+    background:#071923;
+    color:#f5f7f8;
+    overflow-x:hidden;
+    font-size:16px;
+    line-height:1.8;
+    -webkit-font-smoothing:antialiased;
+    direction:rtl;
+}
+
+a{color:inherit;text-decoration:none;}
+button{font:inherit;}
+
+::selection{background:#22D3EE;color:#071923;}
+:focus-visible{outline:2px solid #22D3EE;outline-offset:3px;border-radius:4px;}
+
+::-webkit-scrollbar{width:10px;}
+::-webkit-scrollbar-track{background:#071923;}
+::-webkit-scrollbar-thumb{background:#1a3a48;border-radius:5px;}
+::-webkit-scrollbar-thumb:hover{background:#22D3EE;}
+
+
+/* =========================================================
+   VARIABLES
+========================================================= */
+:root{
+    --bg:#071923;
+    --bg-soft:#0b202c;
+    --bg-card:#0d2633;
+    --orange:#F59E0B;
+    --orange-2:#FBBF24;
+    --cyan:#22D3EE;
+    --cream:#FEF3C7;
+    --white:#F8FAFC;
+    --muted:#91A5B2;
+    --muted-2:#61798a;
+    --line:rgba(255,255,255,.09);
+    --line-2:rgba(255,255,255,.15);
+}
+
+
+/* =========================================================
+   GLOBAL
+========================================================= */
+.container{
+    width:min(1180px, calc(100% - 40px));
+    margin:auto;
+}
+
+section{position:relative;}
+
+.label{
+    display:inline-flex;
+    align-items:center;
+    gap:9px;
+    color:var(--cyan);
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    font-weight:700;
+    letter-spacing:.05em;
+    margin-bottom:18px;
+    direction:ltr;
+}
+
+.label::before{
+    content:"";
+    width:7px;height:7px;
+    border-radius:50%;
+    background:var(--cyan);
+    box-shadow:0 0 14px var(--cyan);
+    animation:pulseDot 2s infinite;
+}
+
+@keyframes pulseDot{
+    0%,100%{opacity:1;transform:scale(1);}
+    50%{opacity:.6;transform:scale(1.2);}
+}
+
+
+/* =========================================================
+   BACKGROUND
+========================================================= */
+.background-glow{
+    position:fixed;
+    width:600px;height:600px;
+    border-radius:50%;
+    filter:blur(120px);
+    pointer-events:none;
+    opacity:.08;
+    z-index:0;
+}
+
+.glow-one{background:var(--cyan);top:-300px;right:-250px;}
+.glow-two{background:var(--orange);bottom:-300px;left:-250px;}
+
+#neuralCanvas{
+    position:fixed;
+    inset:0;
+    z-index:1;
+    pointer-events:none;
+    opacity:.55;
+}
+
+.progress-bar{
+    position:fixed;
+    top:0;right:0;
+    height:2px;
+    background:linear-gradient(90deg,var(--orange),var(--cyan));
+    z-index:999;
+    width:0;
+    transition:width .1s linear;
+    box-shadow:0 0 12px rgba(34,211,238,.5);
+}
+
+
+/* =========================================================
+   TYPE-IN
+========================================================= */
+.type-target .type-char{
+    opacity:0;
+    display:inline;
+    transition:opacity .05s;
+}
+.type-target .type-char.visible{opacity:1;}
+.type-target .type-char.space{white-space:pre;}
+
+.type-target::after{
+    content:'';
+    display:inline-block;
+    width:2px;
+    height:0.95em;
+    background:var(--cyan);
+    margin-right:2px;
+    vertical-align:middle;
+    animation:typeCursorBlink 0.7s infinite;
+    opacity:0;
+    box-shadow:0 0 6px var(--cyan);
+}
+.type-target.is-typing::after{opacity:1;}
+
+@keyframes typeCursorBlink{
+    0%,50%{opacity:1;}
+    51%,100%{opacity:0;}
+}
+
+
+/* =========================================================
+   NAV
+========================================================= */
+header{
+    position:fixed;
+    top:0;left:0;right:0;
+    z-index:100;
+    transition:all .3s;
+}
+
+header.scrolled{
+    background:rgba(7,25,35,.85);
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+    border-bottom:1px solid var(--line);
+}
+
+.navbar{
+    height:86px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    transition:height .3s;
+}
+
+header.scrolled .navbar{height:70px;}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:11px;
+    direction:ltr;
+    font-size:18px;
+    font-weight:800;
+}
+
+.logo-mark{
+    position:relative;
+    width:39px;height:39px;
+    border-radius:50%;
+    border:1px solid rgba(255,255,255,.18);
+    background:#061620;
+    flex-shrink:0;
+}
+
+.logo-mark .dot-one{
+    position:absolute;
+    width:8px;height:8px;
+    border-radius:50%;
+    background:var(--orange);
+    left:8px;bottom:8px;
+    box-shadow:0 0 15px rgba(245,158,11,.65);
+}
+
+.logo-mark .dot-two{
+    position:absolute;
+    width:8px;height:8px;
+    border-radius:50%;
+    background:var(--cyan);
+    right:8px;top:8px;
+    box-shadow:0 0 15px rgba(34,211,238,.65);
+}
+
+.logo-mark .path{
+    position:absolute;
+    width:25px;height:17px;
+    border-top:2px solid var(--cream);
+    border-radius:50%;
+    left:7px;top:11px;
+    transform:rotate(-27deg);
+}
+
+.nav-menu{
+    display:flex;
+    align-items:center;
+    gap:32px;
+    color:#9DAFB9;
+    font-size:13px;
+}
+
+.nav-menu a{transition:.25s;}
+.nav-menu a:hover{color:white;}
+
+.nav-menu a.active{
+    color:var(--cyan);
+}
+
+.nav-cta{
+    padding:10px 17px;
+    border:1px solid rgba(34,211,238,.3);
+    border-radius:12px;
+    color:var(--cyan);
+    font-size:12px;
+    font-weight:600;
+    transition:.25s;
+    background:rgba(34,211,238,.04);
+}
+
+.nav-cta:hover{
+    background:rgba(34,211,238,.12);
+    border-color:var(--cyan);
+}
+
+
+/* =========================================================
+   HERO (کوچیک)
+========================================================= */
+.about-hero{
+    padding:180px 0 80px;
+    position:relative;
+    z-index:2;
+    text-align:center;
+    overflow:hidden;
+}
+
+.about-hero .horizon{
+    position:absolute;
+    left:0;right:0;top:40%;
+    height:1px;
+    background:linear-gradient(90deg,transparent,rgba(34,211,238,.15),rgba(254,243,199,.5),rgba(245,158,11,.2),transparent);
+    box-shadow:0 0 40px rgba(254,243,199,.15);
+}
+
+.about-hero-inner{
+    position:relative;
+    z-index:3;
+    max-width:800px;
+    margin:0 auto;
+}
+
+.about-hero .label{
+    justify-content:center;
+}
+
+.about-hero h1{
+    font-size:clamp(38px, 6vw, 68px);
+    font-weight:900;
+    line-height:1.15;
+    letter-spacing:-2.5px;
+    margin-bottom:24px;
+}
+
+.about-hero h1 .orange{color:var(--orange);}
+
+.about-hero h1 .cyan{
+    color:var(--cyan);
+    position:relative;
+}
+
+.about-hero h1 .cyan::after{
+    content:"";
+    position:absolute;
+    bottom:.05em;right:0;left:0;
+    height:.12em;
+    background:var(--cyan);
+    opacity:.2;
+    z-index:-1;
+}
+
+.about-hero p{
+    color:var(--muted);
+    font-size:17px;
+    line-height:2.1;
+    max-width:640px;
+    margin:0 auto;
+}
+
+
+/* =========================================================
+   ME — من کی‌ام
+========================================================= */
+.me{
+    padding:80px 0;
+    position:relative;
+    z-index:2;
+}
+
+.me-inner{
+    display:grid;
+    grid-template-columns:1fr 1.6fr;
+    gap:70px;
+    align-items:center;
+}
+
+.me-avatar{
+    position:relative;
+    width:100%;
+    max-width:340px;
+    aspect-ratio:1;
+    margin:0 auto;
+}
+
+.me-avatar-ring{
+    position:absolute;
+    inset:-16px;
+    border-radius:50%;
+    border:1px dashed rgba(34,211,238,.25);
+    animation:ringRotate 40s linear infinite;
+}
+
+.me-avatar-ring2{
+    position:absolute;
+    inset:-32px;
+    border-radius:50%;
+    border:1px solid rgba(245,158,11,.12);
+}
+
+@keyframes ringRotate{
+    from{transform:rotate(0deg);}
+    to{transform:rotate(360deg);}
+}
+
+.me-avatar img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    border-radius:50%;
+    border:2px solid var(--orange);
+    box-shadow:
+        0 0 0 8px rgba(245,158,11,.06),
+        0 0 60px rgba(245,158,11,.25),
+        0 0 100px rgba(34,211,238,.15);
+    display:block;
+    position:relative;
+    z-index:2;
+}
+
+.me-avatar::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    border-radius:50%;
+    background:radial-gradient(circle at 30% 30%, rgba(254,243,199,.2), transparent 60%);
+    pointer-events:none;
+    z-index:3;
+}
+
+.me-content h2{
+    font-size:clamp(26px, 3.5vw, 40px);
+    font-weight:900;
+    line-height:1.35;
+    letter-spacing:-1px;
+    margin-bottom:20px;
+}
+
+.me-content h2 em{
+    font-style:normal;
+    color:var(--cyan);
+}
+
+.me-content p{
+    color:var(--muted);
+    font-size:15.5px;
+    line-height:2.1;
+    margin-bottom:16px;
+}
+
+.me-content p strong{
+    color:var(--white);
+    font-weight:600;
+}
+
+
+/* =========================================================
+   WHY — چرا همسفر
+========================================================= */
+.why{
+    padding:100px 0;
+    background:#081d28;
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    position:relative;
+    z-index:2;
+}
+
+.why-header{
+    text-align:center;
+    margin-bottom:60px;
+}
+
+.why-header .label{
+    justify-content:center;
+}
+
+.why-header h2{
+    font-size:clamp(28px, 4vw, 44px);
+    font-weight:900;
+    line-height:1.3;
+    letter-spacing:-1.5px;
+    margin-bottom:16px;
+}
+
+.why-header h2 em{
+    font-style:normal;
+    color:var(--cyan);
+    position:relative;
+}
+
+.why-header h2 em::after{
+    content:"";
+    position:absolute;
+    bottom:.08em;right:0;left:0;
+    height:.15em;
+    background:var(--cyan);
+    opacity:.18;
+    z-index:-1;
+}
+
+.why-header p{
+    color:var(--muted);
+    font-size:15px;
+    max-width:600px;
+    margin:0 auto;
+}
+
+.why-content{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:24px;
+    max-width:1000px;
+    margin:0 auto;
+}
+
+.why-card{
+    background:linear-gradient(145deg, rgba(13,38,51,.95), rgba(7,25,35,.98));
+    border:1px solid var(--line);
+    border-radius:20px;
+    padding:28px 26px;
+    position:relative;
+    overflow:hidden;
+    transition:all .4s;
+}
+
+.why-card::before{
+    content:"";
+    position:absolute;
+    top:0;right:0;
+    width:100%;
+    height:2px;
+    background:linear-gradient(90deg, transparent, var(--cyan), transparent);
+    transform:translateX(100%);
+    transition:transform .8s;
+}
+
+.why-card:hover::before{transform:translateX(-100%);}
+
+.why-card:hover{
+    border-color:rgba(34,211,238,.3);
+    transform:translateY(-4px);
+    box-shadow:0 20px 50px rgba(0,0,0,.5);
+}
+
+.why-card.bad::before{
+    background:linear-gradient(90deg, transparent, #EF4444, transparent);
+}
+
+.why-card.bad:hover{
+    border-color:rgba(239,68,68,.3);
+}
+
+.why-card h3{
+    font-size:18px;
+    font-weight:800;
+    margin-bottom:16px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.why-card.good h3{color:var(--cyan);}
+.why-card.bad h3{color:#F87171;}
+
+.why-card h3::before{
+    content:"";
+    width:32px;
+    height:32px;
+    border-radius:10px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:16px;
+    flex-shrink:0;
+}
+
+.why-card.good h3::before{
+    content:"✓";
+    background:rgba(34,211,238,.1);
+    border:1px solid rgba(34,211,238,.25);
+    color:var(--cyan);
+    display:grid;
+    place-items:center;
+}
+
+.why-card.bad h3::before{
+    content:"✕";
+    background:rgba(239,68,68,.08);
+    border:1px solid rgba(239,68,68,.2);
+    color:#F87171;
+    display:grid;
+    place-items:center;
+}
+
+.why-card ul{
+    list-style:none;
+    display:flex;
+    flex-direction:column;
+    gap:11px;
+}
+
+.why-card li{
+    font-size:14px;
+    color:var(--muted);
+    line-height:1.9;
+    padding-right:22px;
+    position:relative;
+}
+
+.why-card.good li::before{
+    content:"—";
+    position:absolute;
+    right:0;
+    color:var(--cyan);
+    font-family:'JetBrains Mono',monospace;
+}
+
+.why-card.bad li::before{
+    content:"—";
+    position:absolute;
+    right:0;
+    color:#F87171;
+    font-family:'JetBrains Mono',monospace;
+}
+
+
+/* =========================================================
+   VALUES
+========================================================= */
+.values{
+    padding:100px 0;
+    position:relative;
+    z-index:2;
+}
+
+.values-header{
+    text-align:center;
+    margin-bottom:60px;
+}
+
+.values-header .label{justify-content:center;}
+
+.values-header h2{
+    font-size:clamp(28px, 4vw, 42px);
+    font-weight:900;
+    line-height:1.3;
+    letter-spacing:-1.5px;
+}
+
+.values-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));
+    gap:16px;
+}
+
+.value-card{
+    background:var(--bg-card);
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:28px 24px;
+    transition:all .35s;
+    position:relative;
+    overflow:hidden;
+}
+
+.value-card::after{
+    content:"";
+    position:absolute;
+    width:200px;
+    height:200px;
+    border-radius:50%;
+    background:var(--cyan);
+    filter:blur(80px);
+    opacity:0;
+    top:-100px;
+    right:-100px;
+    transition:opacity .5s;
+}
+
+.value-card:hover::after{opacity:.1;}
+
+.value-card:hover{
+    transform:translateY(-6px);
+    border-color:rgba(34,211,238,.3);
+    box-shadow:0 20px 50px rgba(0,0,0,.5);
+}
+
+.value-icon{
+    font-size:28px;
+    margin-bottom:16px;
+    display:block;
+    filter:saturate(.8);
+}
+
+.value-card h3{
+    font-size:17px;
+    font-weight:800;
+    margin-bottom:10px;
+    position:relative;
+    z-index:1;
+}
+
+.value-card p{
+    color:var(--muted);
+    font-size:13.5px;
+    line-height:1.95;
+    position:relative;
+    z-index:1;
+}
+
+
+/* =========================================================
+   CTA TELEGRAM
+========================================================= */
+.about-cta{
+    padding:100px 0;
+    position:relative;
+    z-index:2;
+}
+
+.about-cta-inner{
+    background:linear-gradient(135deg, rgba(13,38,51,.95), rgba(7,25,35,.98));
+    border:1px solid rgba(34,211,238,.2);
+    border-radius:28px;
+    padding:60px 40px;
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+}
+
+.about-cta-inner::before{
+    content:"";
+    position:absolute;
+    top:-50%;left:-50%;
+    width:200%;height:200%;
+    background:radial-gradient(circle, rgba(34,211,238,.06), transparent 50%);
+    animation:rotate 40s linear infinite;
+    pointer-events:none;
+}
+
+@keyframes rotate{
+    from{transform:rotate(0deg);}
+    to{transform:rotate(360deg);}
+}
+
+.about-cta-inner > *{position:relative;z-index:1;}
+
+.about-cta h2{
+    font-size:clamp(26px, 4vw, 40px);
+    font-weight:900;
+    line-height:1.3;
+    letter-spacing:-1px;
+    margin-bottom:16px;
+}
+
+.about-cta h2 em{
+    font-style:normal;
+    color:var(--cyan);
+    position:relative;
+}
+
+.about-cta h2 em::after{
+    content:"";
+    position:absolute;
+    bottom:.08em;right:0;left:0;
+    height:.15em;
+    background:var(--cyan);
+    opacity:.18;
+    z-index:-1;
+}
+
+.about-cta p{
+    color:var(--muted);
+    font-size:15px;
+    line-height:2.1;
+    max-width:540px;
+    margin:0 auto 28px;
+}
+
+.btn-telegram{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    padding:16px 32px;
+    background:var(--orange);
+    color:#101820;
+    border-radius:14px;
+    font-weight:700;
+    font-size:14px;
+    transition:all .25s;
+    box-shadow:0 12px 35px rgba(245,158,11,.2);
+    border:none;
+    cursor:pointer;
+    font-family:inherit;
+}
+
+.btn-telegram:hover{
+    transform:translateY(-3px);
+    box-shadow:0 16px 45px rgba(245,158,11,.4);
+}
+
+.btn-telegram .tg-icon{
+    width:20px;
+    height:20px;
+}
+
+.btn-telegram .arrow{
+    transition:transform .25s;
+    display:inline-flex;
+}
+
+.btn-telegram:hover .arrow{transform:translateX(-4px);}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+footer{
+    border-top:1px solid var(--line);
+    padding:50px 20px 35px;
+    position:relative;
+    z-index:2;
+    background:#061720;
+}
+
+.footer-inner{
+    width:min(1180px,100%);
+    margin:auto;
+    display:grid;
+    grid-template-columns:2fr 1fr 1fr;
+    gap:50px;
+    margin-bottom:40px;
+}
+
+.footer-brand h4{
+    font-size:18px;
+    font-weight:800;
+    margin-bottom:12px;
+    display:flex;
+    align-items:center;
+    gap:9px;
+    direction:ltr;
+}
+
+.footer-brand p{
+    color:var(--muted);
+    font-size:13px;
+    line-height:2;
+    max-width:340px;
+}
+
+.footer-col h5{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    color:var(--muted-2);
+    margin-bottom:16px;
+    direction:ltr;
+    letter-spacing:.1em;
+    font-weight:500;
+}
+
+.footer-col ul{
+    list-style:none;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+.footer-col a{
+    color:#b8c7cf;
+    font-size:13px;
+    transition:.2s;
+}
+
+.footer-col a:hover{color:var(--cyan);}
+
+.footer-bottom{
+    width:min(1180px,100%);
+    margin:auto;
+    padding-top:30px;
+    border-top:1px solid var(--line);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:12px;
+    font-size:12px;
+    color:var(--muted-2);
+    font-family:'JetBrains Mono',monospace;
+    direction:ltr;
+}
+
+.footer-bottom .heart{
+    color:var(--orange);
+    display:inline-block;
+    animation:heartbeat 1.8s infinite;
+}
+
+@keyframes heartbeat{
+    0%,100%{transform:scale(1);}
+    15%{transform:scale(1.18);}
+    30%{transform:scale(1);}
+}
+
+
+/* =========================================================
+   SCROLL REVEAL
+========================================================= */
+.reveal{
+    opacity:0;
+    transform:translateY(24px);
+    transition:opacity .8s cubic-bezier(.4,0,.2,1), transform .8s cubic-bezier(.4,0,.2,1);
+}
+
+.reveal.visible{opacity:1;transform:translateY(0);}
+.reveal.delay-1{transition-delay:.08s;}
+.reveal.delay-2{transition-delay:.16s;}
+.reveal.delay-3{transition-delay:.24s;}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:1024px){
+    .container{width:min(100% - 48px, 1180px);}
+
+    .me-inner{
+        grid-template-columns:1fr 1.4fr;
+        gap:50px;
+    }
+
+    .me-avatar{max-width:280px;}
+}
+
+
+@media(max-width:768px){
+
+    body{font-size:15px;line-height:1.75;}
+
+    /* Nav */
+    .nav-menu{display:none;}
+    .navbar{height:70px;}
+    header.scrolled .navbar{height:60px;}
+    .logo{font-size:15px;}
+    .logo-mark{width:32px;height:32px;}
+    .logo-mark .dot-one,
+    .logo-mark .dot-two{width:6px;height:6px;}
+    .logo-mark .dot-one{left:6px;bottom:6px;}
+    .logo-mark .dot-two{right:6px;top:6px;}
+    .logo-mark .path{width:20px;height:14px;left:6px;top:9px;}
+    .nav-cta{padding:8px 12px;font-size:11px;}
+
+    /* Hero */
+    .about-hero{
+        padding:130px 0 50px;
+    }
+
+    .about-hero h1{
+        font-size:clamp(30px, 9vw, 42px);
+        letter-spacing:-1.5px;
+    }
+
+    .about-hero p{
+        font-size:14.5px;
+        line-height:1.95;
+    }
+
+    /* Me */
+    .me{
+        padding:50px 0;
+    }
+
+    .me-inner{
+        grid-template-columns:1fr;
+        gap:40px;
+        text-align:center;
+    }
+
+    .me-avatar{
+        max-width:220px;
+    }
+
+    .me-content h2{
+        font-size:24px;
+        letter-spacing:-.5px;
+    }
+
+    .me-content p{
+        font-size:14px;
+        line-height:2;
+    }
+
+    /* Why */
+    .why{
+        padding:60px 0;
+    }
+
+    .why-header{
+        margin-bottom:40px;
+    }
+
+    .why-header h2{
+        font-size:24px;
+        letter-spacing:-.5px;
+    }
+
+    .why-header p{
+        font-size:14px;
+    }
+
+    .why-content{
+        grid-template-columns:1fr;
+        gap:16px;
+    }
+
+    .why-card{
+        padding:22px 20px;
+    }
+
+    .why-card h3{
+        font-size:16px;
+    }
+
+    .why-card li{
+        font-size:13px;
+    }
+
+    /* Values */
+    .values{
+        padding:60px 0;
+    }
+
+    .values-header{
+        margin-bottom:40px;
+    }
+
+    .values-header h2{
+        font-size:24px;
+    }
+
+    .values-grid{
+        grid-template-columns:1fr;
+        gap:14px;
+    }
+
+    .value-card{
+        padding:22px 20px;
+    }
+
+    /* CTA */
+    .about-cta{
+        padding:60px 0;
+    }
+
+    .about-cta-inner{
+        padding:40px 24px;
+        border-radius:22px;
+    }
+
+    .about-cta h2{
+        font-size:24px;
+    }
+
+    .about-cta p{
+        font-size:14px;
+    }
+
+    .btn-telegram{
+        width:100%;
+        padding:14px 24px;
+        font-size:13.5px;
+    }
+
+    /* Footer */
+    footer{
+        padding:40px 20px 28px;
+    }
+
+    .footer-inner{
+        grid-template-columns:1fr;
+        gap:30px;
+        margin-bottom:30px;
+    }
+
+    .footer-brand h4{font-size:16px;}
+    .footer-brand p{font-size:12.5px;max-width:100%;}
+
+    .footer-col ul{
+        flex-direction:row;
+        flex-wrap:wrap;
+        gap:12px;
+    }
+
+    .footer-col a{font-size:12px;}
+
+    .footer-bottom{
+        flex-direction:column;
+        text-align:center;
+        gap:10px;
+        padding-top:20px;
+        font-size:11px;
+    }
+}
+
+
+@media(max-width:480px){
+
+    body{font-size:14.5px;}
+    .container{width:min(100% - 24px, 1180px);}
+
+    .about-hero{padding:110px 0 40px;}
+
+    .about-hero h1{font-size:30px;}
+
+    .me{padding:40px 0;}
+
+    .me-avatar{max-width:180px;}
+
+    .me-content h2{font-size:20px;}
+
+    .me-content p{font-size:13.5px;}
+
+    .why, .values, .about-cta{padding:50px 0;}
+
+    .why-header h2,
+    .values-header h2,
+    .about-cta h2{font-size:21px;}
+
+    .why-card,
+    .value-card{padding:18px 16px;}
+
+    .why-card h3{font-size:15px;}
+
+    .value-card h3{font-size:15.5px;}
+
+    .value-card p{font-size:12.5px;}
+
+    .about-cta-inner{
+        padding:32px 20px;
+    }
+
+    .footer-brand h4{font-size:15px;}
+    .footer-brand p{font-size:12px;}
+
+    .nav-cta{padding:7px 10px;font-size:10.5px;}
+    .logo{font-size:14px;}
+    .logo-mark{width:28px;height:28px;}
+}
+
+
+@media(prefers-reduced-motion:reduce){
+    *,*::before,*::after{
+        animation-duration:.01ms !important;
+        animation-iteration-count:1 !important;
+        transition-duration:.01ms !important;
+        scroll-behavior:auto !important;
+    }
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="background-glow glow-one"></div>
+<div class="background-glow glow-two"></div>
+
+<canvas id="neuralCanvas" aria-hidden="true"></canvas>
+
+<div class="progress-bar" id="progressBar" aria-hidden="true"></div>
+
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
+<header id="header">
+<div class="container">
+<nav class="navbar">
+
+<a href="index.html" class="logo">
+<span class="logo-mark" aria-hidden="true">
+<span class="dot-one"></span>
+<span class="dot-two"></span>
+<span class="path"></span>
+</span>
+<span>Hamsafar AI</span>
+</a>
+
+<div class="nav-menu">
+<a href="index.html#journey">مسیر یادگیری</a>
+<a href="index.html#tools">ابزارهای AI</a>
+<a href="index.html#projects">پروژه‌ها</a>
+<a href="about.html" class="active">درباره</a>
+</div>
+
+<a href="https://t.me/hamsafar_ai" class="nav-cta" target="_blank" rel="noopener">شروع یادگیری</a>
+
+</nav>
+</div>
+</header>
+
+
+<!-- =========================================================
+     HERO
+========================================================= -->
+<section class="about-hero">
+
+<div class="horizon"></div>
+
+<div class="container about-hero-inner">
+
+<div class="label">about_hamsafar</div>
+
+<h1>
+چرا <span class="orange">همسفر</span>
+<br>
+<span class="cyan">AI</span>؟
+</h1>
+
+<p>
+این صفحه داستان کوتاه ماست.
+چرا این مسیر رو ساختیم،
+و چرا فکر می‌کنیم یادگیری AI باید
+این‌طوری باشه.
+</p>
+
+</div>
+</section>
+
+
+<!-- =========================================================
+     ME
+========================================================= -->
+<section class="me">
+<div class="container me-inner">
+
+<div class="me-avatar reveal">
+<div class="me-avatar-ring"></div>
+<div class="me-avatar-ring2"></div>
+<img src="https://shamdun.github.io/hamsafarAI/telegram.png" alt="همسفر AI">
+</div>
+
+<div class="me-content">
+
+<div class="label">who_am_i</div>
+
+<h2>
+یه آدم معمولی که <em>تصمیم گرفت</em> یاد بگیره.
+</h2>
+
+<p>
+سلام. من همسفر AI هستم. نه مهندسم، نه برنامه‌نویس حرفه‌ای، نه گواهی خاصی دارم. فقط یه آدم کنجکاوم که یه روز تصمیم گرفت <strong>هوش مصنوعی رو از صفر یاد بگیره</strong> — بدون بودجه، بدون تیم، بدون کلاس گرون.
+</p>
+
+<p>
+وقتی شروع کردم، دیدم همه‌جا پر از <strong>وعده‌های توخالی</strong>ست:
+«با AI ماهی ۱۰۰ میلیون دربیار»، «فردا دیر می‌شه، الان بخر»، دوره‌های گرون با محتوای تکراری.
+ولی هیچ‌کس نمی‌گفت AI چیه، محدودیت‌هاش کجاست، از کجا باید شروع کنی.
+</p>
+
+<p>
+پس تصمیم گرفتم <strong>خودم مسیر رو بسازم</strong> و با بقیه به اشتراک بذارم.
+اینجا نه وعده درآمد می‌دی، نه سیگنال ترید، نه دوره فروشی.
+فقط یه مسیر واقعی، پروژه‌محور، رایگان.
+</p>
+
+</div>
+
+</div>
+</section>
+
+
+<!-- =========================================================
+     WHY
+========================================================= -->
+<section class="why">
+<div class="container">
+
+<div class="why-header">
+<div class="label">why_hamsafar</div>
+<h2>
+چرا اینجا <em>فرق داره</em>؟
+</h2>
+<p>
+بازار پر از وعده‌های دروغینه. ما اومدیم یه راه دیگه رو امتحان کنیم.
+</p>
+</div>
+
+<div class="why-content">
+
+<div class="why-card bad reveal">
+<h3>جای دیگه</h3>
+<ul>
+<li>وعده درآمد ماهانه میلیونی</li>
+<li>دوره‌های گرون با محتوای تکراری</li>
+<li>پنهان کردن محدودیت‌های AI</li>
+<li>ترسوندن از «عقب موندن»</li>
+<li>هیچ پروژه واقعی — فقط تئوری</li>
+<li>فروش سیگنال و چوب جادو</li>
+</ul>
+</div>
+
+<div class="why-card good reveal delay-1">
+<h3>همسفر AI</h3>
+<ul>
+<li>مسیر واقعی، بدون وعده پول‌سازی</li>
+<li>کاملاً رایگان، بدون دوره فروشی</li>
+<li>گفتن صادقانه محدودیت‌ها</li>
+<li>انگیزه از یادگیری، نه از ترس</li>
+<li>هر قدم همراه با یه پروژه عملی</li>
+<li>یه همسفر که کنارت راه می‌ره</li>
+</ul>
+</div>
+
+</div>
+</div>
+</section>
+
+
+<!-- =========================================================
+     VALUES
+========================================================= -->
+<section class="values">
+<div class="container">
+
+<div class="values-header">
+<div class="label">our_values</div>
+<h2>چهار چیزی که برامون مهمه</h2>
+</div>
+
+<div class="values-grid">
+
+<div class="value-card reveal">
+<span class="value-icon">💚</span>
+<h3>رایگان بودن</h3>
+<p>هیچ محتوایی پشت پرده نیست. هر چی اینجا یاد می‌گیری، رایگانه. برای همیشه.</p>
+</div>
+
+<div class="value-card reveal delay-1">
+<span class="value-icon">🔍</span>
+<h3>شفافیت</h3>
+<p>محدودیت‌ها رو می‌گیم. اشتباهاتمون رو می‌گیم. AI جادو نیست، ابزاره.</p>
+</div>
+
+<div class="value-card reveal delay-2">
+<span class="value-icon">🛠️</span>
+<h3>پروژه‌محوری</h3>
+<p>هر چی یاد می‌گیری، همون‌جا با یه پروژه واقعی تمرین می‌کنی. نه فقط تئوری.</p>
+</div>
+
+<div class="value-card reveal delay-3">
+<span class="value-icon">🤝</span>
+<h3>با هم بودن</h3>
+<p>من هم دارم یاد می‌گیرم. کنارت راه می‌رم، نه جلوتر. مسیر رو با هم می‌ریم.</p>
+</div>
+
+</div>
+</div>
+</section>
+
+
+<!-- =========================================================
+     CTA
+========================================================= -->
+<section class="about-cta">
+<div class="container">
+
+<div class="about-cta-inner reveal">
+
+<div class="label" style="justify-content:center;">ready_to_start</div>
+
+<h2>
+آماده‌ای <em>همسفر</em> بشی؟
+</h2>
+
+<p>
+هر مطلب جدید، اول تو کانال تلگرام منتشر می‌شه.
+اونجا با هم در ارتباطیم، سوال می‌پرسی، و مسیر رو ادامه می‌دیم.
+</p>
+
+<a href="https://t.me/hamsafar_ai" class="btn-telegram" target="_blank" rel="noopener">
+<svg class="tg-icon" viewBox="0 0 24 24" fill="currentColor">
+<path d="M12 2 L15 9 L22 10 L17 15 L18 22 L12 19 L6 22 L7 15 L2 10 L9 9 Z"/>
+</svg>
+عضویت در کانال تلگرام
+<span class="arrow">←</span>
+</a>
+
+</div>
+
+</div>
+</section>
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+<footer>
+<div class="footer-inner">
+
+<div class="footer-brand">
+<h4>
+<span class="logo-mark" style="width:28px;height:28px;display:inline-flex;">
+<span class="dot-one" style="width:6px;height:6px;left:6px;bottom:6px;"></span>
+<span class="dot-two" style="width:6px;height:6px;right:6px;top:6px;"></span>
+<span class="path" style="width:18px;height:12px;left:5px;top:8px;border-top-width:1.5px;"></span>
+</span>
+Hamsafar AI
+</h4>
+<p>
+مسیر واقعی یادگیری هوش مصنوعی، از صفر، رایگان، با هم.
+بدون وعده پول‌سازی، بدون دوره فروشی.
+</p>
+</div>
+
+<div class="footer-col">
+<h5>navigate</h5>
+<ul>
+<li><a href="index.html#journey">مسیر یادگیری</a></li>
+<li><a href="index.html#tools">ابزارها</a></li>
+<li><a href="index.html#projects">پروژه‌ها</a></li>
+<li><a href="about.html">درباره</a></li>
+</ul>
+</div>
+
+<div class="footer-col">
+<h5>connect</h5>
+<ul>
+<li><a href="https://t.me/hamsafar_ai" target="_blank" rel="noopener">تلگرام</a></li>
+<li><a href="https://github.com/shamdun" target="_blank" rel="noopener">گیت‌هاب</a></li>
+</ul>
+</div>
+
+</div>
+
+<div class="footer-bottom">
+<span>made with <span class="heart">♥</span> for learners</span>
+<span>© 2026 Hamsafar AI</span>
+</div>
+</footer>
+
+
+
+<script>
+
+'use strict';
+
+const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+
+/* =========================================================
+   Progress bar + Header
+========================================================= */
+const progressBar = document.getElementById('progressBar');
+const header = document.getElementById('header');
+
+let ticking = false;
+
+window.addEventListener('scroll', () => {
+    if (!ticking) {
+        window.requestAnimationFrame(() => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+            progressBar.style.width = progress + '%';
+            header.classList.toggle('scrolled', scrollTop > 60);
+            ticking = false;
+        });
+        ticking = true;
+    }
+}, { passive: true });
+
+
+/* =========================================================
+   Scroll reveal
+========================================================= */
+const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            revealObserver.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.12, rootMargin: '0px 0px -50px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+
+/* =========================================================
+   TYPE-IN
+========================================================= */
+const typeSelectors = [
+    '.about-hero h1',
+    '.about-hero p',
+    '.me-content h2',
+    '.me-content p',
+    '.why-header h2',
+    '.why-header p',
+    '.values-header h2',
+    '.about-cta h2',
+    '.about-cta p',
+    '.why-card h3',
+    '.why-card li',
+    '.value-card h3',
+    '.value-card p',
+    '.footer-brand p',
+    '.footer-col a'
+].join(', ');
+
+const typeTargets = document.querySelectorAll(typeSelectors);
+
+typeTargets.forEach(el => {
+    const originalText = el.textContent.trim();
+    if (!originalText) return;
+    el.dataset.originalText = originalText;
+    el.dataset.typed = 'false';
+    el.classList.add('type-target');
+    el.textContent = '';
+});
+
+function typeElement(el) {
+    if (el.dataset.typed === 'true') return;
+    el.dataset.typed = 'true';
+
+    const text = el.dataset.originalText;
+    if (!text) return;
+
+    el.classList.add('is-typing');
+    el.textContent = '';
+
+    const chars = [];
+    for (let i = 0; i < text.length; i++) {
+        const span = document.createElement('span');
+        span.className = 'type-char';
+        if (text[i] === ' ') {
+            span.classList.add('space');
+            span.innerHTML = '&nbsp;';
+        } else if (text[i] === '\n') {
+            span.innerHTML = '<br>';
+            span.className = 'type-char visible';
+        } else {
+            span.textContent = text[i];
+        }
+        el.appendChild(span);
+        chars.push(span);
+    }
+
+    const speed = text.length > 100 ? 35 : 60;
+
+    chars.forEach((span, i) => {
+        setTimeout(() => {
+            span.classList.add('visible');
+            if (i === chars.length - 1) {
+                el.classList.remove('is-typing');
+            }
+        }, i * speed);
+    });
+}
+
+const typeObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            typeElement(entry.target);
+            typeObserver.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.15, rootMargin: '0px 0px -30px 0px' });
+
+typeTargets.forEach(el => typeObserver.observe(el));
+
+
+/* =========================================================
+   NEURAL CANVAS — شبکه‌ای که به موس وصل می‌شه
+========================================================= */
+const neuralCanvas = document.getElementById('neuralCanvas');
+const nctx = neuralCanvas.getContext('2d');
+
+let neuralParticles = [];
+let neuralMouse = { x: -1000, y: -1000 };
+let neuralAnimId;
+
+function resizeNeural() {
+    neuralCanvas.width = window.innerWidth;
+    neuralCanvas.height = window.innerHeight;
+    initNeuralParticles();
+}
+
+function initNeuralParticles() {
+    const count = window.innerWidth < 768 ? 25 : 55;
+    neuralParticles = [];
+    for (let i = 0; i < count; i++) {
+        neuralParticles.push({
+            x: Math.random() * neuralCanvas.width,
+            y: Math.random() * neuralCanvas.height,
+            vx: (Math.random() - 0.5) * 0.3,
+            vy: (Math.random() - 0.5) * 0.3,
+            r: Math.random() * 1.4 + 0.6
+        });
+    }
+}
+
+function drawNeural() {
+    nctx.clearRect(0, 0, neuralCanvas.width, neuralCanvas.height);
+
+    for (let i = 0; i < neuralParticles.length; i++) {
+        const p = neuralParticles[i];
+
+        for (let j = i + 1; j < neuralParticles.length; j++) {
+            const p2 = neuralParticles[j];
+            const dx = p.x - p2.x;
+            const dy = p.y - p2.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+
+            if (dist < 130) {
+                const opacity = 0.1 * (1 - dist / 130);
+                nctx.beginPath();
+                nctx.moveTo(p.x, p.y);
+                nctx.lineTo(p2.x, p2.y);
+                nctx.strokeStyle = 'rgba(34, 211, 238, ' + opacity + ')';
+                nctx.lineWidth = 0.6;
+                nctx.stroke();
+            }
+        }
+
+        const mdx = p.x - neuralMouse.x;
+        const mdy = p.y - neuralMouse.y;
+        const mdist = Math.sqrt(mdx * mdx + mdy * mdy);
+        if (mdist < 170) {
+            const opacity = 0.25 * (1 - mdist / 170);
+            nctx.beginPath();
+            nctx.moveTo(p.x, p.y);
+            nctx.lineTo(neuralMouse.x, neuralMouse.y);
+            nctx.strokeStyle = 'rgba(245, 158, 11, ' + opacity + ')';
+            nctx.lineWidth = 0.7;
+            nctx.stroke();
+        }
+    }
+
+    for (const p of neuralParticles) {
+        p.x += p.vx;
+        p.y += p.vy;
+
+        if (p.x < 0 || p.x > neuralCanvas.width) p.vx *= -1;
+        if (p.y < 0 || p.y > neuralCanvas.height) p.vy *= -1;
+
+        nctx.beginPath();
+        nctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        nctx.fillStyle = 'rgba(34, 211, 238, 0.5)';
+        nctx.fill();
+    }
+
+    neuralAnimId = requestAnimationFrame(drawNeural);
+}
+
+if (!prefersReduced) {
+    resizeNeural();
+    drawNeural();
+
+    window.addEventListener('resize', resizeNeural);
+
+    window.addEventListener('mousemove', (e) => {
+        neuralMouse.x = e.clientX;
+        neuralMouse.y = e.clientY;
+    }, { passive: true });
+
+    window.addEventListener('mouseleave', () => {
+        neuralMouse.x = -1000;
+        neuralMouse.y = -1000;
+    });
+}
+
+</script>
+
+</body>
+</html>

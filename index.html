@@ -112,16 +112,17 @@ section{position:relative;}
     opacity:.08;
     z-index:0;
 }
-   #neuralCanvas{
+
+.glow-one{background:var(--cyan);top:-300px;right:-250px;}
+.glow-two{background:var(--orange);bottom:-300px;left:-250px;}
+
+#neuroCanvas{
     position:fixed;
     inset:0;
     z-index:1;
     pointer-events:none;
-    opacity:.55;
+    opacity:.9;
 }
-
-.glow-one{background:var(--cyan);top:-300px;right:-250px;}
-.glow-two{background:var(--orange);bottom:-300px;left:-250px;}
 
 .progress-bar{
     position:fixed;
@@ -132,48 +133,6 @@ section{position:relative;}
     width:0;
     transition:width .1s linear;
     box-shadow:0 0 12px rgba(34,211,238,.5);
-}
-
-
-/* =========================================================
-   TYPE-IN — همه نوشته‌ها
-========================================================= */
-.type-target{
-    position:relative;
-}
-.type-target .type-char{
-    opacity:0;
-    display:inline;
-    transition:opacity .05s;
-}
-.type-target .type-char.visible{
-    opacity:1;
-}
-
-/* فاصله‌ها نباید بشکنن */
-.type-target .type-char.space{
-    white-space:pre;
-}
-
-/* کرسر تایپ */
-.type-target::after{
-    content:'';
-    display:inline-block;
-    width:2px;
-    height:0.95em;
-    background:var(--cyan);
-    margin-right:2px;
-    vertical-align:middle;
-    animation:typeCursorBlink 0.7s infinite;
-    opacity:0;
-    box-shadow:0 0 6px var(--cyan);
-}
-.type-target.is-typing::after{
-    opacity:1;
-}
-@keyframes typeCursorBlink{
-    0%,50%{opacity:1;}
-    51%,100%{opacity:0;}
 }
 
 
@@ -200,6 +159,7 @@ header.scrolled{
     align-items:center;
     justify-content:space-between;
     transition:height .3s;
+    gap:20px;
 }
 
 header.scrolled .navbar{height:70px;}
@@ -211,6 +171,7 @@ header.scrolled .navbar{height:70px;}
     direction:ltr;
     font-size:18px;
     font-weight:800;
+    flex-shrink:0;
 }
 
 .logo-mark{
@@ -269,6 +230,7 @@ header.scrolled .navbar{height:70px;}
     font-weight:600;
     transition:.25s;
     background:rgba(34,211,238,.04);
+    flex-shrink:0;
 }
 
 .nav-cta:hover{
@@ -396,7 +358,7 @@ header.scrolled .navbar{height:70px;}
 
 
 /* =========================================================
-   HERO VISUAL — سحابی شفاف
+   HERO VISUAL — سحابی
 ========================================================= */
 .hero-visual{
     height:650px;
@@ -582,7 +544,6 @@ header.scrolled .navbar{height:70px;}
     background:linear-gradient(180deg,var(--cyan) 0%,var(--cream) 50%,var(--orange) 100%);
     box-shadow:0 0 8px var(--cyan), 0 0 20px rgba(34,211,238,.6);
     z-index:2;
-    /* بدون transition — JS مستقیم آپدیت می‌کنه */
 }
 
 .timeline-glow{
@@ -819,7 +780,7 @@ header.scrolled .navbar{height:70px;}
 }
 
 /* =========================================================
-   BRAIN — مغز شبکه‌ای
+   BRAIN
 ========================================================= */
 .brain{
     width:340px;
@@ -844,7 +805,6 @@ header.scrolled .navbar{height:70px;}
     pointer-events:none;
 }
 
-/* وقتی نور رسید */
 .brain.complete{
     opacity:1;
     filter: 
@@ -878,7 +838,6 @@ header.scrolled .navbar{height:70px;}
     }
 }
 
-/* هاله پشت مغز */
 .brain::before{
     content:"";
     position:absolute;
@@ -901,7 +860,6 @@ header.scrolled .navbar{height:70px;}
     50%{transform:scale(1.2);opacity:1;}
 }
 
-/* حلقه‌های نورانی اطراف */
 .brain::after{
     content:"";
     position:absolute;
@@ -1039,11 +997,13 @@ header.scrolled .navbar{height:70px;}
 
 
 /* =========================================================
-   TOOLS
+   TOOLS — با اصلاحات جدید
 ========================================================= */
 .tools{
     padding:100px 0;
-    background:#081d28;
+    background:rgba(8, 29, 40, 0.7);
+    backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
     border-top:1px solid var(--line);
     border-bottom:1px solid var(--line);
     position:relative;
@@ -1052,9 +1012,9 @@ header.scrolled .navbar{height:70px;}
 
 .tools-grid{
     display:grid;
-    grid-template-columns:1.1fr 1fr;
-    gap:80px;
-    align-items:center;
+    grid-template-columns:1fr 1fr;
+    gap:60px;
+    align-items:stretch;
 }
 
 .tools-copy h2{
@@ -1094,11 +1054,13 @@ header.scrolled .navbar{height:70px;}
 }
 
 .tool-board{
-    min-height:360px;
+    min-height:100%;
+    display:flex;
+    flex-direction:column;
     border:1px solid var(--line);
     border-radius:25px;
     background:#061720;
-    padding:25px;
+    padding:28px;
     position:relative;
     overflow:hidden;
     box-shadow:0 30px 60px rgba(0,0,0,.4);
@@ -1113,6 +1075,7 @@ header.scrolled .navbar{height:70px;}
     filter:blur(100px);
     opacity:.07;
     top:-150px;right:-100px;
+    pointer-events:none;
 }
 
 .board-top{
@@ -1131,19 +1094,23 @@ header.scrolled .navbar{height:70px;}
 .board-content{
     display:grid;
     grid-template-columns:1fr 1fr;
-    gap:14px;
-    margin-top:25px;
+    gap:16px;
+    margin-top:22px;
+    flex:1;
     position:relative;
     z-index:1;
 }
 
 .tool-box{
-    min-height:120px;
-    padding:18px;
+    min-height:140px;
+    padding:22px 20px;
     border-radius:17px;
     background:rgba(255,255,255,.035);
     border:1px solid var(--line);
     transition:.3s;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
 }
 
 .tool-box:hover{
@@ -1542,7 +1509,9 @@ footer{
     padding:50px 20px 35px;
     position:relative;
     z-index:2;
-    background:#061720;
+    background:rgba(6, 23, 32, 0.95);
+    backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
 }
 
 .footer-inner{
@@ -1626,20 +1595,12 @@ footer{
 
 
 /* =========================================================
-   RESPONSIVE
+   RESPONSIVE — تبلت (تا 1024px)
 ========================================================= */
-/* =========================================================
-   RESPONSIVE — از صفر
-========================================================= */
-
-/* ============ تبلت (تا 1024px) ============ */
 @media(max-width:1024px){
 
-    .container{
-        width:min(100% - 48px, 1180px);
-    }
+    .container{width:min(100% - 48px, 1180px);}
 
-    /* Hero */
     .hero{
         grid-template-columns:1fr 1fr;
         min-height:auto;
@@ -1647,61 +1608,36 @@ footer{
         padding-bottom:60px;
     }
 
-    .hero-title{
-        font-size:clamp(38px, 5vw, 60px);
-        letter-spacing:-2px;
-    }
+    .hero-title{font-size:clamp(38px, 5vw, 60px);letter-spacing:-2px;}
+    .hero-visual{height:480px;}
+    .nebula-canvas{max-width:480px;}
 
-    .hero-visual{
-        height:480px;
-    }
+    .intro-inner{gap:50px;}
 
-    .nebula-canvas{
-        max-width:480px;
-    }
+    .journey{padding:80px 20px 60px;}
+    .journey-header h2{font-size:clamp(28px, 4vw, 42px);}
 
-    /* Intro */
-    .intro-inner{
-        gap:50px;
-    }
+    .station{grid-template-columns:1fr 70px 1fr;margin-bottom:60px;}
+    .station-card{padding:20px 18px;}
 
-    /* Journey */
-    .journey{
-        padding:80px 20px 60px;
-    }
+    .brain{width:280px;height:280px;}
 
-    .journey-header h2{
-        font-size:clamp(28px, 4vw, 42px);
-    }
-
-    .station{
-        grid-template-columns:1fr 70px 1fr;
-        margin-bottom:60px;
-    }
-
-    .station-card{
-        padding:20px 18px;
-    }
-
-    /* Brain */
-    .brain{
-        width:280px;
-        height:280px;
-    }
-
-    /* Tools — اینجا مهمه */
+    /* Tools — تک‌ستونه تو تبلت */
     .tools-grid{
-        grid-template-columns:1fr;  /* ← تغییر اصلی */
+        grid-template-columns:1fr;
         gap:40px;
     }
 
-    .tools-copy h2{
-        font-size:32px;
-    }
+    .tools-copy h2{font-size:32px;}
 
     .tool-board{
         min-height:auto;
         padding:22px;
+    }
+
+    .board-content{
+        grid-template-columns:1fr 1fr;
+        gap:14px;
     }
 
     /* Projects */
@@ -1715,95 +1651,40 @@ footer{
         min-height:300px;
     }
 
-    .project{
-        min-height:240px;
-    }
+    .project{min-height:240px;}
 
     /* Telegram */
-    .telegram-inner{
-        grid-template-columns:1fr 1fr;
-        gap:40px;
-    }
-
-    .telegram-copy h2{
-        font-size:32px;
-    }
-
-    .tg-visual{
-        height:440px;
-    }
-
-    .tg-phone{
-        width:250px;
-    }
-
-    .tg-glow{
-        width:320px;
-        height:320px;
-    }
-
-    .tg-orbit{
-        width:380px;
-        height:380px;
-    }
+    .telegram-inner{grid-template-columns:1fr 1fr;gap:40px;}
+    .telegram-copy h2{font-size:32px;}
+    .tg-visual{height:440px;}
+    .tg-phone{width:250px;}
+    .tg-glow{width:320px;height:320px;}
+    .tg-orbit{width:380px;height:380px;}
 
     /* Footer */
-    .footer-inner{
-        grid-template-columns:1.5fr 1fr 1fr;
-        gap:30px;
-    }
+    .footer-inner{grid-template-columns:1.5fr 1fr 1fr;gap:30px;}
 }
 
-/* ============ موبایل بزرگ (تا 768px) ============ */
+
+/* =========================================================
+   RESPONSIVE — موبایل بزرگ (تا 768px)
+========================================================= */
 @media(max-width:768px){
 
-    body{
-        font-size:15px;
-        line-height:1.75;
-    }
+    body{font-size:15px;line-height:1.75;}
 
     /* Nav */
-    .nav-menu{
-        display:none;
-    }
-
-    .navbar{
-        height:70px;
-    }
-
-    header.scrolled .navbar{
-        height:60px;
-    }
-
-    .logo{
-        font-size:15px;
-    }
-
-    .logo-mark{
-        width:32px;
-        height:32px;
-    }
-
+    .nav-menu{display:none;}
+    .navbar{height:70px;gap:12px;}
+    header.scrolled .navbar{height:60px;}
+    .logo{font-size:15px;gap:8px;}
+    .logo-mark{width:32px;height:32px;}
     .logo-mark .dot-one,
-    .logo-mark .dot-two{
-        width:6px;
-        height:6px;
-    }
-
+    .logo-mark .dot-two{width:6px;height:6px;}
     .logo-mark .dot-one{left:6px;bottom:6px;}
     .logo-mark .dot-two{right:6px;top:6px;}
-
-    .logo-mark .path{
-        width:20px;
-        height:14px;
-        left:6px;
-        top:9px;
-    }
-
-    .nav-cta{
-        padding:8px 12px;
-        font-size:11px;
-    }
+    .logo-mark .path{width:20px;height:14px;left:6px;top:9px;}
+    .nav-cta{padding:8px 12px;font-size:11px;}
 
     /* Hero */
     .hero{
@@ -1843,96 +1724,40 @@ footer{
     }
 
     .btn-primary,
-    .btn-secondary{
-        width:100%;
-        justify-content:center;
-    }
+    .btn-secondary{width:100%;justify-content:center;}
 
-    .hero-visual{
-        order:-1;
-        height:340px;
-    }
-
-    .nebula-canvas{
-        max-width:340px;
-    }
-
-    .floating-card{
-        display:none;
-    }
+    .hero-visual{order:-1;height:340px;}
+    .nebula-canvas{max-width:340px;}
+    .floating-card{display:none;}
 
     /* Intro */
-    .intro{
-        padding:50px 0;
-    }
-
-    .intro-inner{
-        grid-template-columns:1fr;
-        gap:24px;
-    }
-
-    .intro h2{
-        font-size:24px;
-        line-height:1.5;
-    }
-
-    .intro p{
-        font-size:14px;
-        line-height:2;
-    }
+    .intro{padding:50px 0;}
+    .intro-inner{grid-template-columns:1fr;gap:24px;}
+    .intro h2{font-size:24px;line-height:1.5;}
+    .intro p{font-size:14px;line-height:2;}
 
     /* Section heading */
-    .section-heading{
-        margin-bottom:45px;
-    }
+    .section-heading{margin-bottom:45px;}
+    .section-heading h2{font-size:26px;letter-spacing:-.5px;}
+    .section-heading p{font-size:14px;}
 
-    .section-heading h2{
-        font-size:26px;
-        letter-spacing:-.5px;
-    }
+    /* Journey */
+    .journey{padding:60px 16px 50px;}
+    .journey-header{margin-bottom:50px;}
+    .journey-header h2{font-size:26px;letter-spacing:-1px;}
+    .journey-header p{font-size:14px;}
 
-    .section-heading p{
-        font-size:14px;
-    }
+    .timeline{max-width:100%;padding:20px 0;}
 
-    /* ============ JOURNEY ============ */
-    .journey{
-        padding:60px 16px 50px;
-    }
-
-    .journey-header{
-        margin-bottom:50px;
-    }
-
-    .journey-header h2{
-        font-size:26px;
-        letter-spacing:-1px;
-    }
-
-    .journey-header p{
-        font-size:14px;
-    }
-
-    .timeline{
-        max-width:100%;
-        padding:20px 0;
-    }
-
-    /* خط عمودی بره سمت راست */
     .timeline-line,
-    .timeline-line-fill{
-        right:28px;
-        transform:none;
-    }
+    .timeline-line-fill{right:28px;transform:none;}
 
     .timeline-glow{
         right:28px;
         transform:translate(50%, -50%);
-        width:20px;
-        height:20px;
+        width:20px;height:20px;
     }
 
-    /* ایستگاه‌ها: دایره سمت راست، کارت کنارش */
     .station{
         display:grid;
         grid-template-columns:56px 1fr;
@@ -1941,17 +1766,8 @@ footer{
         align-items:start;
     }
 
-    .station-dot-wrap{
-        grid-column:1;
-        justify-content:center;
-        padding-top:6px;
-    }
-
-    .station-dot{
-        width:48px;
-        height:48px;
-        font-size:12px;
-    }
+    .station-dot-wrap{grid-column:1;justify-content:center;padding-top:6px;}
+    .station-dot{width:48px;height:48px;font-size:12px;}
 
     .station.right .station-card,
     .station.left .station-card{
@@ -1961,239 +1777,87 @@ footer{
     }
 
     .station.right .station-card::after,
-    .station.left .station-card::after{
-        display:none;
-    }
+    .station.left .station-card::after{display:none;}
 
-    .station-card{
-        padding:18px 16px;
-    }
-
-    .station-card h3{
-        font-size:16px;
-    }
-
-    .station-card p{
-        font-size:12.5px;
-        line-height:1.9;
-    }
-
-    .station-icon{
-        width:40px;
-        height:40px;
-        font-size:18px;
-    }
-
-    .station-task{
-        padding:9px 11px;
-    }
-
-    .station-task span:last-child{
-        font-size:11.5px;
-    }
-
-    .station-meta{
-        font-size:10px;
-        gap:10px;
-    }
+    .station-card{padding:18px 16px;}
+    .station-card h3{font-size:16px;}
+    .station-card p{font-size:12.5px;line-height:1.9;}
+    .station-icon{width:40px;height:40px;font-size:18px;}
+    .station-task{padding:9px 11px;}
+    .station-task span:last-child{font-size:11.5px;}
+    .station-meta{font-size:10px;gap:10px;}
 
     /* Brain */
-    .destination{
-        margin-top:60px;
-    }
-
-    .brain{
-        width:220px;
-        height:220px;
-    }
-
-    .journey-end-message{
-        margin-top:30px;
-    }
-
-    .journey-end-message h3{
-        font-size:22px;
-    }
-
-    .journey-end-message p{
-        font-size:13px;
-    }
+    .destination{margin-top:60px;}
+    .brain{width:220px;height:220px;}
+    .journey-end-message{margin-top:30px;}
+    .journey-end-message h3{font-size:22px;}
+    .journey-end-message p{font-size:13px;}
 
     /* Terminal */
-    .terminal-section{
-        padding:60px 0;
-    }
-
-    .terminal-body{
-        padding:18px;
-        font-size:11.5px;
-        line-height:2;
-        min-height:220px;
-    }
-
-    .term-title{
-        font-size:10px;
-    }
+    .terminal-section{padding:60px 0;}
+    .terminal-body{padding:18px;font-size:11.5px;line-height:2;min-height:220px;}
+    .term-title{font-size:10px;}
 
     /* Tools */
-    .tools{
-        padding:60px 0;
-    }
+    .tools{padding:60px 0;}
+    .tools-grid{grid-template-columns:1fr;gap:40px;}
+    .tools-copy h2{font-size:26px;letter-spacing:-.5px;}
+    .tools-copy p{font-size:13.5px;}
+    .tool{font-size:10.5px;padding:8px 12px;}
 
-    .tools-grid{
-        grid-template-columns:1fr;
-        gap:40px;
-    }
-
-    .tools-copy h2{
-        font-size:26px;
-        letter-spacing:-.5px;
-    }
-
-    .tools-copy p{
-        font-size:13.5px;
-    }
-
-    .tool{
-        font-size:10.5px;
-        padding:8px 12px;
-    }
-
-    .tool-board{
-        min-height:auto;
-        padding:20px;
-    }
+    .tool-board{min-height:auto;padding:20px;}
 
     .board-content{
-        grid-template-columns:1fr;
+        grid-template-columns:1fr 1fr;
         gap:12px;
     }
 
     .tool-box{
-        min-height:auto;
-        padding:16px;
+        min-height:110px;
+        padding:16px 14px;
     }
+
+    .tool-box strong{font-size:12px;}
+    .tool-box small{font-size:9.5px;}
 
     /* Stats */
-    .stats-strip{
-        padding:40px 0;
-    }
-
-    .stats-grid{
-        grid-template-columns:1fr;
-        gap:24px;
-    }
-
-    .stat-value{
-        font-size:38px;
-    }
-
-    .stat-label{
-        font-size:12px;
-    }
+    .stats-strip{padding:40px 0;}
+    .stats-grid{grid-template-columns:1fr;gap:24px;}
+    .stat-value{font-size:38px;}
+    .stat-label{font-size:12px;}
 
     /* Projects */
-    .projects{
-        padding:60px 0;
-    }
-
-    .project-grid{
-        grid-template-columns:1fr;
-        gap:14px;
-    }
+    .projects{padding:60px 0;}
+    .project-grid{grid-template-columns:1fr;gap:14px;}
 
     .project,
-    .project-large{
-        min-height:auto;
-        padding:24px 22px;
-    }
+    .project-large{min-height:auto;padding:24px 22px;}
 
-    .project h3{
-        font-size:19px;
-    }
-
-    .project p{
-        font-size:12.5px;
-    }
+    .project h3{font-size:19px;}
+    .project p{font-size:12.5px;}
 
     /* Telegram */
-    .telegram-section{
-        padding:60px 0;
-    }
+    .telegram-section{padding:60px 0;}
+    .telegram-inner{grid-template-columns:1fr;gap:40px;}
+    .telegram-copy h2{font-size:26px;letter-spacing:-.5px;}
+    .telegram-copy p{font-size:14px;margin-bottom:22px;}
 
-    .telegram-inner{
-        grid-template-columns:1fr;
-        gap:40px;
-    }
-
-    .telegram-copy h2{
-        font-size:26px;
-        letter-spacing:-.5px;
-    }
-
-    .telegram-copy p{
-        font-size:14px;
-        margin-bottom:22px;
-    }
-
-    .tg-visual{
-        height:420px;
-    }
-
-    .tg-phone{
-        width:250px;
-        padding:16px 12px 12px;
-    }
-
-    .tg-chat{
-        min-height:240px;
-        gap:8px;
-    }
-
-    .tg-msg{
-        font-size:11px;
-        padding:9px 12px;
-    }
-
-    .tg-glow{
-        width:300px;
-        height:300px;
-    }
-
-    .tg-orbit{
-        width:340px;
-        height:340px;
-    }
+    .tg-visual{height:420px;}
+    .tg-phone{width:250px;padding:16px 12px 12px;}
+    .tg-chat{min-height:240px;gap:8px;}
+    .tg-msg{font-size:11px;padding:9px 12px;}
+    .tg-glow{width:300px;height:300px;}
+    .tg-orbit{width:340px;height:340px;}
 
     /* Footer */
-    footer{
-        padding:40px 20px 28px;
-    }
+    footer{padding:40px 20px 28px;}
+    .footer-inner{grid-template-columns:1fr;gap:30px;margin-bottom:30px;}
+    .footer-brand h4{font-size:16px;}
+    .footer-brand p{font-size:12.5px;max-width:100%;}
 
-    .footer-inner{
-        grid-template-columns:1fr;
-        gap:30px;
-        margin-bottom:30px;
-    }
-
-    .footer-brand h4{
-        font-size:16px;
-    }
-
-    .footer-brand p{
-        font-size:12.5px;
-        max-width:100%;
-    }
-
-    .footer-col ul{
-        flex-direction:row;
-        flex-wrap:wrap;
-        gap:12px;
-    }
-
-    .footer-col a{
-        font-size:12px;
-    }
+    .footer-col ul{flex-direction:row;flex-wrap:wrap;gap:12px;}
+    .footer-col a{font-size:12px;}
 
     .footer-bottom{
         flex-direction:column;
@@ -2205,255 +1869,92 @@ footer{
 }
 
 
-/* ============ موبایل کوچک (تا 480px) ============ */
+/* =========================================================
+   RESPONSIVE — موبایل کوچک (تا 480px)
+========================================================= */
 @media(max-width:480px){
 
-    body{
-        font-size:14.5px;
-    }
+    body{font-size:14.5px;}
+    .container{width:min(100% - 24px, 1180px);}
 
-    .container{
-        width:min(100% - 24px, 1180px);
-    }
-
-    /* Hero */
-    .hero{
-        padding-top:90px;
-    }
-
-    .hero-title{
-        font-size:32px;
-        letter-spacing:-1px;
-    }
-
-    .hero-text{
-        font-size:14px;
-    }
-
-    .hero-visual{
-        height:280px;
-    }
-
-    .nebula-canvas{
-        max-width:280px;
-    }
+    .hero{padding-top:90px;}
+    .hero-title{font-size:32px;letter-spacing:-1px;}
+    .hero-text{font-size:14px;}
+    .hero-visual{height:280px;}
+    .nebula-canvas{max-width:280px;}
 
     .btn-primary,
-    .btn-secondary{
-        padding:12px 20px;
-        font-size:13px;
-    }
+    .btn-secondary{padding:12px 20px;font-size:13px;}
 
-    /* Journey */
-    .journey{
-        padding:50px 12px 40px;
-    }
+    .journey{padding:50px 12px 40px;}
+    .journey-header{margin-bottom:40px;}
+    .journey-header h2{font-size:22px;}
 
-    .journey-header{
-        margin-bottom:40px;
-    }
-
-    .journey-header h2{
-        font-size:22px;
-    }
-
-    /* خط عمودی */
     .timeline-line,
-    .timeline-line-fill{
-        right:22px;
+    .timeline-line-fill{right:22px;}
+
+    .timeline-glow{right:22px;width:18px;height:18px;}
+
+    .station{grid-template-columns:44px 1fr;gap:14px;margin-bottom:40px;}
+    .station-dot{width:40px;height:40px;font-size:11px;}
+    .station-card{padding:16px 14px;}
+    .station-card h3{font-size:15px;}
+    .station-card p{font-size:12px;line-height:1.85;}
+    .station-icon{width:36px;height:36px;font-size:16px;}
+    .station-task{padding:8px 10px;gap:6px;}
+    .task-label{font-size:8px;padding:2px 6px;}
+    .station-task span:last-child{font-size:11px;}
+    .station-meta{font-size:9.5px;gap:8px;padding-top:10px;}
+
+    .brain{width:180px;height:180px;}
+    .journey-end-message h3{font-size:19px;}
+    .journey-end-message p{font-size:12.5px;}
+
+    .terminal-body{padding:14px;font-size:10.5px;min-height:200px;}
+    .term-title{display:none;}
+
+    .section-heading h2{font-size:22px;}
+
+    .tools-copy h2{font-size:22px;}
+
+    .tool-board{padding:16px;}
+
+    /* تو موبایل کوچک، تک ستونه */
+    .board-content{
+        grid-template-columns:1fr;
+        gap:10px;
     }
 
-    .timeline-glow{
-        right:22px;
-        width:18px;
-        height:18px;
-    }
+    .tool-box{min-height:auto;padding:14px;}
+    .tool-box strong{font-size:11.5px;}
+    .tool-box small{font-size:9px;}
 
-    /* ایستگاه */
-    .station{
-        grid-template-columns:44px 1fr;
-        gap:14px;
-        margin-bottom:40px;
-    }
+    .stat-value{font-size:32px;}
 
-    .station-dot{
-        width:40px;
-        height:40px;
-        font-size:11px;
-    }
-
-    .station-card{
-        padding:16px 14px;
-    }
-
-    .station-card h3{
-        font-size:15px;
-    }
-
-    .station-card p{
-        font-size:12px;
-        line-height:1.85;
-    }
-
-    .station-icon{
-        width:36px;
-        height:36px;
-        font-size:16px;
-    }
-
-    .station-task{
-        padding:8px 10px;
-        gap:6px;
-    }
-
-    .task-label{
-        font-size:8px;
-        padding:2px 6px;
-    }
-
-    .station-task span:last-child{
-        font-size:11px;
-    }
-
-    .station-meta{
-        font-size:9.5px;
-        gap:8px;
-        padding-top:10px;
-    }
-
-    /* Brain */
-    .brain{
-        width:180px;
-        height:180px;
-    }
-
-    .journey-end-message h3{
-        font-size:19px;
-    }
-
-    .journey-end-message p{
-        font-size:12.5px;
-    }
-
-    /* Terminal */
-    .terminal-body{
-        padding:14px;
-        font-size:10.5px;
-        min-height:200px;
-    }
-
-    .term-title{
-        display:none;
-    }
-
-    /* Section heading */
-    .section-heading h2{
-        font-size:22px;
-    }
-
-    /* Tools */
-    .tools-copy h2{
-        font-size:22px;
-    }
-
-    .tool-board{
-        padding:16px;
-    }
-
-    .tool-box{
-        padding:14px;
-    }
-
-    .tool-box strong{
-        font-size:12px;
-    }
-
-    .tool-box small{
-        font-size:9.5px;
-    }
-
-    /* Stats */
-    .stat-value{
-        font-size:32px;
-    }
-
-    /* Projects */
     .project,
-    .project-large{
-        padding:20px 18px;
-    }
+    .project-large{padding:20px 18px;}
 
-    .project h3{
-        font-size:17px;
-    }
+    .project h3{font-size:17px;}
 
-    /* Telegram */
-    .telegram-copy h2{
-        font-size:22px;
-    }
+    .telegram-copy h2{font-size:22px;}
+    .tg-visual{height:380px;}
+    .tg-phone{width:220px;}
+    .tg-glow{width:260px;height:260px;}
+    .tg-orbit{width:300px;height:300px;}
+    .tg-header-avatar{width:34px;height:34px;}
+    .tg-header-name{font-size:12px;}
+    .tg-msg{font-size:10.5px;}
 
-    .tg-visual{
-        height:380px;
-    }
+    .nav-cta{padding:7px 10px;font-size:10.5px;}
+    .logo{font-size:14px;}
+    .logo-mark{width:28px;height:28px;}
 
-    .tg-phone{
-        width:220px;
-    }
-
-    .tg-glow{
-        width:260px;
-        height:260px;
-    }
-
-    .tg-orbit{
-        width:300px;
-        height:300px;
-    }
-
-    .tg-header-avatar{
-        width:34px;
-        height:34px;
-    }
-
-    .tg-header-name{
-        font-size:12px;
-    }
-
-    .tg-msg{
-        font-size:10.5px;
-    }
-
-    /* Nav */
-    .nav-cta{
-        padding:7px 10px;
-        font-size:10.5px;
-    }
-
-    .logo{
-        font-size:14px;
-    }
-
-    .logo-mark{
-        width:28px;
-        height:28px;
-    }
-
-    /* Footer */
-    footer{
-        padding:32px 16px 24px;
-    }
-
-    .footer-brand h4{
-        font-size:15px;
-    }
-
-    .footer-brand p{
-        font-size:12px;
-    }
+    footer{padding:32px 16px 24px;}
+    .footer-brand h4{font-size:15px;}
+    .footer-brand p{font-size:12px;}
 }
 
 
-/* ============ کاهش انیمیشن ============ */
 @media(prefers-reduced-motion:reduce){
     *,*::before,*::after{
         animation-duration:.01ms !important;
@@ -2473,7 +1974,8 @@ footer{
 <div class="background-glow glow-two"></div>
 
 <div class="progress-bar" id="progressBar" aria-hidden="true"></div>
-<canvas id="neuralCanvas" aria-hidden="true"></canvas>
+<canvas id="neuroCanvas" aria-hidden="true"></canvas>
+
 
 <!-- =========================================================
      HEADER
@@ -2496,6 +1998,7 @@ footer{
 <a href="#tools">ابزارهای AI</a>
 <a href="#projects">پروژه‌ها</a>
 <a href="#community">جامعه</a>
+<a href="about.html">درباره</a>
 </div>
 
 <a href="#journey" class="nav-cta">شروع یادگیری</a>
@@ -2907,8 +2410,7 @@ footer{
 
 <div class="tg-header">
 <div class="tg-header-avatar">
-<img src="https://shamdun.github.io/hamsafarAI/telegram.png" ...>
-onerror="this.style.display='none';">
+<img src="https://shamdun.github.io/hamsafarAI/telegram.png" alt="همسفر AI" onerror="this.style.display='none';">
 </div>
 <div class="tg-header-info">
 <div class="tg-header-name">همسفر AI</div>
@@ -2984,7 +2486,7 @@ Hamsafar AI
 <li><a href="#journey">مسیر یادگیری</a></li>
 <li><a href="#tools">ابزارها</a></li>
 <li><a href="#projects">پروژه‌ها</a></li>
-<li><a href="#community">جامعه</a></li>
+<li><a href="about.html">درباره</a></li>
 </ul>
 </div>
 
@@ -3053,7 +2555,6 @@ function updateTimeline() {
     const rect = timeline.getBoundingClientRect();
     const vh = window.innerHeight;
 
-    // محاسبه مستقیم و روان
     const start = vh * 0.6;
     const end = -rect.height + vh * 0.4;
 
@@ -3063,7 +2564,6 @@ function updateTimeline() {
     const fillHeight = rect.height * progress;
     timelineFill.style.height = fillHeight + 'px';
 
-    // نور
     if (progress > 0.001) {
         timelineGlow.style.top = fillHeight + 'px';
         timelineGlow.style.opacity = 1;
@@ -3071,7 +2571,6 @@ function updateTimeline() {
         timelineGlow.style.opacity = 0;
     }
 
-    // فعال‌سازی ایستگاه‌ها
     stations.forEach(station => {
         const sRect = station.getBoundingClientRect();
         const sCenter = sRect.top + sRect.height / 2;
@@ -3082,7 +2581,6 @@ function updateTimeline() {
         }
     });
 
-    // مغز مقصد
     if (progress > 0.94) {
         brain.classList.add('complete');
         journeyEnd.classList.add('show');
@@ -3137,7 +2635,6 @@ async function runTerminal() {
         return;
     }
 
-    // حلقه‌ی بی‌نهایت
     while (true) {
         terminalBody.innerHTML = '';
 
@@ -3154,18 +2651,15 @@ async function runTerminal() {
             await new Promise(r => setTimeout(r, step.delay || 300));
         }
 
-        // کرسر پایانی
         const cursorLine = document.createElement('div');
         cursorLine.className = 'term-line';
         cursorLine.innerHTML = '<span class="t-prompt">$</span><span class="term-cursor"></span>';
         terminalBody.appendChild(cursorLine);
 
-        // ۳ ثانیه صبر
         await new Promise(r => setTimeout(r, 3000));
     }
 }
 
-// شروع ترمینال وقتی دید
 const terminalObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -3179,7 +2673,7 @@ if (terminalBody) terminalObserver.observe(terminalBody);
 
 
 /* =========================================================
-   NEBULA — سحابی شفاف
+   NEBULA
 ========================================================= */
 const nebulaCanvas = document.getElementById('nebulaCanvas');
 const nctx = nebulaCanvas.getContext('2d');
@@ -3194,7 +2688,6 @@ function initNebula() {
 initNebula();
 window.addEventListener('resize', () => { initNebula(); });
 
-// ابرها
 const clouds = [];
 for (let i = 0; i < 90; i++) {
     const angle = Math.random() * Math.PI * 2;
@@ -3220,7 +2713,6 @@ for (let i = 0; i < 90; i++) {
     });
 }
 
-// ستاره‌ها
 const stars = [];
 for (let i = 0; i < 150; i++) {
     const angle = Math.random() * Math.PI * 2;
@@ -3236,7 +2728,6 @@ for (let i = 0; i < 150; i++) {
     });
 }
 
-// رشته‌ها
 const filaments = [];
 for (let i = 0; i < 6; i++) {
     const baseAngle = (i / 6) * Math.PI * 2 + Math.random() * 0.5;
@@ -3264,12 +2755,10 @@ function drawNebula() {
     const CX = W / 2;
     const CY = H / 2;
 
-    // پاک کردن شفاف (نه پر کردن)
     nctx.clearRect(0, 0, W, H);
 
     nebulaTime += 0.008;
 
-    // هاله بیرونی
     const outerHalo = nctx.createRadialGradient(CX, CY, 0, CX, CY, 300);
     outerHalo.addColorStop(0, 'rgba(245, 158, 11, 0.05)');
     outerHalo.addColorStop(0.5, 'rgba(245, 158, 11, 0.02)');
@@ -3277,7 +2766,6 @@ function drawNebula() {
     nctx.fillStyle = outerHalo;
     nctx.fillRect(0, 0, W, H);
 
-    // ابرها
     clouds.forEach(c => {
         c.x += c.vx;
         c.y += c.vy;
@@ -3302,7 +2790,6 @@ function drawNebula() {
         nctx.fill();
     });
 
-    // رشته‌ها
     filaments.forEach(f => {
         nctx.beginPath();
         const rot = nebulaTime * 0.1;
@@ -3326,7 +2813,6 @@ function drawNebula() {
         nctx.stroke();
     });
 
-    // ستاره‌ها
     stars.forEach(s => {
         const rot = nebulaTime * 0.15;
         const cos = Math.cos(rot);
@@ -3359,7 +2845,6 @@ function drawNebula() {
         nctx.fill();
     });
 
-    // هسته
     const coreBreath = 1 + Math.sin(nebulaTime * 1.5) * 0.1;
     const coreSize = 60 * coreBreath;
 
@@ -3374,7 +2859,6 @@ function drawNebula() {
     nctx.arc(CX, CY, coreSize, 0, Math.PI * 2);
     nctx.fill();
 
-    // نقطه‌ی سفید
     const dot = nctx.createRadialGradient(CX, CY, 0, CX, CY, 10);
     dot.addColorStop(0, 'rgba(255, 255, 255, 1)');
     dot.addColorStop(1, 'rgba(255, 255, 255, 0)');
@@ -3389,105 +2873,6 @@ function drawNebula() {
 if (!prefersReduced) {
     drawNebula();
 }
-
-
-/* =========================================================
-   TYPE-IN EVERYTHING — همه نوشته‌ها
-========================================================= */
-
-// همه عناصری که باید تایپ بشن
-const typeSelectors = [
-    '.hero-title',
-    '.hero-text',
-    '.intro h2',
-    '.intro p',
-    '.journey-header h2',
-    '.journey-header p',
-    '.section-heading h2',
-    '.section-heading p',
-    '.tools-copy h2',
-    '.tools-copy p',
-    '.telegram-copy h2',
-    '.telegram-copy p',
-    '.station-card h3',
-    '.station-card p',
-    '.station-task span:last-child',
-    '.project h3',
-    '.project p',
-    '.stat-label',
-    '.journey-end-message h3',
-    '.journey-end-message p',
-    '.footer-brand p',
-    '.footer-col a'
-].join(', ');
-
-const typeTargets = document.querySelectorAll(typeSelectors);
-
-// آماده‌سازی: هر عنصر رو پاک کن و متن رو ذخیره کن
-typeTargets.forEach(el => {
-    // متن اصلی رو ذخیره کن
-    const originalText = el.textContent.trim();
-    if (!originalText) return;
-
-    el.dataset.originalText = originalText;
-    el.dataset.typed = 'false';
-    el.classList.add('type-target');
-    el.textContent = '';
-});
-
-// تایپ یه عنصر
-function typeElement(el) {
-    if (el.dataset.typed === 'true') return;
-    el.dataset.typed = 'true';
-
-    const text = el.dataset.originalText;
-    if (!text) return;
-
-    el.classList.add('is-typing');
-    el.textContent = '';
-
-    // کاراکترها رو با span بساز
-    const chars = [];
-    for (let i = 0; i < text.length; i++) {
-        const span = document.createElement('span');
-        span.className = 'type-char';
-        if (text[i] === ' ') {
-            span.classList.add('space');
-            span.innerHTML = '&nbsp;';
-        } else if (text[i] === '\n') {
-            span.innerHTML = '<br>';
-            span.className = 'type-char visible';
-        } else {
-            span.textContent = text[i];
-        }
-        el.appendChild(span);
-        chars.push(span);
-    }
-
-    // سرعت تایپ — بر اساس طول متن
-    const speed = text.length > 100 ? 35 : 60;
-
-    chars.forEach((span, i) => {
-        setTimeout(() => {
-            span.classList.add('visible');
-            if (i === chars.length - 1) {
-                el.classList.remove('is-typing');
-            }
-        }, i * speed);
-    });
-}
-
-// observer
-const typeObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            typeElement(entry.target);
-            typeObserver.unobserve(entry.target);
-        }
-    });
-}, { threshold: 0.15, rootMargin: '0px 0px -30px 0px' });
-
-typeTargets.forEach(el => typeObserver.observe(el));
 
 
 /* =========================================================
@@ -3527,112 +2912,295 @@ document.querySelectorAll('.stat-value').forEach(el => counterObserver.observe(e
    INIT
 ========================================================= */
 setTimeout(updateTimeline, 200);
+
+
 /* =========================================================
-   NEURAL CANVAS — شبکه‌ای که به موس وصل می‌شه
+   NEUROMORPHIC + PARALLAX CANVAS
 ========================================================= */
-const neuralCanvas = document.getElementById('neuralCanvas');
-const nctx2 = neuralCanvas.getContext('2d');
+const neuroCanvas = document.getElementById('neuroCanvas');
+const neuroCtx = neuroCanvas.getContext('2d');
 
-let neuralParticles = [];
-let neuralMouse = { x: -1000, y: -1000 };
-let neuralAnimId;
+let W, H;
 
-function resizeNeural() {
-    neuralCanvas.width = window.innerWidth;
-    neuralCanvas.height = window.innerHeight;
-    initNeuralParticles();
+function resizeNeuro() {
+    W = neuroCanvas.width = window.innerWidth;
+    H = neuroCanvas.height = window.innerHeight;
 }
+resizeNeuro();
+window.addEventListener('resize', () => { resizeNeuro(); initNeuro(); });
 
-function initNeuralParticles() {
-    const count = window.innerWidth < 768 ? 25 : 55;
-    neuralParticles = [];
-    for (let i = 0; i < count; i++) {
-        neuralParticles.push({
-            x: Math.random() * neuralCanvas.width,
-            y: Math.random() * neuralCanvas.height,
-            vx: (Math.random() - 0.5) * 0.3,
-            vy: (Math.random() - 0.5) * 0.3,
-            r: Math.random() * 1.4 + 0.6
+const LAYERS = [
+    { name: 'back',  count: 40, depth: 0.3, speed: 0.15, size: 0.7, opacity: 0.25 },
+    { name: 'mid',   count: 30, depth: 0.6, speed: 0.3,  size: 1.1, opacity: 0.5 },
+    { name: 'front', count: 18, depth: 1.0, speed: 0.5,  size: 1.8, opacity: 0.95 }
+];
+
+const MAX_DIST_BACK  = 180;
+const MAX_DIST_MID   = 200;
+const MAX_DIST_FRONT = 240;
+const MOUSE_RADIUS = 200;
+
+let layers = [];
+let neuroMouse = { x: -1000, y: -1000 };
+let clicks = [];
+let pulses = [];
+let neuroTime = 0;
+
+function initNeuro() {
+    layers = LAYERS.map(layer => {
+        const nodes = [];
+        for (let i = 0; i < layer.count; i++) {
+            nodes.push({
+                x: Math.random() * W,
+                y: Math.random() * H,
+                vx: (Math.random() - 0.5) * layer.speed,
+                vy: (Math.random() - 0.5) * layer.speed,
+                size: layer.size * (0.7 + Math.random() * 0.6),
+                pulse: Math.random() * Math.PI * 2,
+                pulseSpeed: 1 + Math.random() * 2
+            });
+        }
+        return { ...layer, nodes };
+    });
+}
+initNeuro();
+
+window.addEventListener('mousemove', (e) => {
+    neuroMouse.x = e.clientX;
+    neuroMouse.y = e.clientY;
+}, { passive: true });
+
+window.addEventListener('mouseleave', () => {
+    neuroMouse.x = -1000;
+    neuroMouse.y = -1000;
+});
+
+window.addEventListener('click', (e) => {
+    clicks.push({
+        x: e.clientX,
+        y: e.clientY,
+        r: 0,
+        maxR: 200,
+        life: 1
+    });
+});
+
+function spawnPulse() {
+    const frontLayer = layers[2];
+    if (!frontLayer || !frontLayer.nodes.length) return;
+
+    const source = frontLayer.nodes[Math.floor(Math.random() * frontLayer.nodes.length)];
+    const nearby = [];
+
+    frontLayer.nodes.forEach(n => {
+        if (n === source) return;
+        const d = Math.hypot(n.x - source.x, n.y - source.y);
+        if (d < 250) nearby.push({ node: n, dist: d });
+    });
+
+    if (nearby.length === 0) return;
+
+    const count = 1 + Math.floor(Math.random() * 3);
+    nearby.sort((a, b) => a.dist - b.dist);
+
+    for (let i = 0; i < Math.min(count, nearby.length); i++) {
+        pulses.push({
+            fromX: source.x,
+            fromY: source.y,
+            toX: nearby[i].node.x,
+            toY: nearby[i].node.y,
+            t: 0,
+            speed: 0.02 + Math.random() * 0.02,
+            color: Math.random() > 0.5 ? 'cyan' : 'orange'
         });
     }
 }
 
-function drawNeural() {
-    nctx2.clearRect(0, 0, neuralCanvas.width, neuralCanvas.height);
+setInterval(spawnPulse, 800);
 
-    // خطوط بین ذرات نزدیک
-    for (let i = 0; i < neuralParticles.length; i++) {
-        const p = neuralParticles[i];
+function drawNeuro() {
+    if (prefersReduced) return;
 
-        for (let j = i + 1; j < neuralParticles.length; j++) {
-            const p2 = neuralParticles[j];
-            const dx = p.x - p2.x;
-            const dy = p.y - p2.y;
-            const dist = Math.sqrt(dx * dx + dy * dy);
+    neuroCtx.clearRect(0, 0, W, H);
+    neuroTime += 0.016;
 
-            if (dist < 130) {
-                const opacity = 0.1 * (1 - dist / 130);
-                nctx2.beginPath();
-                nctx2.moveTo(p.x, p.y);
-                nctx2.lineTo(p2.x, p2.y);
-                nctx2.strokeStyle = 'rgba(34, 211, 238, ' + opacity + ')';
-                nctx2.lineWidth = 0.6;
-                nctx2.stroke();
+    const bgGrad = neuroCtx.createRadialGradient(W/2, H/2, 0, W/2, H/2, Math.max(W, H) * 0.7);
+    bgGrad.addColorStop(0, 'rgba(10, 30, 45, 0.4)');
+    bgGrad.addColorStop(1, 'rgba(7, 25, 35, 0.9)');
+    neuroCtx.fillStyle = bgGrad;
+    neuroCtx.fillRect(0, 0, W, H);
+
+    layers.forEach((layer, layerIndex) => {
+        layer.nodes.forEach(node => {
+            node.x += node.vx;
+            node.y += node.vy;
+
+            if (node.x < -50) node.x = W + 50;
+            if (node.x > W + 50) node.x = -50;
+            if (node.y < -50) node.y = H + 50;
+            if (node.y > H + 50) node.y = -50;
+
+            if (layerIndex === 2 && neuroMouse.x > 0) {
+                const dx = neuroMouse.x - node.x;
+                const dy = neuroMouse.y - node.y;
+                const d = Math.hypot(dx, dy);
+
+                if (d < MOUSE_RADIUS) {
+                    const force = (1 - d / MOUSE_RADIUS) * 0.5;
+                    node.x += dx * force * 0.03;
+                    node.y += dy * force * 0.03;
+                }
+            }
+        });
+    });
+
+    layers.forEach((layer, layerIndex) => {
+        const maxDist = layerIndex === 0 ? MAX_DIST_BACK :
+                        layerIndex === 1 ? MAX_DIST_MID :
+                        MAX_DIST_FRONT;
+
+        for (let i = 0; i < layer.nodes.length; i++) {
+            const a = layer.nodes[i];
+            for (let j = i + 1; j < layer.nodes.length; j++) {
+                const b = layer.nodes[j];
+                const d = Math.hypot(a.x - b.x, a.y - b.y);
+
+                if (d < maxDist) {
+                    const opacity = (1 - d / maxDist) * layer.opacity * 0.5;
+
+                    if (layerIndex === 2) {
+                        const grad = neuroCtx.createLinearGradient(a.x, a.y, b.x, b.y);
+                        grad.addColorStop(0, `rgba(34, 211, 238, ${opacity})`);
+                        grad.addColorStop(1, `rgba(245, 158, 11, ${opacity})`);
+                        neuroCtx.strokeStyle = grad;
+                    } else {
+                        neuroCtx.strokeStyle = `rgba(34, 211, 238, ${opacity})`;
+                    }
+
+                    neuroCtx.lineWidth = layerIndex === 2 ? 1.2 : 0.6;
+                    neuroCtx.beginPath();
+                    neuroCtx.moveTo(a.x, a.y);
+                    neuroCtx.lineTo(b.x, b.y);
+                    neuroCtx.stroke();
+                }
+            }
+
+            if (layerIndex === 2 && neuroMouse.x > 0) {
+                const md = Math.hypot(a.x - neuroMouse.x, a.y - neuroMouse.y);
+                if (md < MOUSE_RADIUS) {
+                    const opacity = (1 - md / MOUSE_RADIUS) * 0.6;
+                    neuroCtx.strokeStyle = `rgba(254, 243, 199, ${opacity})`;
+                    neuroCtx.lineWidth = 1;
+                    neuroCtx.beginPath();
+                    neuroCtx.moveTo(a.x, a.y);
+                    neuroCtx.lineTo(neuroMouse.x, neuroMouse.y);
+                    neuroCtx.stroke();
+                }
             }
         }
 
-        // خط به موس (نارنجی)
-        const mdx = p.x - neuralMouse.x;
-        const mdy = p.y - neuralMouse.y;
-        const mdist = Math.sqrt(mdx * mdx + mdy * mdy);
-        if (mdist < 170) {
-            const opacity = 0.25 * (1 - mdist / 170);
-            nctx2.beginPath();
-            nctx2.moveTo(p.x, p.y);
-            nctx2.lineTo(neuralMouse.x, neuralMouse.y);
-            nctx2.strokeStyle = 'rgba(245, 158, 11, ' + opacity + ')';
-            nctx2.lineWidth = 0.7;
-            nctx2.stroke();
-        }
+        layer.nodes.forEach(node => {
+            const pulse = 0.7 + Math.sin(neuroTime * node.pulseSpeed + node.pulse) * 0.3;
+
+            if (layerIndex === 2) {
+                const glow = neuroCtx.createRadialGradient(node.x, node.y, 0, node.x, node.y, node.size * 8);
+                glow.addColorStop(0, `rgba(34, 211, 238, ${layer.opacity * pulse * 0.6})`);
+                glow.addColorStop(1, 'rgba(34, 211, 238, 0)');
+                neuroCtx.fillStyle = glow;
+                neuroCtx.beginPath();
+                neuroCtx.arc(node.x, node.y, node.size * 8, 0, Math.PI * 2);
+                neuroCtx.fill();
+            }
+
+            neuroCtx.beginPath();
+            neuroCtx.arc(node.x, node.y, node.size * pulse, 0, Math.PI * 2);
+            neuroCtx.fillStyle = `rgba(34, 211, 238, ${layer.opacity * pulse})`;
+            neuroCtx.fill();
+
+            if (layerIndex === 2 && node.size > 1.5) {
+                neuroCtx.beginPath();
+                neuroCtx.arc(node.x, node.y, node.size * 0.4 * pulse, 0, Math.PI * 2);
+                neuroCtx.fillStyle = `rgba(254, 243, 199, ${layer.opacity * pulse})`;
+                neuroCtx.fill();
+            }
+        });
+    });
+
+    pulses = pulses.filter(pulse => {
+        pulse.t += pulse.speed;
+        if (pulse.t >= 1) return false;
+
+        const x = pulse.fromX + (pulse.toX - pulse.fromX) * pulse.t;
+        const y = pulse.fromY + (pulse.toY - pulse.fromY) * pulse.t;
+
+        const trailLen = 0.25;
+        const t0 = Math.max(0, pulse.t - trailLen);
+        const tx = pulse.fromX + (pulse.toX - pulse.fromX) * t0;
+        const ty = pulse.fromY + (pulse.toY - pulse.fromY) * t0;
+
+        const grad = neuroCtx.createLinearGradient(tx, ty, x, y);
+        const rgb = pulse.color === 'cyan' ? '34, 211, 238' : '245, 158, 11';
+        grad.addColorStop(0, `rgba(${rgb}, 0)`);
+        grad.addColorStop(1, `rgba(${rgb}, 1)`);
+
+        neuroCtx.strokeStyle = grad;
+        neuroCtx.lineWidth = 2;
+        neuroCtx.lineCap = 'round';
+        neuroCtx.beginPath();
+        neuroCtx.moveTo(tx, ty);
+        neuroCtx.lineTo(x, y);
+        neuroCtx.stroke();
+
+        const glow = neuroCtx.createRadialGradient(x, y, 0, x, y, 12);
+        glow.addColorStop(0, `rgba(255, 255, 255, 1)`);
+        glow.addColorStop(0.4, `rgba(${rgb}, 0.6)`);
+        glow.addColorStop(1, `rgba(${rgb}, 0)`);
+        neuroCtx.fillStyle = glow;
+        neuroCtx.beginPath();
+        neuroCtx.arc(x, y, 12, 0, Math.PI * 2);
+        neuroCtx.fill();
+
+        return true;
+    });
+
+    clicks = clicks.filter(click => {
+        click.r += 3;
+        click.life = 1 - click.r / click.maxR;
+
+        if (click.life <= 0) return false;
+
+        neuroCtx.beginPath();
+        neuroCtx.arc(click.x, click.y, click.r, 0, Math.PI * 2);
+        neuroCtx.strokeStyle = `rgba(34, 211, 238, ${click.life * 0.8})`;
+        neuroCtx.lineWidth = 2;
+        neuroCtx.stroke();
+
+        neuroCtx.beginPath();
+        neuroCtx.arc(click.x, click.y, click.r * 0.6, 0, Math.PI * 2);
+        neuroCtx.strokeStyle = `rgba(245, 158, 11, ${click.life * 0.5})`;
+        neuroCtx.lineWidth = 1;
+        neuroCtx.stroke();
+
+        return true;
+    });
+
+    if (neuroMouse.x > 0) {
+        const mouseGlow = neuroCtx.createRadialGradient(neuroMouse.x, neuroMouse.y, 0, neuroMouse.x, neuroMouse.y, 60);
+        mouseGlow.addColorStop(0, 'rgba(254, 243, 199, 0.3)');
+        mouseGlow.addColorStop(1, 'rgba(254, 243, 199, 0)');
+        neuroCtx.fillStyle = mouseGlow;
+        neuroCtx.beginPath();
+        neuroCtx.arc(neuroMouse.x, neuroMouse.y, 60, 0, Math.PI * 2);
+        neuroCtx.fill();
     }
 
-    // ذرات
-    for (const p of neuralParticles) {
-        p.x += p.vx;
-        p.y += p.vy;
-
-        if (p.x < 0 || p.x > neuralCanvas.width) p.vx *= -1;
-        if (p.y < 0 || p.y > neuralCanvas.height) p.vy *= -1;
-
-        nctx2.beginPath();
-        nctx2.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        nctx2.fillStyle = 'rgba(34, 211, 238, 0.5)';
-        nctx2.fill();
-    }
-
-    neuralAnimId = requestAnimationFrame(drawNeural);
+    requestAnimationFrame(drawNeuro);
 }
 
 if (!prefersReduced) {
-    resizeNeural();
-    drawNeural();
-
-    window.addEventListener('resize', resizeNeural);
-
-    window.addEventListener('mousemove', (e) => {
-        neuralMouse.x = e.clientX;
-        neuralMouse.y = e.clientY;
-    }, { passive: true });
-
-    window.addEventListener('mouseleave', () => {
-        neuralMouse.x = -1000;
-        neuralMouse.y = -1000;
-    });
-} else {
-    resizeNeural();
-    drawNeural();
-    cancelAnimationFrame(neuralAnimId);
+    drawNeuro();
 }
+
 </script>
 
 </body>

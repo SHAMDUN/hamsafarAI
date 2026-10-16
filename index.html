@@ -112,6 +112,13 @@ section{position:relative;}
     opacity:.08;
     z-index:0;
 }
+   #neuralCanvas{
+    position:fixed;
+    inset:0;
+    z-index:1;
+    pointer-events:none;
+    opacity:.55;
+}
 
 .glow-one{background:var(--cyan);top:-300px;right:-250px;}
 .glow-two{background:var(--orange);bottom:-300px;left:-250px;}
@@ -1734,7 +1741,7 @@ footer{
 <div class="background-glow glow-two"></div>
 
 <div class="progress-bar" id="progressBar" aria-hidden="true"></div>
-
+<canvas id="neuralCanvas" aria-hidden="true"></canvas>
 
 <!-- =========================================================
      HEADER
@@ -2827,7 +2834,112 @@ document.querySelectorAll('.stat-value').forEach(el => counterObserver.observe(e
    INIT
 ========================================================= */
 setTimeout(updateTimeline, 200);
+/* =========================================================
+   NEURAL CANVAS — شبکه‌ای که به موس وصل می‌شه
+========================================================= */
+const neuralCanvas = document.getElementById('neuralCanvas');
+const nctx2 = neuralCanvas.getContext('2d');
 
+let neuralParticles = [];
+let neuralMouse = { x: -1000, y: -1000 };
+let neuralAnimId;
+
+function resizeNeural() {
+    neuralCanvas.width = window.innerWidth;
+    neuralCanvas.height = window.innerHeight;
+    initNeuralParticles();
+}
+
+function initNeuralParticles() {
+    const count = window.innerWidth < 768 ? 25 : 55;
+    neuralParticles = [];
+    for (let i = 0; i < count; i++) {
+        neuralParticles.push({
+            x: Math.random() * neuralCanvas.width,
+            y: Math.random() * neuralCanvas.height,
+            vx: (Math.random() - 0.5) * 0.3,
+            vy: (Math.random() - 0.5) * 0.3,
+            r: Math.random() * 1.4 + 0.6
+        });
+    }
+}
+
+function drawNeural() {
+    nctx2.clearRect(0, 0, neuralCanvas.width, neuralCanvas.height);
+
+    // خطوط بین ذرات نزدیک
+    for (let i = 0; i < neuralParticles.length; i++) {
+        const p = neuralParticles[i];
+
+        for (let j = i + 1; j < neuralParticles.length; j++) {
+            const p2 = neuralParticles[j];
+            const dx = p.x - p2.x;
+            const dy = p.y - p2.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+
+            if (dist < 130) {
+                const opacity = 0.1 * (1 - dist / 130);
+                nctx2.beginPath();
+                nctx2.moveTo(p.x, p.y);
+                nctx2.lineTo(p2.x, p2.y);
+                nctx2.strokeStyle = 'rgba(34, 211, 238, ' + opacity + ')';
+                nctx2.lineWidth = 0.6;
+                nctx2.stroke();
+            }
+        }
+
+        // خط به موس (نارنجی)
+        const mdx = p.x - neuralMouse.x;
+        const mdy = p.y - neuralMouse.y;
+        const mdist = Math.sqrt(mdx * mdx + mdy * mdy);
+        if (mdist < 170) {
+            const opacity = 0.25 * (1 - mdist / 170);
+            nctx2.beginPath();
+            nctx2.moveTo(p.x, p.y);
+            nctx2.lineTo(neuralMouse.x, neuralMouse.y);
+            nctx2.strokeStyle = 'rgba(245, 158, 11, ' + opacity + ')';
+            nctx2.lineWidth = 0.7;
+            nctx2.stroke();
+        }
+    }
+
+    // ذرات
+    for (const p of neuralParticles) {
+        p.x += p.vx;
+        p.y += p.vy;
+
+        if (p.x < 0 || p.x > neuralCanvas.width) p.vx *= -1;
+        if (p.y < 0 || p.y > neuralCanvas.height) p.vy *= -1;
+
+        nctx2.beginPath();
+        nctx2.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        nctx2.fillStyle = 'rgba(34, 211, 238, 0.5)';
+        nctx2.fill();
+    }
+
+    neuralAnimId = requestAnimationFrame(drawNeural);
+}
+
+if (!prefersReduced) {
+    resizeNeural();
+    drawNeural();
+
+    window.addEventListener('resize', resizeNeural);
+
+    window.addEventListener('mousemove', (e) => {
+        neuralMouse.x = e.clientX;
+        neuralMouse.y = e.clientY;
+    }, { passive: true });
+
+    window.addEventListener('mouseleave', () => {
+        neuralMouse.x = -1000;
+        neuralMouse.y = -1000;
+    });
+} else {
+    resizeNeural();
+    drawNeural();
+    cancelAnimationFrame(neuralAnimId);
+}
 </script>
 
 </body>

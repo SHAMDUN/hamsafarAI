@@ -1,0 +1,21 @@
+name: Set Telegram Webhook
+
+on:
+  workflow_dispatch:
+
+jobs:
+  set-webhook:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Set Webhook
+        run: |
+          curl -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/setWebhook" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "url": "https://yakalqyryegakukobtwu.supabase.co/functions/v1/admin-bot"
+            }'
+      
+      - name: Check Webhook
+        run: |
+          curl "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/getWebhookInfo"

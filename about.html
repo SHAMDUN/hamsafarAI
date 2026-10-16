@@ -139,6 +139,9 @@ section{position:relative;}
 /* =========================================================
    TYPE-IN
 ========================================================= */
+.type-target{
+    /* ارتفاع قبل از تایپ رزرو می‌شه که layout نپره */
+}
 .type-target .type-char{
     opacity:0;
     display:inline;
@@ -301,12 +304,14 @@ header.scrolled .navbar{height:70px;}
     justify-content:center;
 }
 
+/* تیتر: تو دسکتاپ یه خط، تو موبایل می‌شکنه */
 .about-hero h1{
-    font-size:clamp(38px, 6vw, 68px);
+    font-size:clamp(32px, 5.5vw, 68px);
     font-weight:900;
-    line-height:1.15;
-    letter-spacing:-2.5px;
+    line-height:1.2;
+    letter-spacing:-2px;
     margin-bottom:24px;
+    white-space:nowrap;
 }
 
 .about-hero h1 .orange{color:var(--orange);}
@@ -315,6 +320,7 @@ header.scrolled .navbar{height:70px;}
     color:var(--cyan);
     position:relative;
     display:inline-block;
+    margin-right:4px;
 }
 
 .about-hero h1 .cyan::after{
@@ -358,6 +364,14 @@ header.scrolled .navbar{height:70px;}
     max-width:340px;
     margin:0 auto;
     aspect-ratio:1;
+    /* ظرف بیرونی برای حلقه‌ها */
+    padding:0;
+}
+
+.me-avatar-inner{
+    position:relative;
+    width:100%;
+    height:100%;
 }
 
 .me-avatar-ring{
@@ -911,6 +925,10 @@ footer{
     .values-grid{
         grid-template-columns:repeat(2, 1fr);
     }
+
+    .about-hero h1{
+        font-size:clamp(30px, 5vw, 56px);
+    }
 }
 
 
@@ -943,10 +961,12 @@ footer{
         top:40%;
     }
 
+    /* تیتر: تو موبایل می‌شکنه ولی علامت سوال سر جاشه */
     .about-hero h1{
-        font-size:clamp(30px, 9vw, 42px);
-        letter-spacing:-1.5px;
-        line-height:1.2;
+        font-size:clamp(26px, 8vw, 40px);
+        letter-spacing:-1px;
+        line-height:1.25;
+        white-space:normal;
         margin-bottom:20px;
     }
 
@@ -962,16 +982,17 @@ footer{
 
     .me-inner{
         grid-template-columns:1fr;
-        gap:40px;
+        gap:36px;
         text-align:center;
     }
 
     .me-avatar{
-        max-width:200px;
+        max-width:180px;
+        margin:0 auto;
     }
 
-    .me-avatar-ring{inset:-12px;}
-    .me-avatar-ring2{inset:-24px;}
+    .me-avatar-ring{inset:-10px;}
+    .me-avatar-ring2{inset:-20px;}
 
     .me-content h2{
         font-size:24px;
@@ -1079,14 +1100,14 @@ footer{
 
     .about-hero{padding:100px 0 40px;}
 
-    .about-hero h1{font-size:28px;}
+    .about-hero h1{font-size:26px;}
 
     .me{padding:40px 0;}
 
-    .me-avatar{max-width:160px;}
+    .me-avatar{max-width:150px;}
 
-    .me-avatar-ring{inset:-10px;}
-    .me-avatar-ring2{inset:-20px;}
+    .me-avatar-ring{inset:-8px;}
+    .me-avatar-ring2{inset:-16px;}
 
     .me-content h2{font-size:20px;}
 
@@ -1187,10 +1208,7 @@ footer{
 
 <div class="label">about_hamsafar</div>
 
-<h1>
-چرا <span class="orange">همسفر</span>
-<span class="cyan">AI</span>؟
-</h1>
+<h1>چرا <span class="orange">همسفر</span> <span class="cyan">AI</span>؟</h1>
 
 <p>
 این صفحه داستان کوتاه ماست.
@@ -1210,10 +1228,12 @@ footer{
 <div class="container me-inner">
 
 <div class="me-avatar reveal">
+<div class="me-avatar-inner">
 <div class="me-avatar-ring"></div>
 <div class="me-avatar-ring2"></div>
 <div class="me-avatar-img">
 <img src="./telegram.png" alt="همسفر AI">
+</div>
 </div>
 </div>
 
@@ -1486,15 +1506,6 @@ const typeSelectors = [
 
 const typeTargets = document.querySelectorAll(typeSelectors);
 
-typeTargets.forEach(el => {
-    const originalText = el.textContent.trim();
-    if (!originalText) return;
-    el.dataset.originalText = originalText;
-    el.dataset.typed = 'false';
-    el.classList.add('type-target');
-    el.textContent = '';
-});
-
 function typeElement(el) {
     if (el.dataset.typed === 'true') return;
     el.dataset.typed = 'true';
@@ -1543,7 +1554,48 @@ const typeObserver = new IntersectionObserver((entries) => {
     });
 }, { threshold: 0.15, rootMargin: '0px 0px -30px 0px' });
 
-typeTargets.forEach(el => typeObserver.observe(el));
+
+/* =========================================================
+   آماده‌سازی تایپ — بعد از لود کامل صفحه
+   ارتفاع رزرو می‌شه که layout نپره
+========================================================= */
+window.addEventListener('load', () => {
+
+    typeTargets.forEach(el => {
+        const originalText = el.textContent.trim();
+        if (!originalText) return;
+
+        el.dataset.originalText = originalText;
+        el.dataset.typed = 'false';
+        el.classList.add('type-target');
+
+        // ارتفاع واقعی رو با clone اندازه‌گیری کن
+        const clone = el.cloneNode(true);
+        clone.style.position = 'absolute';
+        clone.style.visibility = 'hidden';
+        clone.style.pointerEvents = 'none';
+        clone.style.width = el.offsetWidth + 'px';
+        clone.style.height = 'auto';
+        clone.style.minHeight = '0';
+        clone.style.whiteSpace = getComputedStyle(el).whiteSpace || 'normal';
+        clone.style.top = '-99999px';
+        clone.style.right = '0';
+        document.body.appendChild(clone);
+        const realHeight = clone.offsetHeight;
+        document.body.removeChild(clone);
+
+        // ارتفاع رو رزرو کن
+        if (realHeight > 0) {
+            el.style.minHeight = realHeight + 'px';
+        }
+
+        // متن رو خالی کن (فضا حفظ می‌شه)
+        el.textContent = '';
+    });
+
+    // حالا observer رو راه بنداز
+    typeTargets.forEach(el => typeObserver.observe(el));
+});
 
 
 /* =========================================================

@@ -1978,47 +1978,146 @@ footer{
 <!-- مقصد -->
 <div class="destination">
 <div class="brain" id="brain">
-<svg viewBox="-120 -120 240 240">
-<circle class="brain-ring" cx="0" cy="0" r="110"/>
-<g>
-<line class="brain-line" x1="-60" y1="-35" x2="0" y2="-70"/>
-<line class="brain-line" x1="0" y1="-70" x2="60" y2="-35"/>
-<line class="brain-line" x1="60" y1="-35" x2="60" y2="35"/>
-<line class="brain-line" x1="60" y1="35" x2="0" y2="70"/>
-<line class="brain-line" x1="0" y1="70" x2="-60" y2="35"/>
-<line class="brain-line" x1="-60" y1="35" x2="-60" y2="-35"/>
-<line class="brain-line" x1="-60" y1="-35" x2="0" y2="0"/>
-<line class="brain-line" x1="0" y1="-70" x2="0" y2="0"/>
-<line class="brain-line" x1="60" y1="-35" x2="0" y2="0"/>
-<line class="brain-line" x1="60" y1="35" x2="0" y2="0"/>
-<line class="brain-line" x1="0" y1="70" x2="0" y2="0"/>
-<line class="brain-line" x1="-60" y1="35" x2="0" y2="0"/>
-<line class="brain-line" x1="-60" y1="-35" x2="-100" y2="-70"/>
-<line class="brain-line" x1="60" y1="-35" x2="100" y2="-70"/>
-<line class="brain-line" x1="-60" y1="35" x2="-100" y2="70"/>
-<line class="brain-line" x1="60" y1="35" x2="100" y2="70"/>
-<line class="brain-line" x1="0" y1="-70" x2="0" y2="-105"/>
-<line class="brain-line" x1="0" y1="70" x2="0" y2="105"/>
-<line class="brain-line" x1="-100" y1="-70" x2="-100" y2="0"/>
-<line class="brain-line" x1="100" y1="-70" x2="100" y2="0"/>
-<line class="brain-line" x1="-100" y1="0" x2="-100" y2="70"/>
-<line class="brain-line" x1="100" y1="0" x2="100" y2="70"/>
+<svg viewBox="-150 -130 300 260" xmlns="http://www.w3.org/2000/svg">
+
+<!-- حلقه‌های چرخان بیرونی -->
+<ellipse class="brain-ring" cx="0" cy="0" rx="135" ry="115"/>
+<ellipse class="brain-ring" cx="0" cy="0" rx="120" ry="100" style="animation-duration:45s; animation-direction:reverse;"/>
+
+<!-- ============================
+     اتصالات عصبی
+============================ -->
+<g class="brain-connections">
+
+<!-- اتصالات نیم‌کره چپ -->
+<line class="brain-line" x1="-70" y1="-60" x2="-90" y2="-20"/>
+<line class="brain-line" x1="-90" y1="-20" x2="-100" y2="20"/>
+<line class="brain-line" x1="-100" y1="20" x2="-80" y2="55"/>
+<line class="brain-line" x1="-80" y1="55" x2="-50" y2="75"/>
+<line class="brain-line" x1="-50" y1="75" x2="-15" y2="80"/>
+<line class="brain-line" x1="-70" y1="-60" x2="-40" y2="-80"/>
+<line class="brain-line" x1="-40" y1="-80" x2="0" y2="-85"/>
+<line class="brain-line" x1="-70" y1="-60" x2="-50" y2="-25"/>
+<line class="brain-line" x1="-50" y1="-25" x2="-60" y2="15"/>
+<line class="brain-line" x1="-60" y1="15" x2="-45" y2="50"/>
+<line class="brain-line" x1="-45" y1="50" x2="-15" y2="65"/>
+<line class="brain-line" x1="-50" y1="-25" x2="-25" y2="-15"/>
+<line class="brain-line" x1="-25" y1="-15" x2="-30" y2="20"/>
+<line class="brain-line" x1="-30" y1="20" x2="-15" y2="50"/>
+<line class="brain-line" x1="-25" y1="-15" x2="-5" y2="-40"/>
+<line class="brain-line" x1="-5" y1="-40" x2="-10" y2="0"/>
+<line class="brain-line" x1="-10" y1="0" x2="-5" y2="30"/>
+<line class="brain-line" x1="-90" y1="-20" x2="-60" y2="15"/>
+<line class="brain-line" x1="-80" y1="55" x2="-45" y2="50"/>
+<line class="brain-line" x1="-40" y1="-80" x2="-25" y2="-15"/>
+<line class="brain-line" x1="-5" y1="-40" x2="0" y2="-85"/>
+<line class="brain-line" x1="-5" y1="-40" x2="-10" y2="0"/>
+<line class="brain-line" x1="-10" y1="0" x2="-5" y2="30"/>
+
+<!-- اتصالات نیم‌کره راست -->
+<line class="brain-line" x1="70" y1="-60" x2="90" y2="-20"/>
+<line class="brain-line" x1="90" y1="-20" x2="100" y2="20"/>
+<line class="brain-line" x1="100" y1="20" x2="80" y2="55"/>
+<line class="brain-line" x1="80" y1="55" x2="50" y2="75"/>
+<line class="brain-line" x1="50" y1="75" x2="15" y2="80"/>
+<line class="brain-line" x1="70" y1="-60" x2="40" y2="-80"/>
+<line class="brain-line" x1="40" y1="-80" x2="0" y2="-85"/>
+<line class="brain-line" x1="70" y1="-60" x2="50" y2="-25"/>
+<line class="brain-line" x1="50" y1="-25" x2="60" y2="15"/>
+<line class="brain-line" x1="60" y1="15" x2="45" y2="50"/>
+<line class="brain-line" x1="45" y1="50" x2="15" y2="65"/>
+<line class="brain-line" x1="50" y1="-25" x2="25" y2="-15"/>
+<line class="brain-line" x1="25" y1="-15" x2="30" y2="20"/>
+<line class="brain-line" x1="30" y1="20" x2="15" y2="50"/>
+<line class="brain-line" x1="25" y1="-15" x2="5" y2="-40"/>
+<line class="brain-line" x1="5" y1="-40" x2="10" y2="0"/>
+<line class="brain-line" x1="10" y1="0" x2="5" y2="30"/>
+<line class="brain-line" x1="90" y1="-20" x2="60" y2="15"/>
+<line class="brain-line" x1="80" y1="55" x2="45" y2="50"/>
+<line class="brain-line" x1="40" y1="-80" x2="25" y2="-15"/>
+<line class="brain-line" x1="5" y1="-40" x2="0" y2="-85"/>
+<line class="brain-line" x1="5" y1="-40" x2="10" y2="0"/>
+<line class="brain-line" x1="10" y1="0" x2="5" y2="30"/>
+
+<!-- اتصالات بین دو نیم‌کره (corpus callosum) -->
+<line class="brain-line" x1="0" y1="-85" x2="0" y2="80"/>
+<line class="brain-line" x1="-25" y1="-15" x2="25" y2="-15"/>
+<line class="brain-line" x1="-10" y1="0" x2="10" y2="0"/>
+<line class="brain-line" x1="-5" y1="30" x2="5" y2="30"/>
+<line class="brain-line" x1="-30" y1="20" x2="30" y2="20"/>
+
+<!-- خطوط درخشان (وقتی نور رسید فعال می‌شن) -->
+<g class="brain-lines-glow">
+<line class="brain-line glow" x1="-70" y1="-60" x2="-40" y2="-80"/>
+<line class="brain-line glow" x1="-40" y1="-80" x2="0" y2="-85"/>
+<line class="brain-line glow" x1="0" y1="-85" x2="40" y2="-80"/>
+<line class="brain-line glow" x1="40" y1="-80" x2="70" y2="-60"/>
+<line class="brain-line glow" x1="-90" y1="-20" x2="-60" y2="15"/>
+<line class="brain-line glow" x1="90" y1="-20" x2="60" y2="15"/>
+<line class="brain-line glow" x1="-80" y1="55" x2="-50" y2="75"/>
+<line class="brain-line glow" x1="80" y1="55" x2="50" y2="75"/>
+<line class="brain-line glow" x1="-50" y1="75" x2="0" y2="80"/>
+<line class="brain-line glow" x1="50" y1="75" x2="0" y2="80"/>
+<line class="brain-line glow" x1="-25" y1="-15" x2="25" y2="-15"/>
+<line class="brain-line glow" x1="-10" y1="0" x2="10" y2="0"/>
 </g>
-<circle class="brain-node core" cx="0" cy="0" r="9"/>
-<circle class="brain-node" cx="-60" cy="-35" r="6"/>
-<circle class="brain-node" cx="0" cy="-70" r="7"/>
-<circle class="brain-node" cx="60" cy="-35" r="6"/>
-<circle class="brain-node" cx="60" cy="35" r="6"/>
-<circle class="brain-node" cx="0" cy="70" r="7"/>
-<circle class="brain-node" cx="-60" cy="35" r="6"/>
-<circle class="brain-node" cx="-100" cy="-70" r="5"/>
-<circle class="brain-node" cx="100" cy="-70" r="5"/>
-<circle class="brain-node" cx="-100" cy="70" r="5"/>
-<circle class="brain-node" cx="100" cy="70" r="5"/>
-<circle class="brain-node" cx="0" cy="-105" r="5"/>
-<circle class="brain-node" cx="0" cy="105" r="5"/>
-<circle class="brain-node" cx="-100" cy="0" r="5"/>
-<circle class="brain-node" cx="100" cy="0" r="5"/>
+
+</g>
+
+<!-- ============================
+     گره‌های عصبی
+============================ -->
+<g class="brain-nodes">
+
+<!-- گره‌های مرکزی -->
+<circle class="brain-node core" cx="0" cy="0" r="7"/>
+
+<!-- گره‌های نیم‌کره چپ -->
+<circle class="brain-node" cx="-70" cy="-60" r="4"/>
+<circle class="brain-node" cx="-90" cy="-20" r="4"/>
+<circle class="brain-node" cx="-100" cy="20" r="4"/>
+<circle class="brain-node" cx="-80" cy="55" r="4"/>
+<circle class="brain-node" cx="-50" cy="75" r="4"/>
+<circle class="brain-node" cx="-15" cy="80" r="4"/>
+<circle class="brain-node" cx="-40" cy="-80" r="4"/>
+<circle class="brain-node" cx="-50" cy="-25" r="3.5"/>
+<circle class="brain-node" cx="-60" cy="15" r="3.5"/>
+<circle class="brain-node" cx="-45" cy="50" r="3.5"/>
+<circle class="brain-node" cx="-15" cy="65" r="3"/>
+<circle class="brain-node" cx="-25" cy="-15" r="3.5"/>
+<circle class="brain-node" cx="-30" cy="20" r="3"/>
+<circle class="brain-node" cx="-15" cy="50" r="3"/>
+<circle class="brain-node" cx="-5" cy="-40" r="3.5"/>
+<circle class="brain-node" cx="-10" cy="0" r="3"/>
+<circle class="brain-node" cx="-5" cy="30" r="3"/>
+
+<!-- گره‌های نیم‌کره راست -->
+<circle class="brain-node" cx="70" cy="-60" r="4"/>
+<circle class="brain-node" cx="90" cy="-20" r="4"/>
+<circle class="brain-node" cx="100" cy="20" r="4"/>
+<circle class="brain-node" cx="80" cy="55" r="4"/>
+<circle class="brain-node" cx="50" cy="75" r="4"/>
+<circle class="brain-node" cx="15" cy="80" r="4"/>
+<circle class="brain-node" cx="40" cy="-80" r="4"/>
+<circle class="brain-node" cx="50" cy="-25" r="3.5"/>
+<circle class="brain-node" cx="60" cy="15" r="3.5"/>
+<circle class="brain-node" cx="45" cy="50" r="3.5"/>
+<circle class="brain-node" cx="15" cy="65" r="3"/>
+<circle class="brain-node" cx="25" cy="-15" r="3.5"/>
+<circle class="brain-node" cx="30" cy="20" r="3"/>
+<circle class="brain-node" cx="15" cy="50" r="3"/>
+<circle class="brain-node" cx="5" cy="-40" r="3.5"/>
+<circle class="brain-node" cx="10" cy="0" r="3"/>
+<circle class="brain-node" cx="5" cy="30" r="3"/>
+
+<!-- گره‌های مرکزی (بین دو نیم‌کره) -->
+<circle class="brain-node" cx="0" cy="-85" r="5"/>
+<circle class="brain-node" cx="0" cy="80" r="5"/>
+<circle class="brain-node" cx="0" cy="20" r="3"/>
+<circle class="brain-node" cx="0" cy="-30" r="3"/>
+
+</g>
+
 </svg>
 </div>
 </div>
@@ -2772,7 +2871,7 @@ function typeElement(el) {
     }
 
     // سرعت تایپ — بر اساس طول متن
-    const speed = text.length > 100 ? 12 : 25;
+    const speed = text.length > 100 ? 35 : 60;
 
     chars.forEach((span, i) => {
         setTimeout(() => {

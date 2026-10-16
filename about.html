@@ -1484,7 +1484,7 @@ document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
 
 /* =========================================================
-   TYPE-IN
+   TYPE-IN — نسخه‌ی درست (بدون جابه‌جایی)
 ========================================================= */
 const typeSelectors = [
     '.about-hero h1',
@@ -1506,34 +1506,44 @@ const typeSelectors = [
 
 const typeTargets = document.querySelectorAll(typeSelectors);
 
+// آماده‌سازی: متن رو به کاراکترها بشکن، ولی مخفی نگه دار
+typeTargets.forEach(el => {
+    const originalText = el.textContent.trim();
+    if (!originalText) return;
+
+    el.dataset.originalText = originalText;
+    el.dataset.typed = 'false';
+    el.classList.add('type-target');
+
+    // متن رو پاک کن و به کاراکترها بشکن
+    el.textContent = '';
+    for (let i = 0; i < originalText.length; i++) {
+        const span = document.createElement('span');
+        span.className = 'type-char';
+        if (originalText[i] === ' ') {
+            span.classList.add('space');
+            span.innerHTML = '&nbsp;';
+        } else if (originalText[i] === '\n') {
+            span.innerHTML = '<br>';
+            span.className = 'type-char visible';
+        } else {
+            span.textContent = originalText[i];
+        }
+        el.appendChild(span);
+    }
+    // ← ارتفاع رزرو شده چون کاراکترها تو DOM هستن، فقط opacity:0
+});
+
 function typeElement(el) {
     if (el.dataset.typed === 'true') return;
     el.dataset.typed = 'true';
 
-    const text = el.dataset.originalText;
-    if (!text) return;
+    const chars = el.querySelectorAll('.type-char');
+    if (!chars.length) return;
 
     el.classList.add('is-typing');
-    el.textContent = '';
 
-    const chars = [];
-    for (let i = 0; i < text.length; i++) {
-        const span = document.createElement('span');
-        span.className = 'type-char';
-        if (text[i] === ' ') {
-            span.classList.add('space');
-            span.innerHTML = '&nbsp;';
-        } else if (text[i] === '\n') {
-            span.innerHTML = '<br>';
-            span.className = 'type-char visible';
-        } else {
-            span.textContent = text[i];
-        }
-        el.appendChild(span);
-        chars.push(span);
-    }
-
-    const speed = text.length > 100 ? 35 : 60;
+    const speed = chars.length > 100 ? 35 : 60;
 
     chars.forEach((span, i) => {
         setTimeout(() => {
@@ -1554,48 +1564,7 @@ const typeObserver = new IntersectionObserver((entries) => {
     });
 }, { threshold: 0.15, rootMargin: '0px 0px -30px 0px' });
 
-
-/* =========================================================
-   آماده‌سازی تایپ — بعد از لود کامل صفحه
-   ارتفاع رزرو می‌شه که layout نپره
-========================================================= */
-window.addEventListener('load', () => {
-
-    typeTargets.forEach(el => {
-        const originalText = el.textContent.trim();
-        if (!originalText) return;
-
-        el.dataset.originalText = originalText;
-        el.dataset.typed = 'false';
-        el.classList.add('type-target');
-
-        // ارتفاع واقعی رو با clone اندازه‌گیری کن
-        const clone = el.cloneNode(true);
-        clone.style.position = 'absolute';
-        clone.style.visibility = 'hidden';
-        clone.style.pointerEvents = 'none';
-        clone.style.width = el.offsetWidth + 'px';
-        clone.style.height = 'auto';
-        clone.style.minHeight = '0';
-        clone.style.whiteSpace = getComputedStyle(el).whiteSpace || 'normal';
-        clone.style.top = '-99999px';
-        clone.style.right = '0';
-        document.body.appendChild(clone);
-        const realHeight = clone.offsetHeight;
-        document.body.removeChild(clone);
-
-        // ارتفاع رو رزرو کن
-        if (realHeight > 0) {
-            el.style.minHeight = realHeight + 'px';
-        }
-
-        // متن رو خالی کن (فضا حفظ می‌شه)
-        el.textContent = '';
-    });
-
-    // حالا observer رو راه بنداز
-    typeTargets.forEach(el => typeObserver.observe(el));
-});
+typeTargets.forEach(el => typeObserver.observe(el));
 
 
 /* =========================================================

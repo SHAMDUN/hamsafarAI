@@ -525,6 +525,38 @@ header.scrolled .navbar{height:70px;}
     accent-color:var(--cyan);
     transform:scale(1.1);
 }
+ .lesson-content pre {
+    background: #0a0f14;
+    border: 1px solid rgba(34, 211, 238, 0.2);
+    padding: 20px;
+    border-radius: 12px;
+    overflow-x: auto;
+    margin: 20px 0;
+    direction: ltr;
+    text-align: left;
+    line-height: 1.7;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+}
+
+.lesson-content pre code {
+    background: none;
+    padding: 0;
+    color: #cbd5e1;
+    font-size: 13px;
+    display: block;
+    white-space: pre;
+    font-family: inherit;
+}
+
+.lesson-content iframe {
+    width: 100%;
+    border: 1px solid rgba(34, 211, 238, 0.2);
+    border-radius: 16px;
+    background: #071923;
+    min-height: 600px;
+    margin: 20px 0;
+}   
 
 
 /* =========================================================
@@ -1340,8 +1372,14 @@ function renderLesson(lesson, course, track, siblings){
     // رندر Markdown
     let contentHtml = '';
     try{
-        const rawHtml = marked.parse(lesson.content || '');
-        contentHtml = DOMPurify.sanitize(rawHtml);
+        const rawHtml = marked.parse(lesson.content || '', {
+           breaks: true,
+           gfm: true
+       });
+       contentHtml = DOMPurify.sanitize(rawHtml, {
+           ADD_TAGS: ['iframe'],
+           ADD_ATTR: ['src', 'width', 'height', 'frameborder', 'allow', 'allowfullscreen', 'style']
+       });
     }catch(e){
         contentHtml = '<p>خطا در نمایش محتوا</p>';
     }

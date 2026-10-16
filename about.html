@@ -51,7 +51,6 @@ button{font:inherit;}
     --bg-soft:#0b202c;
     --bg-card:#0d2633;
     --orange:#F59E0B;
-    --orange-2:#FBBF24;
     --cyan:#22D3EE;
     --cream:#FEF3C7;
     --white:#F8FAFC;
@@ -92,6 +91,7 @@ section{position:relative;}
     background:var(--cyan);
     box-shadow:0 0 14px var(--cyan);
     animation:pulseDot 2s infinite;
+    flex-shrink:0;
 }
 
 @keyframes pulseDot{
@@ -190,6 +190,7 @@ header.scrolled{
     align-items:center;
     justify-content:space-between;
     transition:height .3s;
+    gap:20px;
 }
 
 header.scrolled .navbar{height:70px;}
@@ -201,6 +202,7 @@ header.scrolled .navbar{height:70px;}
     direction:ltr;
     font-size:18px;
     font-weight:800;
+    flex-shrink:0;
 }
 
 .logo-mark{
@@ -249,10 +251,7 @@ header.scrolled .navbar{height:70px;}
 
 .nav-menu a{transition:.25s;}
 .nav-menu a:hover{color:white;}
-
-.nav-menu a.active{
-    color:var(--cyan);
-}
+.nav-menu a.active{color:var(--cyan);}
 
 .nav-cta{
     padding:10px 17px;
@@ -263,6 +262,7 @@ header.scrolled .navbar{height:70px;}
     font-weight:600;
     transition:.25s;
     background:rgba(34,211,238,.04);
+    flex-shrink:0;
 }
 
 .nav-cta:hover{
@@ -272,7 +272,7 @@ header.scrolled .navbar{height:70px;}
 
 
 /* =========================================================
-   HERO (کوچیک)
+   HERO
 ========================================================= */
 .about-hero{
     padding:180px 0 80px;
@@ -284,7 +284,7 @@ header.scrolled .navbar{height:70px;}
 
 .about-hero .horizon{
     position:absolute;
-    left:0;right:0;top:40%;
+    left:0;right:0;top:45%;
     height:1px;
     background:linear-gradient(90deg,transparent,rgba(34,211,238,.15),rgba(254,243,199,.5),rgba(245,158,11,.2),transparent);
     box-shadow:0 0 40px rgba(254,243,199,.15);
@@ -314,6 +314,7 @@ header.scrolled .navbar{height:70px;}
 .about-hero h1 .cyan{
     color:var(--cyan);
     position:relative;
+    display:inline-block;
 }
 
 .about-hero h1 .cyan::after{
@@ -336,7 +337,7 @@ header.scrolled .navbar{height:70px;}
 
 
 /* =========================================================
-   ME — من کی‌ام
+   ME
 ========================================================= */
 .me{
     padding:80px 0;
@@ -355,8 +356,8 @@ header.scrolled .navbar{height:70px;}
     position:relative;
     width:100%;
     max-width:340px;
-    aspect-ratio:1;
     margin:0 auto;
+    aspect-ratio:1;
 }
 
 .me-avatar-ring{
@@ -365,6 +366,7 @@ header.scrolled .navbar{height:70px;}
     border-radius:50%;
     border:1px dashed rgba(34,211,238,.25);
     animation:ringRotate 40s linear infinite;
+    pointer-events:none;
 }
 
 .me-avatar-ring2{
@@ -372,6 +374,7 @@ header.scrolled .navbar{height:70px;}
     inset:-32px;
     border-radius:50%;
     border:1px solid rgba(245,158,11,.12);
+    pointer-events:none;
 }
 
 @keyframes ringRotate{
@@ -379,29 +382,25 @@ header.scrolled .navbar{height:70px;}
     to{transform:rotate(360deg);}
 }
 
-.me-avatar img{
+.me-avatar-img{
+    position:relative;
     width:100%;
     height:100%;
-    object-fit:cover;
     border-radius:50%;
+    overflow:hidden;
     border:2px solid var(--orange);
     box-shadow:
         0 0 0 8px rgba(245,158,11,.06),
         0 0 60px rgba(245,158,11,.25),
         0 0 100px rgba(34,211,238,.15);
-    display:block;
-    position:relative;
-    z-index:2;
+    background:#061620;
 }
 
-.me-avatar::after{
-    content:"";
-    position:absolute;
-    inset:0;
-    border-radius:50%;
-    background:radial-gradient(circle at 30% 30%, rgba(254,243,199,.2), transparent 60%);
-    pointer-events:none;
-    z-index:3;
+.me-avatar-img img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
 }
 
 .me-content h2{
@@ -431,7 +430,7 @@ header.scrolled .navbar{height:70px;}
 
 
 /* =========================================================
-   WHY — چرا همسفر
+   WHY
 ========================================================= */
 .why{
     padding:100px 0;
@@ -447,9 +446,7 @@ header.scrolled .navbar{height:70px;}
     margin-bottom:60px;
 }
 
-.why-header .label{
-    justify-content:center;
-}
+.why-header .label{justify-content:center;}
 
 .why-header h2{
     font-size:clamp(28px, 4vw, 44px);
@@ -540,15 +537,14 @@ header.scrolled .navbar{height:70px;}
 .why-card.bad h3{color:#F87171;}
 
 .why-card h3::before{
-    content:"";
     width:32px;
     height:32px;
     border-radius:10px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
+    display:grid;
+    place-items:center;
     font-size:16px;
     flex-shrink:0;
+    font-weight:700;
 }
 
 .why-card.good h3::before{
@@ -556,8 +552,6 @@ header.scrolled .navbar{height:70px;}
     background:rgba(34,211,238,.1);
     border:1px solid rgba(34,211,238,.25);
     color:var(--cyan);
-    display:grid;
-    place-items:center;
 }
 
 .why-card.bad h3::before{
@@ -565,8 +559,6 @@ header.scrolled .navbar{height:70px;}
     background:rgba(239,68,68,.08);
     border:1px solid rgba(239,68,68,.2);
     color:#F87171;
-    display:grid;
-    place-items:center;
 }
 
 .why-card ul{
@@ -652,6 +644,7 @@ header.scrolled .navbar{height:70px;}
     top:-100px;
     right:-100px;
     transition:opacity .5s;
+    pointer-events:none;
 }
 
 .value-card:hover::after{opacity:.1;}
@@ -687,7 +680,7 @@ header.scrolled .navbar{height:70px;}
 
 
 /* =========================================================
-   CTA TELEGRAM
+   CTA
 ========================================================= */
 .about-cta{
     padding:100px 0;
@@ -780,6 +773,7 @@ header.scrolled .navbar{height:70px;}
 .btn-telegram .tg-icon{
     width:20px;
     height:20px;
+    flex-shrink:0;
 }
 
 .btn-telegram .arrow{
@@ -897,10 +891,10 @@ footer{
 
 
 /* =========================================================
-   RESPONSIVE
+   RESPONSIVE — تبلت (تا 1024px)
 ========================================================= */
-
 @media(max-width:1024px){
+
     .container{width:min(100% - 48px, 1180px);}
 
     .me-inner{
@@ -908,19 +902,30 @@ footer{
         gap:50px;
     }
 
-    .me-avatar{max-width:280px;}
+    .me-avatar{max-width:260px;}
+
+    .me-content h2{font-size:30px;}
+
+    .why-content{gap:20px;}
+
+    .values-grid{
+        grid-template-columns:repeat(2, 1fr);
+    }
 }
 
 
+/* =========================================================
+   RESPONSIVE — موبایل بزرگ (تا 768px)
+========================================================= */
 @media(max-width:768px){
 
     body{font-size:15px;line-height:1.75;}
 
     /* Nav */
     .nav-menu{display:none;}
-    .navbar{height:70px;}
+    .navbar{height:70px;gap:12px;}
     header.scrolled .navbar{height:60px;}
-    .logo{font-size:15px;}
+    .logo{font-size:15px;gap:8px;}
     .logo-mark{width:32px;height:32px;}
     .logo-mark .dot-one,
     .logo-mark .dot-two{width:6px;height:6px;}
@@ -931,12 +936,18 @@ footer{
 
     /* Hero */
     .about-hero{
-        padding:130px 0 50px;
+        padding:120px 0 50px;
+    }
+
+    .about-hero .horizon{
+        top:40%;
     }
 
     .about-hero h1{
         font-size:clamp(30px, 9vw, 42px);
         letter-spacing:-1.5px;
+        line-height:1.2;
+        margin-bottom:20px;
     }
 
     .about-hero p{
@@ -956,12 +967,16 @@ footer{
     }
 
     .me-avatar{
-        max-width:220px;
+        max-width:200px;
     }
+
+    .me-avatar-ring{inset:-12px;}
+    .me-avatar-ring2{inset:-24px;}
 
     .me-content h2{
         font-size:24px;
         letter-spacing:-.5px;
+        line-height:1.4;
     }
 
     .me-content p{
@@ -970,79 +985,53 @@ footer{
     }
 
     /* Why */
-    .why{
-        padding:60px 0;
-    }
+    .why{padding:60px 0;}
 
-    .why-header{
-        margin-bottom:40px;
-    }
+    .why-header{margin-bottom:40px;}
 
     .why-header h2{
         font-size:24px;
         letter-spacing:-.5px;
     }
 
-    .why-header p{
-        font-size:14px;
-    }
+    .why-header p{font-size:14px;}
 
     .why-content{
         grid-template-columns:1fr;
         gap:16px;
     }
 
-    .why-card{
-        padding:22px 20px;
-    }
+    .why-card{padding:22px 20px;}
 
-    .why-card h3{
-        font-size:16px;
-    }
+    .why-card h3{font-size:16px;}
 
-    .why-card li{
-        font-size:13px;
-    }
+    .why-card li{font-size:13px;}
 
     /* Values */
-    .values{
-        padding:60px 0;
-    }
+    .values{padding:60px 0;}
 
-    .values-header{
-        margin-bottom:40px;
-    }
+    .values-header{margin-bottom:40px;}
 
-    .values-header h2{
-        font-size:24px;
-    }
+    .values-header h2{font-size:24px;}
 
     .values-grid{
         grid-template-columns:1fr;
         gap:14px;
     }
 
-    .value-card{
-        padding:22px 20px;
-    }
+    .value-card{padding:22px 20px;}
 
     /* CTA */
-    .about-cta{
-        padding:60px 0;
-    }
+    .about-cta{padding:60px 0;}
 
     .about-cta-inner{
         padding:40px 24px;
         border-radius:22px;
     }
 
-    .about-cta h2{
-        font-size:24px;
-    }
+    .about-cta h2{font-size:24px;}
 
-    .about-cta p{
-        font-size:14px;
-    }
+    .about-cta p{font-size:14px;}
 
     .btn-telegram{
         width:100%;
@@ -1051,9 +1040,7 @@ footer{
     }
 
     /* Footer */
-    footer{
-        padding:40px 20px 28px;
-    }
+    footer{padding:40px 20px 28px;}
 
     .footer-inner{
         grid-template-columns:1fr;
@@ -1082,22 +1069,28 @@ footer{
 }
 
 
+/* =========================================================
+   RESPONSIVE — موبایل کوچک (تا 480px)
+========================================================= */
 @media(max-width:480px){
 
     body{font-size:14.5px;}
     .container{width:min(100% - 24px, 1180px);}
 
-    .about-hero{padding:110px 0 40px;}
+    .about-hero{padding:100px 0 40px;}
 
-    .about-hero h1{font-size:30px;}
+    .about-hero h1{font-size:28px;}
 
     .me{padding:40px 0;}
 
-    .me-avatar{max-width:180px;}
+    .me-avatar{max-width:160px;}
+
+    .me-avatar-ring{inset:-10px;}
+    .me-avatar-ring2{inset:-20px;}
 
     .me-content h2{font-size:20px;}
 
-    .me-content p{font-size:13.5px;}
+    .me-content p{font-size:13.5px;line-height:1.95;}
 
     .why, .values, .about-cta{padding:50px 0;}
 
@@ -1110,13 +1103,13 @@ footer{
 
     .why-card h3{font-size:15px;}
 
+    .why-card li{font-size:12.5px;}
+
     .value-card h3{font-size:15.5px;}
 
     .value-card p{font-size:12.5px;}
 
-    .about-cta-inner{
-        padding:32px 20px;
-    }
+    .about-cta-inner{padding:32px 20px;}
 
     .footer-brand h4{font-size:15px;}
     .footer-brand p{font-size:12px;}
@@ -1127,6 +1120,9 @@ footer{
 }
 
 
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
 @media(prefers-reduced-motion:reduce){
     *,*::before,*::after{
         animation-duration:.01ms !important;
@@ -1193,7 +1189,6 @@ footer{
 
 <h1>
 چرا <span class="orange">همسفر</span>
-<br>
 <span class="cyan">AI</span>؟
 </h1>
 
@@ -1217,7 +1212,9 @@ footer{
 <div class="me-avatar reveal">
 <div class="me-avatar-ring"></div>
 <div class="me-avatar-ring2"></div>
+<div class="me-avatar-img">
 <img src="./telegram.png" alt="همسفر AI">
+</div>
 </div>
 
 <div class="me-content">
@@ -1550,7 +1547,7 @@ typeTargets.forEach(el => typeObserver.observe(el));
 
 
 /* =========================================================
-   NEURAL CANVAS — شبکه‌ای که به موس وصل می‌شه
+   NEURAL CANVAS
 ========================================================= */
 const neuralCanvas = document.getElementById('neuralCanvas');
 const nctx = neuralCanvas.getContext('2d');

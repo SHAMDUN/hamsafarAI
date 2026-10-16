@@ -1391,8 +1391,11 @@ function renderLesson(lesson, course, track, siblings){
 
     // Breadcrumb
     const breadcrumbHTML = `
-        <div class="breadcrumb">
-            <a href="index.html">خانه</a>
+        const breadcrumbHTML = `
+            <div class="breadcrumb">
+                <a href="index.html">🏠 خانه</a>
+                <span class="sep">›</span>
+                <a href="courses.html">📚 دوره‌ها</a>
             <span class="sep">›</span>
             <a href="courses.html">دوره‌ها</a>
             ${track ? `

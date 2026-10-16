@@ -1660,6 +1660,11 @@ footer{
         max-width:480px;
     }
 
+    /* Intro */
+    .intro-inner{
+        gap:50px;
+    }
+
     /* Journey */
     .journey{
         padding:80px 20px 60px;
@@ -1669,35 +1674,85 @@ footer{
         font-size:clamp(28px, 4vw, 42px);
     }
 
+    .station{
+        grid-template-columns:1fr 70px 1fr;
+        margin-bottom:60px;
+    }
+
+    .station-card{
+        padding:20px 18px;
+    }
+
     /* Brain */
     .brain{
         width:280px;
         height:280px;
     }
 
-    /* Tools */
+    /* Tools — اینجا مهمه */
     .tools-grid{
-        gap:50px;
+        grid-template-columns:1fr;  /* ← تغییر اصلی */
+        gap:40px;
     }
 
     .tools-copy h2{
-        font-size:36px;
+        font-size:32px;
+    }
+
+    .tool-board{
+        min-height:auto;
+        padding:22px;
+    }
+
+    /* Projects */
+    .project-grid{
+        grid-template-columns:1fr 1fr;
+        gap:14px;
+    }
+
+    .project-large{
+        grid-column:span 2;
+        min-height:300px;
+    }
+
+    .project{
+        min-height:240px;
     }
 
     /* Telegram */
+    .telegram-inner{
+        grid-template-columns:1fr 1fr;
+        gap:40px;
+    }
+
     .telegram-copy h2{
-        font-size:38px;
+        font-size:32px;
     }
 
     .tg-visual{
-        height:460px;
+        height:440px;
     }
 
     .tg-phone{
-        width:270px;
+        width:250px;
+    }
+
+    .tg-glow{
+        width:320px;
+        height:320px;
+    }
+
+    .tg-orbit{
+        width:380px;
+        height:380px;
+    }
+
+    /* Footer */
+    .footer-inner{
+        grid-template-columns:1.5fr 1fr 1fr;
+        gap:30px;
     }
 }
-
 
 /* ============ موبایل بزرگ (تا 768px) ============ */
 @media(max-width:768px){

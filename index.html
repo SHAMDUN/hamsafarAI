@@ -2762,6 +2762,11 @@ function drawNebula() {
     const CY = H / 2;
 
     nctx.clearRect(0, 0, W, H);
+       // برش دایره‌ای
+    nctx.save();
+    nctx.beginPath();
+    nctx.arc(CX, CY, Math.min(W, H) / 2, 0, Math.PI * 2);
+    nctx.clip();
 
     nebulaTime += 0.008;
 
@@ -2872,6 +2877,7 @@ function drawNebula() {
     nctx.beginPath();
     nctx.arc(CX, CY, 10, 0, Math.PI * 2);
     nctx.fill();
+   nctx.restore();
 
     requestAnimationFrame(drawNebula);
 }

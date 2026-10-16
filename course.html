@@ -252,7 +252,51 @@ header.scrolled .navbar{height:70px;}
     color:var(--cyan);
     font-weight:700;
 }
+/* =========================================================
+   NAV BACK BUTTONS
+========================================================= */
+.nav-back{
+    display:flex;
+    gap:10px;
+    margin-bottom:24px;
+    flex-wrap:wrap;
+}
 
+.back-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:11px 18px;
+    background:rgba(13, 38, 51, 0.6);
+    backdrop-filter:blur(12px);
+    -webkit-backdrop-filter:blur(12px);
+    border:1px solid rgba(34, 211, 238, 0.2);
+    border-radius:11px;
+    color:#91A5B2;
+    font-size:13px;
+    font-weight:700;
+    transition:.25s;
+    text-decoration:none;
+}
+
+.back-btn:hover{
+    color:#22D3EE;
+    border-color:rgba(34, 211, 238, 0.5);
+    transform:translateY(-2px);
+    background:rgba(13, 38, 51, 0.9);
+}
+
+@media(max-width:600px){
+    .nav-back{
+        justify-content:center;
+    }
+    .back-btn{
+        flex:1;
+        justify-content:center;
+        padding:10px 14px;
+        font-size:12px;
+    }
+}
 .course-hero-tags{
     display:flex;
     flex-wrap:wrap;
@@ -1156,8 +1200,12 @@ function renderCourse(course, track, lessons){
 
     // Breadcrumb
     const breadcrumbHTML = `
-        <div class="breadcrumb">
-            <a href="index.html">خانه</a>
+    <div class="nav-back">
+        <a href="index.html" class="back-btn">🏠 بازگشت به خانه</a>
+        <a href="courses.html" class="back-btn">📚 بازگشت به دوره‌ها</a>
+    </div>
+    <div class="breadcrumb">
+        <a href="index.html">خانه</a>
             <span class="sep">›</span>
             <a href="courses.html">دوره‌ها</a>
             ${track ? `
@@ -1244,6 +1292,20 @@ function renderCourse(course, track, lessons){
                     ${lessonsHTML}
                 </div>
             </div>
+            <section class="completion-section">
+    <div class="container">
+        <div class="completion-card">
+            <span class="icon">🎉</span>
+            <h3>درس رو تموم کردی!</h3>
+            <p>
+                حالا برو درس بعدی، یا بیا تو کانال تلگرام و با بقیه همسفرها ادامه بده.
+            </p>
+            <a href="https://t.me/hamsafar_ai" target="_blank" rel="noopener" class="btn-telegram">
+                📬 عضویت در کانال
+            </a>
+        </div>
+    </div>
+</section>
         </section>
     `;
 }

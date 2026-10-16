@@ -129,6 +129,48 @@ section{position:relative;}
 
 
 /* =========================================================
+   TYPE-IN — همه نوشته‌ها
+========================================================= */
+.type-target{
+    position:relative;
+}
+.type-target .type-char{
+    opacity:0;
+    display:inline;
+    transition:opacity .05s;
+}
+.type-target .type-char.visible{
+    opacity:1;
+}
+
+/* فاصله‌ها نباید بشکنن */
+.type-target .type-char.space{
+    white-space:pre;
+}
+
+/* کرسر تایپ */
+.type-target::after{
+    content:'';
+    display:inline-block;
+    width:2px;
+    height:0.95em;
+    background:var(--cyan);
+    margin-right:2px;
+    vertical-align:middle;
+    animation:typeCursorBlink 0.7s infinite;
+    opacity:0;
+    box-shadow:0 0 6px var(--cyan);
+}
+.type-target.is-typing::after{
+    opacity:1;
+}
+@keyframes typeCursorBlink{
+    0%,50%{opacity:1;}
+    51%,100%{opacity:0;}
+}
+
+
+/* =========================================================
    NAV
 ========================================================= */
 header{
@@ -296,6 +338,7 @@ header.scrolled .navbar{height:70px;}
     align-items:center;
     gap:12px;
     flex-wrap:wrap;
+    margin-top:30px;
 }
 
 .btn-primary{
@@ -346,7 +389,7 @@ header.scrolled .navbar{height:70px;}
 
 
 /* =========================================================
-   HERO VISUAL — سحابی
+   HERO VISUAL — سحابی شفاف
 ========================================================= */
 .hero-visual{
     height:650px;
@@ -363,6 +406,7 @@ header.scrolled .navbar{height:70px;}
     position:relative;
     z-index:3;
     background:transparent;
+    pointer-events:none;
 }
 
 .floating-card{
@@ -447,7 +491,7 @@ header.scrolled .navbar{height:70px;}
 
 
 /* =========================================================
-   JOURNEY — خط عمودی ساده با ۵ ایستگاه
+   JOURNEY
 ========================================================= */
 .journey{
     position:relative;
@@ -497,7 +541,6 @@ header.scrolled .navbar{height:70px;}
     margin:0 auto;
 }
 
-/* ظرف timeline */
 .timeline{
     position:relative;
     max-width:900px;
@@ -532,7 +575,7 @@ header.scrolled .navbar{height:70px;}
     background:linear-gradient(180deg,var(--cyan) 0%,var(--cream) 50%,var(--orange) 100%);
     box-shadow:0 0 8px var(--cyan), 0 0 20px rgba(34,211,238,.6);
     z-index:2;
-    transition:height .1s linear;
+    /* بدون transition — JS مستقیم آپدیت می‌کنه */
 }
 
 .timeline-glow{
@@ -550,6 +593,7 @@ header.scrolled .navbar{height:70px;}
     z-index:10;
     pointer-events:none;
     transition:opacity .3s;
+    will-change:top;
 }
 
 .timeline-glow::before,
@@ -569,7 +613,6 @@ header.scrolled .navbar{height:70px;}
     100%{transform:scale(2);opacity:0;}
 }
 
-/* ایستگاه */
 .station{
     position:relative;
     display:grid;
@@ -760,7 +803,6 @@ header.scrolled .navbar{height:70px;}
     border-top:1px solid var(--line);
 }
 
-/* مغز مقصد */
 .destination{
     position:relative;
     margin-top:100px;
@@ -1531,21 +1573,6 @@ footer{
 
 
 /* =========================================================
-   SCROLL REVEAL
-========================================================= */
-.reveal{
-    opacity:0;
-    transform:translateY(24px);
-    transition:opacity .8s cubic-bezier(.4,0,.2,1), transform .8s cubic-bezier(.4,0,.2,1);
-}
-
-.reveal.visible{opacity:1;transform:translateY(0);}
-.reveal.delay-1{transition-delay:.08s;}
-.reveal.delay-2{transition-delay:.16s;}
-.reveal.delay-3{transition-delay:.24s;}
-
-
-/* =========================================================
    RESPONSIVE
 ========================================================= */
 @media(max-width:900px){
@@ -1749,22 +1776,22 @@ footer{
 <div class="container hero-content">
 <div class="hero-content">
 
-<div class="label reveal">hamsafar_ai</div>
+<div class="label">hamsafar_ai</div>
 
-<h1 class="hero-title reveal delay-1">
+<h1 class="hero-title">
 با <span class="orange">AI</span>
 <br>
 <span class="cyan">همسفر شو.</span>
 </h1>
 
-<p class="hero-text reveal delay-2">
+<p class="hero-text">
 هوش مصنوعی را فقط تماشا نکن.
 <strong>یاد بگیر، امتحان کن و با آن چیزی واقعی بساز.</strong>
 از اولین قدم تا اجرای پروژه‌های واقعی،
 مسیر یادگیری را کنار هم طی می‌کنیم.
 </p>
 
-<div class="hero-actions reveal delay-3">
+<div class="hero-actions">
 <a href="#journey" class="btn-primary">
 مسیرم را شروع می‌کنم
 <span class="arrow">←</span>
@@ -1793,15 +1820,12 @@ footer{
 <section class="intro">
 <div class="container intro-inner">
 
-<div class="reveal">
+<div>
 <div class="label">why_hamsafar</div>
-<h2>
-AI را یاد نمی‌گیریم؛
-با آن جلو می‌رویم.
-</h2>
+<h2>AI را یاد نمی‌گیریم؛<br>با آن جلو می‌رویم.</h2>
 </div>
 
-<p class="reveal delay-1">
+<p>
 دنیای هوش مصنوعی هر روز تغییر می‌کند.
 به‌جای حفظ کردن ابزارها، قرار است یاد بگیریم
 چطور مسئله را پیدا کنیم، ابزار مناسب را انتخاب کنیم
@@ -1817,7 +1841,7 @@ AI را یاد نمی‌گیریم؛
 ========================================================= -->
 <section class="journey" id="journey">
 
-<div class="journey-header reveal">
+<div class="journey-header">
 <div class="label">the_path</div>
 <h2>پنج ایستگاه تا <em>ساختن با AI</em></h2>
 <p>اسکرول کن — نور با تو حرکت می‌کنه. هر ایستگاه یه قدم واقعیه.</p>
@@ -2007,11 +2031,11 @@ AI را یاد نمی‌گیریم؛
 <section class="terminal-section">
 <div class="container terminal-wrapper">
 
-<div class="reveal">
+<div>
 <div class="label" style="margin-bottom:24px;">live_terminal</div>
 </div>
 
-<div class="terminal reveal delay-1">
+<div class="terminal">
 <div class="terminal-header">
 <span class="term-dot red"></span>
 <span class="term-dot yellow"></span>
@@ -2031,7 +2055,7 @@ AI را یاد نمی‌گیریم؛
 <section class="tools" id="tools">
 <div class="container tools-grid">
 
-<div class="tools-copy reveal">
+<div class="tools-copy">
 <div class="label">ai_toolbox</div>
 <h2>ابزارها را بشناس،<br>نه اینکه فقط اسمشان را حفظ کنی.</h2>
 <p>
@@ -2049,7 +2073,7 @@ AI را یاد نمی‌گیریم؛
 </div>
 </div>
 
-<div class="tool-board reveal delay-1">
+<div class="tool-board">
 <div class="board-top">
 <span class="board-dot"></span>
 <span class="board-dot"></span>
@@ -2085,17 +2109,17 @@ AI را یاد نمی‌گیریم؛
 <section class="stats-strip">
 <div class="container stats-grid">
 
-<div class="stat-item reveal">
+<div class="stat-item">
 <div class="stat-value" data-target="12">0</div>
 <div class="stat-label">پروژه عملی</div>
 </div>
 
-<div class="stat-item reveal delay-1">
+<div class="stat-item">
 <div class="stat-value" data-target="48">0</div>
 <div class="stat-label">مطلب آموزشی</div>
 </div>
 
-<div class="stat-item reveal delay-2">
+<div class="stat-item">
 <div class="stat-value" data-target="100">0<span class="unit">%</span></div>
 <div class="stat-label">رایگان</div>
 </div>
@@ -2110,7 +2134,7 @@ AI را یاد نمی‌گیریم؛
 <section class="projects" id="projects">
 <div class="container">
 
-<div class="section-heading reveal">
+<div class="section-heading">
 <div class="label">learn_by_building</div>
 <h2>آخر مسیر، یک پروژه واقعی داری.</h2>
 <p>آموزش وقتی ارزش دارد که بتوانی از آن چیزی بسازی.</p>
@@ -2118,7 +2142,7 @@ AI را یاد نمی‌گیریم؛
 
 <div class="project-grid">
 
-<article class="project project-large reveal">
+<article class="project project-large">
 <div class="project-number">PROJECT_01</div>
 <div>
 <h3>ساخت یک سیستم هوشمند از صفر</h3>
@@ -2131,7 +2155,7 @@ AI را یاد نمی‌گیریم؛
 <div class="project-arrow">← مشاهده پروژه</div>
 </article>
 
-<article class="project reveal delay-1">
+<article class="project">
 <div class="project-number">PROJECT_02</div>
 <div>
 <h3>اتوماسیون کارهای روزمره</h3>
@@ -2140,7 +2164,7 @@ AI را یاد نمی‌گیریم؛
 <div class="project-arrow">←</div>
 </article>
 
-<article class="project reveal delay-2">
+<article class="project">
 <div class="project-number">PROJECT_03</div>
 <div>
 <h3>ساخت دستیار شخصی AI</h3>
@@ -2160,7 +2184,7 @@ AI را یاد نمی‌گیریم؛
 <section class="telegram-section" id="community">
 <div class="container telegram-inner">
 
-<div class="telegram-copy reveal">
+<div class="telegram-copy">
 <div class="label">hamsafar_community</div>
 <h2>توی تلگرام <em>با هم</em> ادامه می‌دیم.</h2>
 <p>
@@ -2174,7 +2198,7 @@ AI را یاد نمی‌گیریم؛
 </a>
 </div>
 
-<div class="tg-visual reveal delay-1">
+<div class="tg-visual">
 
 <div class="tg-glow"></div>
 <div class="tg-orbit"></div>
@@ -2305,59 +2329,12 @@ window.addEventListener('scroll', () => {
             const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
             progressBar.style.width = progress + '%';
             header.classList.toggle('scrolled', scrollTop > 60);
+            updateTimeline();
             ticking = false;
         });
         ticking = true;
     }
 }, { passive: true });
-
-
-/* =========================================================
-   Scroll reveal
-========================================================= */
-const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-            revealObserver.unobserve(entry.target);
-        }
-    });
-}, { threshold: 0.12, rootMargin: '0px 0px -50px 0px' });
-
-document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
-
-
-/* =========================================================
-   Counters
-========================================================= */
-const counterObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
-        const el = entry.target;
-        const unit = el.querySelector('.unit');
-        const target = +el.dataset.target;
-        const duration = 1400;
-        const start = performance.now();
-
-        function tick(now) {
-            const elapsed = now - start;
-            const progress = Math.min(elapsed / duration, 1);
-            const eased = 1 - Math.pow(1 - progress, 3);
-            const value = Math.floor(eased * target);
-            el.textContent = value;
-            if (unit) el.appendChild(unit);
-            if (progress < 1) requestAnimationFrame(tick);
-            else {
-                el.textContent = target;
-                if (unit) el.appendChild(unit);
-            }
-        }
-        requestAnimationFrame(tick);
-        counterObserver.unobserve(el);
-    });
-}, { threshold: 0.5 });
-
-document.querySelectorAll('.stat-value').forEach(el => counterObserver.observe(el));
 
 
 /* =========================================================
@@ -2371,11 +2348,14 @@ const journeyEnd = document.getElementById('journeyEnd');
 const stations = document.querySelectorAll('.station');
 
 function updateTimeline() {
+    if (!timeline) return;
+
     const rect = timeline.getBoundingClientRect();
     const vh = window.innerHeight;
 
-    const start = vh * 0.7;
-    const end = -rect.height + vh * 0.3;
+    // محاسبه مستقیم و روان
+    const start = vh * 0.6;
+    const end = -rect.height + vh * 0.4;
 
     let progress = (start - rect.top) / (start - end);
     progress = Math.max(0, Math.min(1, progress));
@@ -2383,51 +2363,37 @@ function updateTimeline() {
     const fillHeight = rect.height * progress;
     timelineFill.style.height = fillHeight + 'px';
 
-    if (progress > 0.01 && progress < 0.995) {
+    // نور
+    if (progress > 0.001) {
         timelineGlow.style.top = fillHeight + 'px';
         timelineGlow.style.opacity = 1;
     } else {
         timelineGlow.style.opacity = 0;
     }
 
+    // فعال‌سازی ایستگاه‌ها
     stations.forEach(station => {
         const sRect = station.getBoundingClientRect();
         const sCenter = sRect.top + sRect.height / 2;
 
-        if (sCenter < vh * 0.75 && sCenter > -100) {
+        if (sCenter < vh * 0.78 && sCenter > -50) {
             station.querySelector('.station-dot').classList.add('active');
             station.querySelector('.station-card').classList.add('active');
-        } else {
-            station.querySelector('.station-dot').classList.remove('active');
-            station.querySelector('.station-card').classList.remove('active');
         }
     });
 
-    if (progress > 0.92) {
+    // مغز مقصد
+    if (progress > 0.94) {
         brain.classList.add('complete');
         journeyEnd.classList.add('show');
-    } else {
-        brain.classList.remove('complete');
-        journeyEnd.classList.remove('show');
     }
 }
 
-window.addEventListener('scroll', () => {
-    if (!ticking) {
-        window.requestAnimationFrame(() => {
-            updateTimeline();
-            ticking = false;
-        });
-        ticking = true;
-    }
-}, { passive: true });
-
 window.addEventListener('resize', updateTimeline);
-setTimeout(updateTimeline, 200);
 
 
 /* =========================================================
-   TERMINAL
+   TERMINAL — تکرار شونده
 ========================================================= */
 const terminalBody = document.getElementById('terminalBody');
 
@@ -2470,24 +2436,36 @@ async function runTerminal() {
         terminalScript.forEach(s => terminalBody.appendChild(createLine(s.type, s.text)));
         return;
     }
-    for (const step of terminalScript) {
-        const line = document.createElement('div');
-        line.className = 'term-line';
-        if (step.type === 'cmd') {
-            line.innerHTML = '<span class="t-prompt">$</span><span class="t-cmd"></span>';
-            terminalBody.appendChild(line);
-            await typeText(line.querySelector('.t-cmd'), step.text, 45);
-        } else {
-            terminalBody.appendChild(createLine(step.type, step.text));
+
+    // حلقه‌ی بی‌نهایت
+    while (true) {
+        terminalBody.innerHTML = '';
+
+        for (const step of terminalScript) {
+            const line = document.createElement('div');
+            line.className = 'term-line';
+            if (step.type === 'cmd') {
+                line.innerHTML = '<span class="t-prompt">$</span><span class="t-cmd"></span>';
+                terminalBody.appendChild(line);
+                await typeText(line.querySelector('.t-cmd'), step.text, 45);
+            } else {
+                terminalBody.appendChild(createLine(step.type, step.text));
+            }
+            await new Promise(r => setTimeout(r, step.delay || 300));
         }
-        await new Promise(r => setTimeout(r, step.delay || 300));
+
+        // کرسر پایانی
+        const cursorLine = document.createElement('div');
+        cursorLine.className = 'term-line';
+        cursorLine.innerHTML = '<span class="t-prompt">$</span><span class="term-cursor"></span>';
+        terminalBody.appendChild(cursorLine);
+
+        // ۳ ثانیه صبر
+        await new Promise(r => setTimeout(r, 3000));
     }
-    const cursorLine = document.createElement('div');
-    cursorLine.className = 'term-line';
-    cursorLine.innerHTML = '<span class="t-prompt">$</span><span class="term-cursor"></span>';
-    terminalBody.appendChild(cursorLine);
 }
 
+// شروع ترمینال وقتی دید
 const terminalObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -2501,25 +2479,22 @@ if (terminalBody) terminalObserver.observe(terminalBody);
 
 
 /* =========================================================
-   NEBULA — سحابی hero
+   NEBULA — سحابی شفاف
 ========================================================= */
 const nebulaCanvas = document.getElementById('nebulaCanvas');
 const nctx = nebulaCanvas.getContext('2d');
 
 function initNebula() {
     const rect = nebulaCanvas.getBoundingClientRect();
-    nebulaCanvas.width = rect.width;
-    nebulaCanvas.height = rect.height;
+    const dpr = window.devicePixelRatio || 1;
+    nebulaCanvas.width = rect.width * dpr;
+    nebulaCanvas.height = rect.height * dpr;
+    nctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 }
 initNebula();
-window.addEventListener('resize', initNebula);
+window.addEventListener('resize', () => { initNebula(); });
 
-const NW = () => nebulaCanvas.width;
-const NH = () => nebulaCanvas.height;
-const NCX = () => NW() / 2;
-const NCY = () => NH() / 2;
-
-// ابرهای سحابی
+// ابرها
 const clouds = [];
 for (let i = 0; i < 90; i++) {
     const angle = Math.random() * Math.PI * 2;
@@ -2583,16 +2558,20 @@ for (let i = 0; i < 6; i++) {
 let nebulaTime = 0;
 
 function drawNebula() {
-    const W = NW(), H = NH();
-    const CX = NCX(), CY = NCY();
+    const rect = nebulaCanvas.getBoundingClientRect();
+    const W = rect.width;
+    const H = rect.height;
+    const CX = W / 2;
+    const CY = H / 2;
 
+    // پاک کردن شفاف (نه پر کردن)
     nctx.clearRect(0, 0, W, H);
 
     nebulaTime += 0.008;
 
     // هاله بیرونی
     const outerHalo = nctx.createRadialGradient(CX, CY, 0, CX, CY, 300);
-    outerHalo.addColorStop(0, 'rgba(245, 158, 11, 0.04)');
+    outerHalo.addColorStop(0, 'rgba(245, 158, 11, 0.05)');
     outerHalo.addColorStop(0.5, 'rgba(245, 158, 11, 0.02)');
     outerHalo.addColorStop(1, 'rgba(245, 158, 11, 0)');
     nctx.fillStyle = outerHalo;
@@ -2710,6 +2689,144 @@ function drawNebula() {
 if (!prefersReduced) {
     drawNebula();
 }
+
+
+/* =========================================================
+   TYPE-IN EVERYTHING — همه نوشته‌ها
+========================================================= */
+
+// همه عناصری که باید تایپ بشن
+const typeSelectors = [
+    '.hero-title',
+    '.hero-text',
+    '.intro h2',
+    '.intro p',
+    '.journey-header h2',
+    '.journey-header p',
+    '.section-heading h2',
+    '.section-heading p',
+    '.tools-copy h2',
+    '.tools-copy p',
+    '.telegram-copy h2',
+    '.telegram-copy p',
+    '.station-card h3',
+    '.station-card p',
+    '.station-task span:last-child',
+    '.project h3',
+    '.project p',
+    '.stat-label',
+    '.journey-end-message h3',
+    '.journey-end-message p',
+    '.footer-brand p',
+    '.footer-col a'
+].join(', ');
+
+const typeTargets = document.querySelectorAll(typeSelectors);
+
+// آماده‌سازی: هر عنصر رو پاک کن و متن رو ذخیره کن
+typeTargets.forEach(el => {
+    // متن اصلی رو ذخیره کن
+    const originalText = el.textContent.trim();
+    if (!originalText) return;
+
+    el.dataset.originalText = originalText;
+    el.dataset.typed = 'false';
+    el.classList.add('type-target');
+    el.textContent = '';
+});
+
+// تایپ یه عنصر
+function typeElement(el) {
+    if (el.dataset.typed === 'true') return;
+    el.dataset.typed = 'true';
+
+    const text = el.dataset.originalText;
+    if (!text) return;
+
+    el.classList.add('is-typing');
+    el.textContent = '';
+
+    // کاراکترها رو با span بساز
+    const chars = [];
+    for (let i = 0; i < text.length; i++) {
+        const span = document.createElement('span');
+        span.className = 'type-char';
+        if (text[i] === ' ') {
+            span.classList.add('space');
+            span.innerHTML = '&nbsp;';
+        } else if (text[i] === '\n') {
+            span.innerHTML = '<br>';
+            span.className = 'type-char visible';
+        } else {
+            span.textContent = text[i];
+        }
+        el.appendChild(span);
+        chars.push(span);
+    }
+
+    // سرعت تایپ — بر اساس طول متن
+    const speed = text.length > 100 ? 12 : 25;
+
+    chars.forEach((span, i) => {
+        setTimeout(() => {
+            span.classList.add('visible');
+            if (i === chars.length - 1) {
+                el.classList.remove('is-typing');
+            }
+        }, i * speed);
+    });
+}
+
+// observer
+const typeObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            typeElement(entry.target);
+            typeObserver.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.15, rootMargin: '0px 0px -30px 0px' });
+
+typeTargets.forEach(el => typeObserver.observe(el));
+
+
+/* =========================================================
+   Counters
+========================================================= */
+const counterObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const el = entry.target;
+        const unit = el.querySelector('.unit');
+        const target = +el.dataset.target;
+        const duration = 1400;
+        const start = performance.now();
+
+        function tick(now) {
+            const elapsed = now - start;
+            const progress = Math.min(elapsed / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            const value = Math.floor(eased * target);
+            el.textContent = value;
+            if (unit) el.appendChild(unit);
+            if (progress < 1) requestAnimationFrame(tick);
+            else {
+                el.textContent = target;
+                if (unit) el.appendChild(unit);
+            }
+        }
+        requestAnimationFrame(tick);
+        counterObserver.unobserve(el);
+    });
+}, { threshold: 0.5 });
+
+document.querySelectorAll('.stat-value').forEach(el => counterObserver.observe(el));
+
+
+/* =========================================================
+   INIT
+========================================================= */
+setTimeout(updateTimeline, 200);
 
 </script>
 

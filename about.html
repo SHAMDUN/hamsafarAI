@@ -116,12 +116,12 @@ section{position:relative;}
 .glow-one{background:var(--cyan);top:-300px;right:-250px;}
 .glow-two{background:var(--orange);bottom:-300px;left:-250px;}
 
-#neuralCanvas{
+#neuroCanvas{
     position:fixed;
     inset:0;
     z-index:1;
     pointer-events:none;
-    opacity:.55;
+    opacity:.9;
 }
 
 .progress-bar{
@@ -241,7 +241,7 @@ header.scrolled .navbar{height:70px;}
 
 
 /* =========================================================
-   FADE-IN (جای تایپ)
+   FADE-IN
 ========================================================= */
 .fade-in{
     opacity:0;
@@ -425,7 +425,9 @@ header.scrolled .navbar{height:70px;}
 ========================================================= */
 .why{
     padding:100px 0;
-    background:#081d28;
+    background:rgba(8, 29, 40, 0.7);
+    backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
     border-top:1px solid var(--line);
     border-bottom:1px solid var(--line);
     position:relative;
@@ -783,7 +785,9 @@ footer{
     padding:50px 20px 35px;
     position:relative;
     z-index:2;
-    background:#061720;
+    background:rgba(6, 23, 32, 0.95);
+    backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
 }
 
 .footer-inner{
@@ -867,36 +871,18 @@ footer{
 
 
 /* =========================================================
-   RESPONSIVE — تبلت (تا 1024px)
+   RESPONSIVE
 ========================================================= */
 @media(max-width:1024px){
-
     .container{width:min(100% - 48px, 1180px);}
-
-    .me-inner{
-        grid-template-columns:1fr 1.4fr;
-        gap:50px;
-    }
-
+    .me-inner{grid-template-columns:1fr 1.4fr;gap:50px;}
     .me-avatar{max-width:260px;}
-
     .me-content h2{font-size:30px;}
-
     .why-content{gap:20px;}
-
-    .values-grid{
-        grid-template-columns:repeat(2, 1fr);
-    }
-
-    .about-hero h1{
-        font-size:clamp(30px, 5vw, 56px);
-    }
+    .values-grid{grid-template-columns:repeat(2, 1fr);}
+    .about-hero h1{font-size:clamp(30px, 5vw, 56px);}
 }
 
-
-/* =========================================================
-   RESPONSIVE — موبایل بزرگ (تا 768px)
-========================================================= */
 @media(max-width:768px){
 
     body{font-size:15px;line-height:1.75;}
@@ -913,13 +899,8 @@ footer{
     .logo-mark .path{width:20px;height:14px;left:6px;top:9px;}
     .nav-cta{padding:8px 12px;font-size:11px;}
 
-    .about-hero{
-        padding:120px 0 50px;
-    }
-
-    .about-hero .horizon{
-        top:40%;
-    }
+    .about-hero{padding:120px 0 50px;}
+    .about-hero .horizon{top:40%;}
 
     .about-hero h1{
         font-size:clamp(26px, 8vw, 40px);
@@ -929,14 +910,9 @@ footer{
         margin-bottom:20px;
     }
 
-    .about-hero p{
-        font-size:14.5px;
-        line-height:1.95;
-    }
+    .about-hero p{font-size:14.5px;line-height:1.95;}
 
-    .me{
-        padding:50px 0;
-    }
+    .me{padding:50px 0;}
 
     .me-inner{
         grid-template-columns:1fr;
@@ -944,35 +920,20 @@ footer{
         text-align:center;
     }
 
-    .me-avatar{
-        max-width:180px;
-        margin:0 auto;
-    }
+    .me-avatar{max-width:180px;margin:0 auto;}
 
     .me-avatar-ring{inset:-10px;}
     .me-avatar-ring2{inset:-20px;}
 
-    .me-content h2{
-        font-size:24px;
-        letter-spacing:-.5px;
-        line-height:1.4;
-    }
-
-    .me-content p{
-        font-size:14px;
-        line-height:2;
-    }
+    .me-content h2{font-size:24px;letter-spacing:-.5px;line-height:1.4;}
+    .me-content p{font-size:14px;line-height:2;}
 
     .why{padding:60px 0;}
     .why-header{margin-bottom:40px;}
     .why-header h2{font-size:24px;letter-spacing:-.5px;}
     .why-header p{font-size:14px;}
 
-    .why-content{
-        grid-template-columns:1fr;
-        gap:16px;
-    }
-
+    .why-content{grid-template-columns:1fr;gap:16px;}
     .why-card{padding:22px 20px;}
     .why-card h3{font-size:16px;}
     .why-card li{font-size:13px;}
@@ -980,38 +941,18 @@ footer{
     .values{padding:60px 0;}
     .values-header{margin-bottom:40px;}
     .values-header h2{font-size:24px;}
-
-    .values-grid{
-        grid-template-columns:1fr;
-        gap:14px;
-    }
-
+    .values-grid{grid-template-columns:1fr;gap:14px;}
     .value-card{padding:22px 20px;}
 
     .about-cta{padding:60px 0;}
-
-    .about-cta-inner{
-        padding:40px 24px;
-        border-radius:22px;
-    }
-
+    .about-cta-inner{padding:40px 24px;border-radius:22px;}
     .about-cta h2{font-size:24px;}
     .about-cta p{font-size:14px;}
 
-    .btn-telegram{
-        width:100%;
-        padding:14px 24px;
-        font-size:13.5px;
-    }
+    .btn-telegram{width:100%;padding:14px 24px;font-size:13.5px;}
 
     footer{padding:40px 20px 28px;}
-
-    .footer-inner{
-        grid-template-columns:1fr;
-        gap:30px;
-        margin-bottom:30px;
-    }
-
+    .footer-inner{grid-template-columns:1fr;gap:30px;margin-bottom:30px;}
     .footer-brand h4{font-size:16px;}
     .footer-brand p{font-size:12.5px;max-width:100%;}
 
@@ -1032,12 +973,7 @@ footer{
     }
 }
 
-
-/* =========================================================
-   RESPONSIVE — موبایل کوچک (تا 480px)
-========================================================= */
 @media(max-width:480px){
-
     body{font-size:14.5px;}
     .container{width:min(100% - 24px, 1180px);}
 
@@ -1077,7 +1013,6 @@ footer{
     .logo-mark{width:28px;height:28px;}
 }
 
-
 @media(prefers-reduced-motion:reduce){
     *,*::before,*::after{
         animation-duration:.01ms !important;
@@ -1096,11 +1031,14 @@ footer{
 <div class="background-glow glow-one"></div>
 <div class="background-glow glow-two"></div>
 
-<canvas id="neuralCanvas" aria-hidden="true"></canvas>
+<canvas id="neuroCanvas" aria-hidden="true"></canvas>
 
 <div class="progress-bar" id="progressBar" aria-hidden="true"></div>
 
 
+<!-- =========================================================
+     HEADER
+========================================================= -->
 <header id="header">
 <div class="container">
 <nav class="navbar">
@@ -1128,6 +1066,9 @@ footer{
 </header>
 
 
+<!-- =========================================================
+     HERO
+========================================================= -->
 <section class="about-hero">
 
 <div class="horizon"></div>
@@ -1149,6 +1090,9 @@ footer{
 </section>
 
 
+<!-- =========================================================
+     ME
+========================================================= -->
 <section class="me">
 <div class="container me-inner">
 
@@ -1190,6 +1134,9 @@ footer{
 </section>
 
 
+<!-- =========================================================
+     WHY
+========================================================= -->
 <section class="why">
 <div class="container">
 
@@ -1234,6 +1181,9 @@ footer{
 </section>
 
 
+<!-- =========================================================
+     VALUES
+========================================================= -->
 <section class="values">
 <div class="container">
 
@@ -1273,6 +1223,9 @@ footer{
 </section>
 
 
+<!-- =========================================================
+     CTA
+========================================================= -->
 <section class="about-cta">
 <div class="container">
 
@@ -1303,6 +1256,9 @@ footer{
 </section>
 
 
+<!-- =========================================================
+     FOOTER
+========================================================= -->
 <footer>
 <div class="footer-inner">
 
@@ -1380,7 +1336,7 @@ window.addEventListener('scroll', () => {
 
 
 /* =========================================================
-   FADE-IN — جای تایپ
+   FADE-IN
 ========================================================= */
 const fadeObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
@@ -1395,103 +1351,303 @@ document.querySelectorAll('.fade-in').forEach(el => fadeObserver.observe(el));
 
 
 /* =========================================================
-   NEURAL CANVAS
+   NEUROMORPHIC + PARALLAX CANVAS
 ========================================================= */
-const neuralCanvas = document.getElementById('neuralCanvas');
-const nctx = neuralCanvas.getContext('2d');
+const canvas = document.getElementById('neuroCanvas');
+const ctx = canvas.getContext('2d');
 
-let neuralParticles = [];
-let neuralMouse = { x: -1000, y: -1000 };
-let neuralAnimId;
+let W, H;
 
-function resizeNeural() {
-    neuralCanvas.width = window.innerWidth;
-    neuralCanvas.height = window.innerHeight;
-    initNeuralParticles();
+function resize() {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
 }
+resize();
+window.addEventListener('resize', () => { resize(); initNeuro(); });
 
-function initNeuralParticles() {
-    const count = window.innerWidth < 768 ? 25 : 55;
-    neuralParticles = [];
-    for (let i = 0; i < count; i++) {
-        neuralParticles.push({
-            x: Math.random() * neuralCanvas.width,
-            y: Math.random() * neuralCanvas.height,
-            vx: (Math.random() - 0.5) * 0.3,
-            vy: (Math.random() - 0.5) * 0.3,
-            r: Math.random() * 1.4 + 0.6
+const LAYERS = [
+    { name: 'back',  count: 40, depth: 0.3, speed: 0.15, size: 0.7, opacity: 0.25 },
+    { name: 'mid',   count: 30, depth: 0.6, speed: 0.3,  size: 1.1, opacity: 0.5 },
+    { name: 'front', count: 18, depth: 1.0, speed: 0.5,  size: 1.8, opacity: 0.95 }
+];
+
+const MAX_DIST_BACK  = 180;
+const MAX_DIST_MID   = 200;
+const MAX_DIST_FRONT = 240;
+const MOUSE_RADIUS = 200;
+
+let layers = [];
+let neuroMouse = { x: -1000, y: -1000 };
+let clicks = [];
+let pulses = [];
+let neuroTime = 0;
+
+function initNeuro() {
+    layers = LAYERS.map(layer => {
+        const nodes = [];
+        for (let i = 0; i < layer.count; i++) {
+            nodes.push({
+                x: Math.random() * W,
+                y: Math.random() * H,
+                vx: (Math.random() - 0.5) * layer.speed,
+                vy: (Math.random() - 0.5) * layer.speed,
+                size: layer.size * (0.7 + Math.random() * 0.6),
+                pulse: Math.random() * Math.PI * 2,
+                pulseSpeed: 1 + Math.random() * 2
+            });
+        }
+        return { ...layer, nodes };
+    });
+}
+initNeuro();
+
+// موس
+window.addEventListener('mousemove', (e) => {
+    neuroMouse.x = e.clientX;
+    neuroMouse.y = e.clientY;
+}, { passive: true });
+
+window.addEventListener('mouseleave', () => {
+    neuroMouse.x = -1000;
+    neuroMouse.y = -1000;
+});
+
+// کلیک
+window.addEventListener('click', (e) => {
+    clicks.push({
+        x: e.clientX,
+        y: e.clientY,
+        r: 0,
+        maxR: 200,
+        life: 1
+    });
+});
+
+// پالس‌های عصبی
+function spawnPulse() {
+    const frontLayer = layers[2];
+    if (!frontLayer || !frontLayer.nodes.length) return;
+
+    const source = frontLayer.nodes[Math.floor(Math.random() * frontLayer.nodes.length)];
+    const nearby = [];
+
+    frontLayer.nodes.forEach(n => {
+        if (n === source) return;
+        const d = Math.hypot(n.x - source.x, n.y - source.y);
+        if (d < 250) nearby.push({ node: n, dist: d });
+    });
+
+    if (nearby.length === 0) return;
+
+    const count = 1 + Math.floor(Math.random() * 3);
+    nearby.sort((a, b) => a.dist - b.dist);
+
+    for (let i = 0; i < Math.min(count, nearby.length); i++) {
+        pulses.push({
+            fromX: source.x,
+            fromY: source.y,
+            toX: nearby[i].node.x,
+            toY: nearby[i].node.y,
+            t: 0,
+            speed: 0.02 + Math.random() * 0.02,
+            color: Math.random() > 0.5 ? 'cyan' : 'orange'
         });
     }
 }
 
-function drawNeural() {
-    nctx.clearRect(0, 0, neuralCanvas.width, neuralCanvas.height);
+let pulseInterval = setInterval(spawnPulse, 800);
 
-    for (let i = 0; i < neuralParticles.length; i++) {
-        const p = neuralParticles[i];
+function drawNeuro() {
+    if (prefersReduced) return;
 
-        for (let j = i + 1; j < neuralParticles.length; j++) {
-            const p2 = neuralParticles[j];
-            const dx = p.x - p2.x;
-            const dy = p.y - p2.y;
-            const dist = Math.sqrt(dx * dx + dy * dy);
+    ctx.clearRect(0, 0, W, H);
+    neuroTime += 0.016;
 
-            if (dist < 130) {
-                const opacity = 0.1 * (1 - dist / 130);
-                nctx.beginPath();
-                nctx.moveTo(p.x, p.y);
-                nctx.lineTo(p2.x, p2.y);
-                nctx.strokeStyle = 'rgba(34, 211, 238, ' + opacity + ')';
-                nctx.lineWidth = 0.6;
-                nctx.stroke();
+    // پس‌زمینه
+    const bgGrad = ctx.createRadialGradient(W/2, H/2, 0, W/2, H/2, Math.max(W, H) * 0.7);
+    bgGrad.addColorStop(0, 'rgba(10, 30, 45, 0.4)');
+    bgGrad.addColorStop(1, 'rgba(7, 25, 35, 0.9)');
+    ctx.fillStyle = bgGrad;
+    ctx.fillRect(0, 0, W, H);
+
+    // به‌روزرسانی موقعیت‌ها
+    layers.forEach((layer, layerIndex) => {
+        layer.nodes.forEach(node => {
+            node.x += node.vx;
+            node.y += node.vy;
+
+            if (node.x < -50) node.x = W + 50;
+            if (node.x > W + 50) node.x = -50;
+            if (node.y < -50) node.y = H + 50;
+            if (node.y > H + 50) node.y = -50;
+
+            // جذب به موس — لایه جلو
+            if (layerIndex === 2 && neuroMouse.x > 0) {
+                const dx = neuroMouse.x - node.x;
+                const dy = neuroMouse.y - node.y;
+                const d = Math.hypot(dx, dy);
+
+                if (d < MOUSE_RADIUS) {
+                    const force = (1 - d / MOUSE_RADIUS) * 0.5;
+                    node.x += dx * force * 0.03;
+                    node.y += dy * force * 0.03;
+                }
+            }
+        });
+    });
+
+    // رسم لایه‌ها
+    layers.forEach((layer, layerIndex) => {
+        const maxDist = layerIndex === 0 ? MAX_DIST_BACK :
+                        layerIndex === 1 ? MAX_DIST_MID :
+                        MAX_DIST_FRONT;
+
+        // خطوط بین گره‌ها
+        for (let i = 0; i < layer.nodes.length; i++) {
+            const a = layer.nodes[i];
+            for (let j = i + 1; j < layer.nodes.length; j++) {
+                const b = layer.nodes[j];
+                const d = Math.hypot(a.x - b.x, a.y - b.y);
+
+                if (d < maxDist) {
+                    const opacity = (1 - d / maxDist) * layer.opacity * 0.5;
+
+                    if (layerIndex === 2) {
+                        const grad = ctx.createLinearGradient(a.x, a.y, b.x, b.y);
+                        grad.addColorStop(0, `rgba(34, 211, 238, ${opacity})`);
+                        grad.addColorStop(1, `rgba(245, 158, 11, ${opacity})`);
+                        ctx.strokeStyle = grad;
+                    } else {
+                        ctx.strokeStyle = `rgba(34, 211, 238, ${opacity})`;
+                    }
+
+                    ctx.lineWidth = layerIndex === 2 ? 1.2 : 0.6;
+                    ctx.beginPath();
+                    ctx.moveTo(a.x, a.y);
+                    ctx.lineTo(b.x, b.y);
+                    ctx.stroke();
+                }
+            }
+
+            // خط به موس
+            if (layerIndex === 2 && neuroMouse.x > 0) {
+                const md = Math.hypot(a.x - neuroMouse.x, a.y - neuroMouse.y);
+                if (md < MOUSE_RADIUS) {
+                    const opacity = (1 - md / MOUSE_RADIUS) * 0.6;
+                    ctx.strokeStyle = `rgba(254, 243, 199, ${opacity})`;
+                    ctx.lineWidth = 1;
+                    ctx.beginPath();
+                    ctx.moveTo(a.x, a.y);
+                    ctx.lineTo(neuroMouse.x, neuroMouse.y);
+                    ctx.stroke();
+                }
             }
         }
 
-        const mdx = p.x - neuralMouse.x;
-        const mdy = p.y - neuralMouse.y;
-        const mdist = Math.sqrt(mdx * mdx + mdy * mdy);
-        if (mdist < 170) {
-            const opacity = 0.25 * (1 - mdist / 170);
-            nctx.beginPath();
-            nctx.moveTo(p.x, p.y);
-            nctx.lineTo(neuralMouse.x, neuralMouse.y);
-            nctx.strokeStyle = 'rgba(245, 158, 11, ' + opacity + ')';
-            nctx.lineWidth = 0.7;
-            nctx.stroke();
-        }
+        // گره‌ها
+        layer.nodes.forEach(node => {
+            const pulse = 0.7 + Math.sin(neuroTime * node.pulseSpeed + node.pulse) * 0.3;
+
+            if (layerIndex === 2) {
+                const glow = ctx.createRadialGradient(node.x, node.y, 0, node.x, node.y, node.size * 8);
+                glow.addColorStop(0, `rgba(34, 211, 238, ${layer.opacity * pulse * 0.6})`);
+                glow.addColorStop(1, 'rgba(34, 211, 238, 0)');
+                ctx.fillStyle = glow;
+                ctx.beginPath();
+                ctx.arc(node.x, node.y, node.size * 8, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            ctx.beginPath();
+            ctx.arc(node.x, node.y, node.size * pulse, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(34, 211, 238, ${layer.opacity * pulse})`;
+            ctx.fill();
+
+            if (layerIndex === 2 && node.size > 1.5) {
+                ctx.beginPath();
+                ctx.arc(node.x, node.y, node.size * 0.4 * pulse, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(254, 243, 199, ${layer.opacity * pulse})`;
+                ctx.fill();
+            }
+        });
+    });
+
+    // پالس‌های عصبی
+    pulses = pulses.filter(pulse => {
+        pulse.t += pulse.speed;
+        if (pulse.t >= 1) return false;
+
+        const x = pulse.fromX + (pulse.toX - pulse.fromX) * pulse.t;
+        const y = pulse.fromY + (pulse.toY - pulse.fromY) * pulse.t;
+
+        const trailLen = 0.25;
+        const t0 = Math.max(0, pulse.t - trailLen);
+        const tx = pulse.fromX + (pulse.toX - pulse.fromX) * t0;
+        const ty = pulse.fromY + (pulse.toY - pulse.fromY) * t0;
+
+        const grad = ctx.createLinearGradient(tx, ty, x, y);
+        const rgb = pulse.color === 'cyan' ? '34, 211, 238' : '245, 158, 11';
+        grad.addColorStop(0, `rgba(${rgb}, 0)`);
+        grad.addColorStop(1, `rgba(${rgb}, 1)`);
+
+        ctx.strokeStyle = grad;
+        ctx.lineWidth = 2;
+        ctx.lineCap = 'round';
+        ctx.beginPath();
+        ctx.moveTo(tx, ty);
+        ctx.lineTo(x, y);
+        ctx.stroke();
+
+        const glow = ctx.createRadialGradient(x, y, 0, x, y, 12);
+        glow.addColorStop(0, `rgba(255, 255, 255, 1)`);
+        glow.addColorStop(0.4, `rgba(${rgb}, 0.6)`);
+        glow.addColorStop(1, `rgba(${rgb}, 0)`);
+        ctx.fillStyle = glow;
+        ctx.beginPath();
+        ctx.arc(x, y, 12, 0, Math.PI * 2);
+        ctx.fill();
+
+        return true;
+    });
+
+    // انفجار کلیک
+    clicks = clicks.filter(click => {
+        click.r += 3;
+        click.life = 1 - click.r / click.maxR;
+
+        if (click.life <= 0) return false;
+
+        ctx.beginPath();
+        ctx.arc(click.x, click.y, click.r, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(34, 211, 238, ${click.life * 0.8})`;
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.arc(click.x, click.y, click.r * 0.6, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(245, 158, 11, ${click.life * 0.5})`;
+        ctx.lineWidth = 1;
+        ctx.stroke();
+
+        return true;
+    });
+
+    // موس
+    if (neuroMouse.x > 0) {
+        const mouseGlow = ctx.createRadialGradient(neuroMouse.x, neuroMouse.y, 0, neuroMouse.x, neuroMouse.y, 60);
+        mouseGlow.addColorStop(0, 'rgba(254, 243, 199, 0.3)');
+        mouseGlow.addColorStop(1, 'rgba(254, 243, 199, 0)');
+        ctx.fillStyle = mouseGlow;
+        ctx.beginPath();
+        ctx.arc(neuroMouse.x, neuroMouse.y, 60, 0, Math.PI * 2);
+        ctx.fill();
     }
 
-    for (const p of neuralParticles) {
-        p.x += p.vx;
-        p.y += p.vy;
-
-        if (p.x < 0 || p.x > neuralCanvas.width) p.vx *= -1;
-        if (p.y < 0 || p.y > neuralCanvas.height) p.vy *= -1;
-
-        nctx.beginPath();
-        nctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        nctx.fillStyle = 'rgba(34, 211, 238, 0.5)';
-        nctx.fill();
-    }
-
-    neuralAnimId = requestAnimationFrame(drawNeural);
+    requestAnimationFrame(drawNeuro);
 }
 
 if (!prefersReduced) {
-    resizeNeural();
-    drawNeural();
-
-    window.addEventListener('resize', resizeNeural);
-
-    window.addEventListener('mousemove', (e) => {
-        neuralMouse.x = e.clientX;
-        neuralMouse.y = e.clientY;
-    }, { passive: true });
-
-    window.addEventListener('mouseleave', () => {
-        neuralMouse.x = -1000;
-        neuralMouse.y = -1000;
-    });
+    drawNeuro();
 }
 
 </script>

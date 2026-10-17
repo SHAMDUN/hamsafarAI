@@ -600,8 +600,10 @@ let currentTrackFilter = 'all';
     draw();
 })();
 
-   /* =========================================================
-   COSMIC ENGINE — STRUCTURED NETWORK & BIG BANG
+   <script>
+/* =========================================================
+   COSMIC ENGINE — COLLECT → FORM → CHARGE → BIG BANG
+   فقط موتور انیمیشن اصلاح شده است.
 ========================================================= */
 (function () {
     const canvas = document.getElementById('brainCanvas');
@@ -610,7 +612,6 @@ let currentTrackFilter = 'all';
     const ctx = canvas.getContext('2d', { alpha: true });
     const titleEl = document.getElementById('cosmosTitle');
     const subtitleEl = document.getElementById('cosmosSubtitle');
-
     if (!ctx) return;
 
     const reduceMotion = window.matchMedia(
@@ -618,41 +619,27 @@ let currentTrackFilter = 'all';
     ).matches;
 
     const TAU = Math.PI * 2;
-
-    let W = 300;
-    let H = 300;
-    let CX = 150;
-    let CY = 150;
-    let DPR = 1;
-    let radius = 120;
-    let lastTime = 0;
-    let elapsed = 0;
-    let phase = 'collecting';
-    let phaseTime = 0;
-    let nodes = [];
-    let particles = [];
-    let shockwaves = [];
-    let gasClouds = [];
-    let stars = [];
-    let backgroundStars = [];
-    let animationFrame = 0;
-    let destroyed = false;
-
     const config = {
         cyan: [34, 211, 238],
         blue: [96, 165, 250],
         purple: [167, 139, 250],
         gold: [251, 191, 36],
         white: [240, 253, 255],
-        maxNodes: 155,
-        maxParticles: 560
+        maxNodes: 155
     };
 
+    let W = 300, H = 300, CX = 150, CY = 150;
+    let DPR = 1, radius = 120;
+    let lastTime = 0, elapsed = 0, phaseTime = 0;
+    let phase = 'collecting';
+    let nodes = [], particles = [], shockwaves = [];
+    let gasClouds = [], backgroundStars = [];
+    let animationFrame = 0, destroyed = false;
+    let resizeObserver = null;
+    let wasHidden = false;
+
     const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
-
     const rand = (min, max) => min + Math.random() * (max - min);
-
-    const mix = (a, b, t) => a + (b - a) * t;
 
     function rgb(color, alpha = 1) {
         return `rgba(${color[0]},${color[1]},${color[2]},${alpha})`;
@@ -663,10 +650,15 @@ let currentTrackFilter = 'all';
         if (subtitleEl) subtitleEl.textContent = subtitle;
     }
 
+    /* -----------------------------------------
+       Resize without restarting the current phase
+    ----------------------------------------- */
     function resize() {
         const rect = canvas.getBoundingClientRect();
-
         if (!rect.width || !rect.height) return;
+
+        const oldCX = CX, oldCY = CY;
+        const oldRadius = radius;
 
         W = rect.width;
         H = rect.height;
@@ -674,30 +666,57 @@ let currentTrackFilter = 'all';
 
         canvas.width = Math.round(W * DPR);
         canvas.height = Math.round(H * DPR);
-
         ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
 
         CX = W / 2;
         CY = H / 2;
         radius = Math.min(W, H) * 0.43;
 
-        createBackgroundStars();
-        createNetwork();
+        const sx = oldRadius ? radius / oldRadius : 1;
+        const dx = CX - oldCX;
+        const dy = CY - oldCY;
 
-        if (phase === 'collecting') {
-            createIncomingParticles();
+        // Preserve particles and nodes during resizing.
+        particles.forEach(p => {
+            p.x = CX + (p.x - oldCX) * sx;
+            p.y = CY + (p.y - oldCY) * sx;
+            if (p.targetX !== undefined) p.targetX = CX;
+            if (p.targetY !== undefined) p.targetY = CY;
+        });
+
+        nodes.forEach(n => {
+            n.x = CX + (n.x - oldCX) * sx;
+            n.y = CY + (n.y - oldCY) * sx;
+            n.baseX = CX + (n.baseX - oldCX) * sx;
+            n.baseY = CY + (n.baseY - oldCY) * sx;
+        });
+
+        gasClouds.forEach(g => {
+            g.x = CX + (g.x - oldCX) * sx;
+            g.y = CY + (g.y - oldCY) * sx;
+        });
+
+        shockwaves.forEach(w => {
+            w.radius *= sx;
+            w.speed *= sx;
+        });
+
+        createBackgroundStars();
+
+        // Only create a network if one already belongs to this phase.
+        // In the collecting phase, the network must not appear early.
+        if (phase === 'forming' || phase === 'charging' ||
+            phase === 'rebuilding') {
+            if (!nodes.length) createNetwork();
         }
     }
 
     /* -----------------------------------------
-       Background: stable star distribution
+       Background stars
     ----------------------------------------- */
     function createBackgroundStars() {
         backgroundStars = [];
-
-        const count = Math.round(
-            clamp((W * H) / 95, 150, 440)
-        );
+        const count = Math.round(clamp((W * H) / 95, 150, 440));
 
         for (let i = 0; i < count; i++) {
             const angle = rand(0, TAU);
@@ -710,16 +729,13 @@ let currentTrackFilter = 'all';
                 alpha: rand(0.12, 0.65),
                 phase: rand(0, TAU),
                 speed: rand(0.3, 1.4),
-                color: Math.random() > 0.82
-                    ? config.purple
-                    : config.blue
+                color: Math.random() > 0.82 ? config.purple : config.blue
             });
         }
     }
 
     /* -----------------------------------------
-       Organized network:
-       radial rings + spiral arms
+       Network geometry
     ----------------------------------------- */
     function createNetwork() {
         nodes = [];
@@ -734,35 +750,28 @@ let currentTrackFilter = 'all';
 
             for (let i = 0; i < count; i++) {
                 const baseAngle = (i / count) * TAU;
-                const armOffset = Math.sin(baseAngle * arms + ring * 0.6) * 0.08;
-                const angle = baseAngle + armOffset;
-
+                const angle = baseAngle +
+                    Math.sin(baseAngle * arms + ring * 0.6) * 0.08;
                 const jitter = ringRadius * 0.035;
-
-                const x = CX + Math.cos(angle) * ringRadius + rand(-jitter, jitter);
-                const y = CY + Math.sin(angle) * ringRadius + rand(-jitter, jitter);
+                const x = CX + Math.cos(angle) * ringRadius +
+                    rand(-jitter, jitter);
+                const y = CY + Math.sin(angle) * ringRadius +
+                    rand(-jitter, jitter);
 
                 nodes.push({
-                    x,
-                    y,
-                    baseX: x,
-                    baseY: y,
-                    ring,
-                    angle,
-                    radius: ringRadius,
+                    x, y, baseX: x, baseY: y,
+                    startX: CX, startY: CY,
+                    ring, angle, radius: ringRadius,
                     phase: rand(0, TAU),
                     size: rand(0.7, 1.8),
                     color: ring % 4 === 0
                         ? config.purple
                         : (Math.random() > 0.78 ? config.gold : config.cyan),
-                    energy: rand(0.5, 1),
-                    vx: 0,
-                    vy: 0
+                    energy: rand(0.5, 1)
                 });
             }
         }
 
-        // Spiral-arm anchor nodes provide a clearer geometric structure.
         for (let arm = 0; arm < arms; arm++) {
             const offset = arm * TAU / arms;
 
@@ -770,23 +779,18 @@ let currentTrackFilter = 'all';
                 const t = j / 15;
                 const r = radius * (0.08 + t * 0.77);
                 const angle = offset + t * 2.8;
-
                 const x = CX + Math.cos(angle) * r;
                 const y = CY + Math.sin(angle) * r;
 
                 nodes.push({
-                    x, y,
-                    baseX: x,
-                    baseY: y,
+                    x, y, baseX: x, baseY: y,
+                    startX: CX, startY: CY,
                     ring: 2 + Math.round(t * 5),
-                    angle,
-                    radius: r,
+                    angle, radius: r,
                     phase: rand(0, TAU),
                     size: rand(0.9, 1.9),
                     color: arm % 2 ? config.blue : config.cyan,
-                    energy: rand(0.6, 1),
-                    vx: 0,
-                    vy: 0
+                    energy: rand(0.6, 1)
                 });
             }
         }
@@ -797,11 +801,11 @@ let currentTrackFilter = 'all';
     }
 
     /* -----------------------------------------
-       Inward-moving particles
+       Collecting particles: every particle has
+       to reach the center before formation starts
     ----------------------------------------- */
     function createIncomingParticles() {
         particles = [];
-
         const count = reduceMotion ? 24 : 68;
 
         for (let i = 0; i < count; i++) {
@@ -811,51 +815,118 @@ let currentTrackFilter = 'all';
             particles.push({
                 x: CX + Math.cos(angle) * dist,
                 y: CY + Math.sin(angle) * dist,
-                vx: 0,
-                vy: 0,
+                startX: CX + Math.cos(angle) * dist,
+                startY: CY + Math.sin(angle) * dist,
                 angle,
-                speed: rand(0.6, 1.8),
                 size: rand(0.5, 1.7),
                 color: Math.random() > 0.7 ? config.gold : config.cyan,
-                progress: rand(0, 0.16)
+                duration: rand(2.8, 5.0),
+                progress: 0,
+                arrived: false,
+                trailX: 0,
+                trailY: 0
             });
         }
     }
 
+    function drawIncoming(dt) {
+        let allArrived = true;
+
+        for (const p of particles) {
+            if (!p.arrived) {
+                allArrived = false;
+                p.progress = clamp(
+                    p.progress + dt / p.duration,
+                    0, 1
+                );
+
+                // Smooth movement from the particle's starting point
+                // all the way to the exact center.
+                const t = p.progress;
+                const eased = t * t * (3 - 2 * t);
+
+                const oldX = p.x;
+                const oldY = p.y;
+
+                p.x = p.startX + (CX - p.startX) * eased;
+                p.y = p.startY + (CY - p.startY) * eased;
+
+                p.trailX = p.x - oldX;
+                p.trailY = p.y - oldY;
+
+                if (p.progress >= 1) {
+                    p.x = CX;
+                    p.y = CY;
+                    p.arrived = true;
+                }
+            }
+
+            ctx.save();
+            ctx.strokeStyle = rgb(p.color, p.arrived ? 0.12 : 0.65);
+            ctx.lineWidth = p.size;
+
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(
+                p.x - p.trailX * 2.3,
+                p.y - p.trailY * 2.3
+            );
+            ctx.stroke();
+
+            ctx.shadowBlur = p.arrived ? 5 : 12;
+            ctx.shadowColor = rgb(p.color, 0.9);
+            ctx.fillStyle = rgb(p.color, p.arrived ? 0.35 : 0.95);
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.size, 0, TAU);
+            ctx.fill();
+            ctx.restore();
+        }
+
+        // Formation starts only after all particles have arrived.
+        if (allArrived || particles.every(p => p.arrived)) {
+            beginFormation();
+        }
+    }
+
     /* -----------------------------------------
-       Gas clouds / nebula wisps
+       Form the network outward from the center
     ----------------------------------------- */
-    function createGasClouds() {
-        gasClouds = [];
+    function beginFormation() {
+        phase = 'forming';
+        phaseTime = 0;
+        particles = [];
 
-        const count = reduceMotion ? 12 : 38;
+        createNetwork();
 
-        for (let i = 0; i < count; i++) {
-            const angle = rand(0, TAU);
-            const dist = rand(0, radius * 0.72);
-
-            gasClouds.push({
-                x: CX + Math.cos(angle) * dist,
-                y: CY + Math.sin(angle) * dist,
-                vx: Math.cos(angle) * rand(0.08, 0.65),
-                vy: Math.sin(angle) * rand(0.08, 0.65),
-                size: rand(radius * 0.025, radius * 0.095),
-                rotation: rand(0, TAU),
-                spin: rand(-0.008, 0.008),
-                alpha: rand(0.035, 0.13),
-                color: [config.cyan, config.blue, config.purple][
-                    Math.floor(Math.random() * 3)
-                ]
-            });
+        // All network nodes begin at the center.
+        for (const node of nodes) {
+            node.startX = CX;
+            node.startY = CY;
+            node.x = CX;
+            node.y = CY;
         }
+
+        setCaption('شکل‌گیری شبکه', 'ذرات به ساختار کیهانی تبدیل می‌شوند');
+    }
+
+    function updateFormation() {
+        const duration = reduceMotion ? 0.15 : 2.8;
+        const progress = clamp(phaseTime / duration, 0, 1);
+        const eased = progress * progress * (3 - 2 * progress);
+
+        for (const node of nodes) {
+            node.x = node.startX + (node.baseX - node.startX) * eased;
+            node.y = node.startY + (node.baseY - node.startY) * eased;
+        }
+
+        if (progress >= 1) beginCharging();
     }
 
     /* -----------------------------------------
-       Network drawing with distance-limited links
+       Network drawing
     ----------------------------------------- */
     function drawNetwork(power = 1) {
         const linkDistance = radius * 0.29;
-
         ctx.save();
         ctx.lineWidth = 0.65;
 
@@ -872,14 +943,11 @@ let currentTrackFilter = 'all';
 
                 const dist = Math.sqrt(d2);
                 const alpha = (1 - dist / linkDistance) * 0.32 * power;
-
-                // Favor same-ring and nearby-ring connections.
                 const ringDiff = Math.abs(a.ring - b.ring);
-                const strength = ringDiff <= 1 ? 1 : 0.55;
 
                 ctx.strokeStyle = rgb(
                     ringDiff > 1 ? config.blue : config.cyan,
-                    alpha * strength
+                    alpha * (ringDiff <= 1 ? 1 : 0.55)
                 );
 
                 ctx.beginPath();
@@ -894,7 +962,8 @@ let currentTrackFilter = 'all';
 
     function drawNodes(power = 1) {
         for (const node of nodes) {
-            const pulse = 0.78 + Math.sin(elapsed * 1.8 + node.phase) * 0.22;
+            const pulse = 0.78 +
+                Math.sin(elapsed * 1.8 + node.phase) * 0.22;
             const r = node.size * pulse * power;
 
             ctx.save();
@@ -909,15 +978,14 @@ let currentTrackFilter = 'all';
     }
 
     /* -----------------------------------------
-       Core glow
+       Core
     ----------------------------------------- */
     function drawCore(intensity = 1) {
         const pulse = 1 + Math.sin(elapsed * 2.2) * 0.07;
         const coreRadius = radius * 0.19 * pulse;
 
         const glow = ctx.createRadialGradient(
-            CX, CY, 0,
-            CX, CY, coreRadius * 2.5
+            CX, CY, 0, CX, CY, coreRadius * 2.5
         );
 
         glow.addColorStop(0, `rgba(255,255,255,${0.95 * intensity})`);
@@ -942,21 +1010,44 @@ let currentTrackFilter = 'all';
     }
 
     /* -----------------------------------------
-       Nebula drawing
+       Nebula clouds
     ----------------------------------------- */
-    function drawGas() {
+    function createGasClouds() {
+        gasClouds = [];
+        const count = reduceMotion ? 12 : 38;
+
+        for (let i = 0; i < count; i++) {
+            const angle = rand(0, TAU);
+            const dist = rand(0, radius * 0.72);
+
+            gasClouds.push({
+                x: CX + Math.cos(angle) * dist,
+                y: CY + Math.sin(angle) * dist,
+                vx: Math.cos(angle) * rand(0.08, 0.65),
+                vy: Math.sin(angle) * rand(0.08, 0.65),
+                size: rand(radius * 0.025, radius * 0.095),
+                rotation: rand(0, TAU),
+                spin: rand(-0.008, 0.008),
+                alpha: rand(0.035, 0.13),
+                color: [config.cyan, config.blue, config.purple][
+                    Math.floor(Math.random() * 3)
+                ]
+            });
+        }
+    }
+
+    function drawGas(dt) {
         for (const gas of gasClouds) {
-            gas.x += gas.vx;
-            gas.y += gas.vy;
-            gas.rotation += gas.spin;
+            gas.x += gas.vx * dt * 60;
+            gas.y += gas.vy * dt * 60;
+            gas.rotation += gas.spin * dt * 60;
 
             ctx.save();
             ctx.translate(gas.x, gas.y);
             ctx.rotate(gas.rotation);
 
             const grad = ctx.createRadialGradient(
-                0, 0, 0,
-                0, 0, gas.size
+                0, 0, 0, 0, 0, gas.size
             );
 
             grad.addColorStop(0, rgb(gas.color, gas.alpha));
@@ -973,45 +1064,7 @@ let currentTrackFilter = 'all';
     }
 
     /* -----------------------------------------
-       Incoming particles
-    ----------------------------------------- */
-    function drawIncoming(dt) {
-        for (const p of particles) {
-            const dx = CX - p.x;
-            const dy = CY - p.y;
-            const dist = Math.max(0.01, Math.hypot(dx, dy));
-
-            const acceleration = 0.6 + (1 - p.progress) * 0.3;
-
-            p.vx += (dx / dist) * acceleration * dt * 60;
-            p.vy += (dy / dist) * acceleration * dt * 60;
-
-            p.vx *= 0.985;
-            p.vy *= 0.985;
-
-            p.x += p.vx * p.speed * dt * 60;
-            p.y += p.vy * p.speed * dt * 60;
-            p.progress = clamp(p.progress + dt * 0.12, 0, 1);
-
-            ctx.save();
-            ctx.strokeStyle = rgb(p.color, 0.55);
-            ctx.lineWidth = p.size;
-
-            ctx.beginPath();
-            ctx.moveTo(p.x, p.y);
-            ctx.lineTo(p.x - p.vx * 2, p.y - p.vy * 2);
-            ctx.stroke();
-
-            ctx.fillStyle = rgb(p.color, 0.9);
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, p.size, 0, TAU);
-            ctx.fill();
-            ctx.restore();
-        }
-    }
-
-    /* -----------------------------------------
-       Explosion preparation
+       Charging and big bang
     ----------------------------------------- */
     function beginCharging() {
         phase = 'charging';
@@ -1029,8 +1082,6 @@ let currentTrackFilter = 'all';
 
         for (let i = 0; i < total; i++) {
             const angle = rand(0, TAU);
-
-            // A radial distribution with some clustered filaments.
             const cluster = Math.random() > 0.65
                 ? rand(0.2, 1)
                 : Math.sqrt(Math.random());
@@ -1039,16 +1090,9 @@ let currentTrackFilter = 'all';
             const speed = rand(0.6, 4.2) *
                 (Math.random() > 0.8 ? 1.6 : 1);
 
-            const colorSet = [
-                config.cyan,
-                config.blue,
-                config.purple,
-                config.gold,
-                config.white
-            ];
-
-            const color = colorSet[
-                Math.floor(Math.random() * colorSet.length)
+            const colors = [
+                config.cyan, config.blue, config.purple,
+                config.gold, config.white
             ];
 
             particles.push({
@@ -1057,7 +1101,7 @@ let currentTrackFilter = 'all';
                 vx: Math.cos(angle) * speed,
                 vy: Math.sin(angle) * speed,
                 size: rand(0.45, 2.1),
-                color,
+                color: colors[Math.floor(Math.random() * colors.length)],
                 alpha: rand(0.6, 1),
                 drag: rand(0.988, 0.998),
                 life: rand(1.1, 3.2),
@@ -1066,18 +1110,16 @@ let currentTrackFilter = 'all';
             });
         }
 
-        for (let i = 0; i < nodes.length; i++) {
-            const n = nodes[i];
+        for (const n of nodes) {
             const dx = n.x - CX;
             const dy = n.y - CY;
             const d = Math.max(0.01, Math.hypot(dx, dy));
             const speed = rand(1.2, 3.5);
 
             particles.push({
-                x: n.x,
-                y: n.y,
-                vx: (dx / d) * speed,
-                vy: (dy / d) * speed,
+                x: n.x, y: n.y,
+                vx: dx / d * speed,
+                vy: dy / d * speed,
                 size: n.size * 1.2,
                 color: n.color,
                 alpha: 0.95,
@@ -1101,13 +1143,9 @@ let currentTrackFilter = 'all';
         setCaption('انفجار بزرگ', 'آغاز گسترش جهان');
     }
 
-    /* -----------------------------------------
-       Shockwave rings
-    ----------------------------------------- */
     function drawShockwaves(dt) {
         for (let i = shockwaves.length - 1; i >= 0; i--) {
             const wave = shockwaves[i];
-
             wave.radius += wave.speed * dt;
             wave.alpha -= dt * 0.48;
             wave.width = Math.max(0.5, wave.width - dt * 1.1);
@@ -1118,7 +1156,6 @@ let currentTrackFilter = 'all';
             }
 
             ctx.save();
-
             ctx.lineWidth = wave.width;
             ctx.strokeStyle = `rgba(255,255,255,${wave.alpha * 0.85})`;
             ctx.shadowBlur = 18;
@@ -1133,18 +1170,13 @@ let currentTrackFilter = 'all';
             ctx.beginPath();
             ctx.arc(CX, CY, wave.radius * 0.985, 0, TAU);
             ctx.stroke();
-
             ctx.restore();
         }
     }
 
-    /* -----------------------------------------
-       Explosion particles
-    ----------------------------------------- */
     function drawExplosion(dt) {
         for (let i = particles.length - 1; i >= 0; i--) {
             const p = particles[i];
-
             p.life -= dt;
 
             if (p.life <= 0) {
@@ -1152,16 +1184,12 @@ let currentTrackFilter = 'all';
                 continue;
             }
 
-            // Slight curved trajectories instead of straight uniform rays.
-            const vx = p.vx;
-            const vy = p.vy;
-
+            const vx = p.vx, vy = p.vy;
             p.vx += -vy * p.twist * dt * 60;
             p.vy += vx * p.twist * dt * 60;
 
             p.x += p.vx * dt * 60;
             p.y += p.vy * dt * 60;
-
             p.vx *= p.drag;
             p.vy *= p.drag;
 
@@ -1169,7 +1197,6 @@ let currentTrackFilter = 'all';
             const alpha = p.alpha * fade;
 
             ctx.save();
-
             ctx.strokeStyle = rgb(p.color, alpha * 0.36);
             ctx.lineWidth = Math.max(0.35, p.size * 0.6);
             ctx.beginPath();
@@ -1183,20 +1210,18 @@ let currentTrackFilter = 'all';
             ctx.beginPath();
             ctx.arc(p.x, p.y, Math.max(0.25, p.size * fade), 0, TAU);
             ctx.fill();
-
             ctx.restore();
         }
     }
 
     /* -----------------------------------------
-       Scene background
+       Background
     ----------------------------------------- */
     function drawBackground() {
         ctx.clearRect(0, 0, W, H);
 
         const bg = ctx.createRadialGradient(
-            CX, CY, 0,
-            CX, CY, radius * 1.6
+            CX, CY, 0, CX, CY, radius * 1.6
         );
 
         bg.addColorStop(0, '#101832');
@@ -1218,43 +1243,34 @@ let currentTrackFilter = 'all';
     }
 
     /* -----------------------------------------
-       Cycle reset
+       Reset: no network is created in advance
     ----------------------------------------- */
     function resetCycle() {
         phase = 'collecting';
         phaseTime = 0;
+        nodes = [];
         particles = [];
         shockwaves = [];
         gasClouds = [];
 
-        createNetwork();
         createIncomingParticles();
-
         setCaption('تولد کیهان', 'همه‌چیز از یک نقطه آغاز می‌شود');
     }
 
     /* -----------------------------------------
-       Main animation loop
+       Main loop
     ----------------------------------------- */
     function render(now) {
-        if (destroyed) return;
+        if (destroyed || document.hidden) return;
 
         if (!lastTime) lastTime = now;
 
-        // Delta-time cap prevents huge jumps after tab inactivity.
         const dt = Math.min((now - lastTime) / 1000, 0.033);
         lastTime = now;
-
-        if (!reduceMotion) {
-            elapsed += dt;
-            phaseTime += dt;
-        } else {
-            elapsed += 0.005;
-            phaseTime += 0.005;
-        }
+        elapsed += reduceMotion ? 0.005 : dt;
+        phaseTime += reduceMotion ? 0.005 : dt;
 
         ctx.save();
-
         ctx.beginPath();
         ctx.arc(CX, CY, Math.min(W, H) / 2, 0, TAU);
         ctx.clip();
@@ -1264,28 +1280,15 @@ let currentTrackFilter = 'all';
         if (phase === 'collecting') {
             drawIncoming(dt);
 
-            // Slowly rotate the organized network.
-            const rot = elapsed * 0.045;
-            for (const node of nodes) {
-                const cos = Math.cos(rot);
-                const sin = Math.sin(rot);
-                const dx = node.baseX - CX;
-                const dy = node.baseY - CY;
+            // No network is drawn while particles are arriving.
+            drawCore(0.45);
+        }
 
-                node.x = CX + dx * cos - dy * sin +
-                    Math.sin(elapsed * 0.9 + node.phase) * 1.2;
-
-                node.y = CY + dx * sin + dy * cos +
-                    Math.cos(elapsed * 0.8 + node.phase) * 1.2;
-            }
-
-            drawNetwork(0.95);
-            drawNodes(1);
-            drawCore(0.8);
-
-            if (phaseTime > 7.5) {
-                beginCharging();
-            }
+        else if (phase === 'forming') {
+            updateFormation();
+            drawNetwork(clamp(phaseTime / 1.5, 0.08, 1));
+            drawNodes(clamp(phaseTime / 1.5, 0.1, 1));
+            drawCore(0.55 + clamp(phaseTime / 2.8, 0, 1) * 0.35);
         }
 
         else if (phase === 'charging') {
@@ -1302,26 +1305,22 @@ let currentTrackFilter = 'all';
             drawNodes(pulse);
             drawCore(1 + energy * 0.8);
 
-            // Tightening luminous ring before release.
-            ctx.strokeStyle = `rgba(103,232,249,${0.25 + energy * 0.65})`;
+            ctx.strokeStyle =
+                `rgba(103,232,249,${0.25 + energy * 0.65})`;
             ctx.lineWidth = 1.1 + energy;
             ctx.beginPath();
             ctx.arc(CX, CY, radius * (0.75 - energy * 0.24), 0, TAU);
             ctx.stroke();
-
             ctx.restore();
 
-            if (phaseTime > 2.1) {
-                explode();
-            }
+            if (phaseTime > 2.1) explode();
         }
 
         else if (phase === 'explosion') {
-            drawGas();
+            drawGas(dt);
             drawShockwaves(dt);
             drawExplosion(dt);
 
-            // Brief luminous flash at the very beginning.
             if (phaseTime < 0.14) {
                 const alpha = (1 - phaseTime / 0.14) * 0.58;
                 ctx.fillStyle = `rgba(225,248,255,${alpha})`;
@@ -1336,30 +1335,42 @@ let currentTrackFilter = 'all';
         }
 
         else if (phase === 'nebula') {
-            drawGas();
+            drawGas(dt);
             drawShockwaves(dt);
             drawExplosion(dt);
 
-            // A gentle new core emerges from the expanding cloud.
             const emergence = clamp(phaseTime / 2.4, 0, 1);
-            if (emergence > 0.15) {
-                drawCore(emergence * 0.48);
-            }
+            if (emergence > 0.15) drawCore(emergence * 0.48);
 
             if (phaseTime > 5.5) {
                 phase = 'rebuilding';
                 phaseTime = 0;
                 createNetwork();
+
+                // Begin rebuilding with every node at the center.
+                for (const node of nodes) {
+                    node.startX = CX;
+                    node.startY = CY;
+                    node.x = CX;
+                    node.y = CY;
+                }
+
                 setCaption('شکل‌گیری ساختارها', 'نظم از دل آشوب پدید می‌آید');
             }
         }
 
         else if (phase === 'rebuilding') {
-            drawGas();
+            drawGas(dt);
             drawShockwaves(dt);
             drawExplosion(dt);
 
             const progress = clamp(phaseTime / 3.3, 0, 1);
+            const eased = progress * progress * (3 - 2 * progress);
+
+            for (const node of nodes) {
+                node.x = node.startX + (node.baseX - node.startX) * eased;
+                node.y = node.startY + (node.baseY - node.startY) * eased;
+            }
 
             ctx.save();
             ctx.globalAlpha = progress;
@@ -1368,13 +1379,10 @@ let currentTrackFilter = 'all';
             drawCore(progress * 0.8);
             ctx.restore();
 
-            if (phaseTime > 4.2) {
-                resetCycle();
-            }
+            if (phaseTime > 4.2) resetCycle();
         }
 
         ctx.restore();
-
         animationFrame = requestAnimationFrame(render);
     }
 
@@ -1385,10 +1393,19 @@ let currentTrackFilter = 'all';
         animationFrame = requestAnimationFrame(render);
     }
 
-    window.addEventListener('resize', resize, { passive: true });
+    function onVisibilityChange() {
+        if (document.hidden) {
+            cancelAnimationFrame(animationFrame);
+            lastTime = 0;
+        } else if (!destroyed) {
+            lastTime = 0;
+            cancelAnimationFrame(animationFrame);
+            animationFrame = requestAnimationFrame(render);
+        }
+    }
 
-    // ResizeObserver keeps the canvas aligned if the layout changes.
-    let resizeObserver = null;
+    window.addEventListener('resize', resize, { passive: true });
+    document.addEventListener('visibilitychange', onVisibilityChange);
 
     if ('ResizeObserver' in window) {
         resizeObserver = new ResizeObserver(resize);
@@ -1396,6 +1413,8 @@ let currentTrackFilter = 'all';
     }
 
     start();
+})();
+</script>
 
     // Keep the animation from running unnecessarily when the page is hidden.
     document.addEventListener('visibilitychange', () => {

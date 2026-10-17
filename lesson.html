@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,7 +15,6 @@
 <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.6/dist/purify.min.js"></script>
 
 <style>
-
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
 
@@ -42,7 +40,6 @@ button{font:inherit;cursor:pointer;border:none;outline:none;}
 ::-webkit-scrollbar-thumb{background:#1a3a48;border-radius:5px;}
 ::-webkit-scrollbar-thumb:hover{background:#22D3EE;}
 
-
 :root{
     --bg:#071923;
     --orange:#F59E0B;
@@ -58,230 +55,100 @@ button{font:inherit;cursor:pointer;border:none;outline:none;}
     --glass-blur:blur(16px);
 }
 
-
-.container{
-    width:min(900px, calc(100% - 40px));
-    margin:auto;
-}
-
 .container-wide{
-    width:min(1180px, calc(100% - 40px));
+    width:min(1400px, calc(100% - 40px));
     margin:auto;
 }
-
 
 /* =========================================================
-   BACKGROUND
+   BACKGROUND & NAV (بدون تغییر)
 ========================================================= */
-.background-glow{
-    position:fixed;
-    width:600px;height:600px;
-    border-radius:50%;
-    filter:blur(120px);
-    pointer-events:none;
-    opacity:.08;
-    z-index:0;
-}
-
+.background-glow{position:fixed;width:600px;height:600px;border-radius:50%;filter:blur(120px);pointer-events:none;opacity:.08;z-index:0;}
 .glow-one{background:var(--cyan);top:-300px;right:-250px;}
 .glow-two{background:var(--orange);bottom:-300px;left:-250px;}
 
-#dnaCanvas{
-    position:fixed;
-    inset:0;
-    width:100vw;
-    height:100vh;
-    z-index:1;
-    pointer-events:none;
-    opacity:0.22;
-    filter:blur(1px);
-}
+#dnaCanvas{position:fixed;inset:0;width:100vw;height:100vh;z-index:1;pointer-events:none;opacity:0.15;filter:blur(1px);}
+.bg-overlay{position:fixed;inset:0;background:radial-gradient(circle at 50% 50%, transparent 0%, rgba(7,25,35,0.6) 100%);pointer-events:none;z-index:1;}
 
-.bg-overlay{
-    position:fixed;
-    inset:0;
-    background:radial-gradient(circle at 50% 50%, transparent 0%, rgba(7,25,35,0.5) 100%);
-    pointer-events:none;
-    z-index:1;
-}
+.progress-bar{position:fixed;top:0;right:0;height:2px;background:linear-gradient(90deg,var(--orange),var(--cyan));z-index:999;width:0;transition:width .1s linear;box-shadow:0 0 12px rgba(34,211,238,.5);}
 
-.progress-bar{
-    position:fixed;
-    top:0;right:0;
-    height:2px;
-    background:linear-gradient(90deg,var(--orange),var(--cyan));
-    z-index:999;
-    width:0;
-    transition:width .1s linear;
-    box-shadow:0 0 12px rgba(34,211,238,.5);
-}
-
-
-/* =========================================================
-   NAV
-========================================================= */
-header{
-    position:fixed;
-    top:0;left:0;right:0;
-    z-index:100;
-    transition:all .3s;
-}
-
-header.scrolled{
-    background:rgba(7,25,35,.85);
-    backdrop-filter:blur(20px);
-    -webkit-backdrop-filter:blur(20px);
-    border-bottom:1px solid var(--line);
-}
-
-.navbar{
-    height:86px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    transition:height .3s;
-    gap:20px;
-}
-
+header{position:fixed;top:0;left:0;right:0;z-index:100;transition:all .3s;}
+header.scrolled{background:rgba(7,25,35,.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--line);}
+.navbar{height:86px;display:flex;align-items:center;justify-content:space-between;transition:height .3s;gap:20px;max-width:1400px;margin:0 auto;padding:0 20px;}
 header.scrolled .navbar{height:70px;}
 
-.logo{
-    display:flex;
-    align-items:center;
-    gap:11px;
-    direction:ltr;
-    font-size:18px;
-    font-weight:800;
-    flex-shrink:0;
-}
+.logo{display:flex;align-items:center;gap:11px;direction:ltr;font-size:18px;font-weight:800;flex-shrink:0;}
+.logo-mark{position:relative;width:39px;height:39px;border-radius:50%;border:1px solid rgba(255,255,255,.18);background:#061620;flex-shrink:0;}
+.logo-mark .dot-one{position:absolute;width:8px;height:8px;border-radius:50%;background:var(--orange);left:8px;bottom:8px;box-shadow:0 0 15px rgba(245,158,11,.65);}
+.logo-mark .dot-two{position:absolute;width:8px;height:8px;border-radius:50%;background:var(--cyan);right:8px;top:8px;box-shadow:0 0 15px rgba(34,211,238,.65);}
+.logo-mark .path{position:absolute;width:25px;height:17px;border-top:2px solid var(--cream);border-radius:50%;left:7px;top:11px;transform:rotate(-27deg);}
 
-.logo-mark{
-    position:relative;
-    width:39px;height:39px;
-    border-radius:50%;
-    border:1px solid rgba(255,255,255,.18);
-    background:#061620;
-    flex-shrink:0;
-}
-
-.logo-mark .dot-one{
-    position:absolute;
-    width:8px;height:8px;
-    border-radius:50%;
-    background:var(--orange);
-    left:8px;bottom:8px;
-    box-shadow:0 0 15px rgba(245,158,11,.65);
-}
-
-.logo-mark .dot-two{
-    position:absolute;
-    width:8px;height:8px;
-    border-radius:50%;
-    background:var(--cyan);
-    right:8px;top:8px;
-    box-shadow:0 0 15px rgba(34,211,238,.65);
-}
-
-.logo-mark .path{
-    position:absolute;
-    width:25px;height:17px;
-    border-top:2px solid var(--cream);
-    border-radius:50%;
-    left:7px;top:11px;
-    transform:rotate(-27deg);
-}
-
-.nav-menu{
-    display:flex;
-    align-items:center;
-    gap:32px;
-    color:#9DAFB9;
-    font-size:13px;
-}
-
+.nav-menu{display:flex;align-items:center;gap:32px;color:#9DAFB9;font-size:13px;}
 .nav-menu a{transition:.25s;}
 .nav-menu a:hover{color:white;}
-
-.nav-cta{
-    padding:10px 17px;
-    border:1px solid rgba(34,211,238,.3);
-    border-radius:12px;
-    color:var(--cyan);
-    font-size:12px;
-    font-weight:600;
-    transition:.25s;
-    background:rgba(34,211,238,.04);
-    flex-shrink:0;
-}
-
-.nav-cta:hover{
-    background:rgba(34,211,238,.12);
-    border-color:var(--cyan);
-}
-
+.nav-cta{padding:10px 17px;border:1px solid rgba(34,211,238,.3);border-radius:12px;color:var(--cyan);font-size:12px;font-weight:600;transition:.25s;background:rgba(34,211,238,.04);flex-shrink:0;}
+.nav-cta:hover{background:rgba(34,211,238,.12);border-color:var(--cyan);}
 
 /* =========================================================
-   HERO
+   LAYOUT & CANVAS CONTAINER
 ========================================================= */
-.lesson-hero{
-    padding:150px 0 40px;
-    position:relative;
-    z-index:2;
+.lesson-layout {
+    display: grid;
+    grid-template-columns: 1fr 45vw; /* ستون راست متن، ستون چپ برای انیمیشن */
+    gap: 40px;
+    padding: 120px 0 60px;
+    position: relative;
+    z-index: 2;
+    align-items: start;
 }
 
-.breadcrumb{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    font-size:13px;
-    color:var(--muted);
-    margin-bottom:24px;
-    flex-wrap:wrap;
+/* ستون سمت راست (محتوا) */
+.lesson-content-col {
+    padding-top: 20px;
 }
 
-.breadcrumb a{
-    color:var(--muted);
-    transition:.2s;
+/* ستون سمت چپ (انیمیشن چسبان) */
+.visual-col {
+    position: sticky;
+    top: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 120px);
 }
 
-.breadcrumb a:hover{
-    color:var(--cyan);
+/* کانتینر دایره‌ای شکل برای کانواس */
+.brain-container {
+    width: 45vw;
+    height: 45vw;
+    max-width: 600px;
+    max-height: 600px;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+    background: #02050a;
+    border: 2px solid rgba(34, 211, 238, 0.2);
+    box-shadow: 0 0 60px rgba(34, 211, 238, 0.1), inset 0 0 40px rgba(0,0,0,0.8);
+    /* ایجاد هاله نورانی دور دایره */
+    outline: 4px solid rgba(34, 211, 238, 0.05);
+    outline-offset: 10px;
 }
 
-.breadcrumb .sep{
-    opacity:.4;
+.brain-container canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
 }
 
-.breadcrumb .current{
-    color:var(--cyan);
-    font-weight:700;
-}
-
-.lesson-hero-tags{
-    display:flex;
-    flex-wrap:wrap;
-    gap:8px;
-    margin-bottom:18px;
-}
-
-.tag{
-    display:inline-flex;
-    align-items:center;
-    gap:5px;
-    padding:6px 13px;
-    border-radius:10px;
-    font-size:12px;
-    font-weight:700;
-    backdrop-filter:blur(8px);
-    -webkit-backdrop-filter:blur(8px);
-}
-
+/* استایل‌های متون درس */
+.lesson-hero-tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px;}
+.tag{display:inline-flex;align-items:center;gap:5px;padding:6px 13px;border-radius:10px;font-size:12px;font-weight:700;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);}
 .tag-track{background:rgba(34,211,238,.15);color:var(--cyan);border:1px solid rgba(34,211,238,.3);}
 .tag-course{background:rgba(245,158,11,.15);color:var(--orange);border:1px solid rgba(245,158,11,.3);}
 .tag-time{background:rgba(34,197,94,.15);color:#4ade80;border:1px solid rgba(34,197,94,.3);}
 
 .lesson-hero h1{
-    font-size:clamp(28px, 4.5vw, 48px);
+    font-size:clamp(28px, 4vw, 42px);
     font-weight:900;
     line-height:1.25;
     letter-spacing:-1.5px;
@@ -291,695 +158,89 @@ header.scrolled .navbar{height:70px;}
     -webkit-text-fill-color:transparent;
     background-clip:text;
 }
+.lesson-hero .excerpt{color:var(--muted);font-size:16px;line-height:2.05;max-width:100%;margin-bottom:30px;}
 
-.lesson-hero .excerpt{
-    color:var(--muted);
-    font-size:17px;
-    line-height:2.05;
-    max-width:720px;
-}
-
-
-/* =========================================================
-   CONTENT
-========================================================= */
-.lesson-content-section{
-    padding:40px 0 60px;
-    position:relative;
-    z-index:2;
-}
-
+/* محتوای Markdown */
 .lesson-content{
     background:var(--glass-bg);
     backdrop-filter:var(--glass-blur);
     -webkit-backdrop-filter:var(--glass-blur);
     border:1px solid var(--glass-border);
     border-radius:22px;
-    padding:50px 55px;
+    padding:40px;
     color:#cbd5e1;
-    font-size:16.5px;
+    font-size:16px;
     line-height:2.1;
     overflow:hidden;
     position:relative;
 }
-
-.lesson-content::before{
-    content:"";
-    position:absolute;
-    top:0;right:0;
-    width:100%;
-    height:2px;
-    background:linear-gradient(90deg, transparent, var(--cyan), transparent);
-}
-
-.lesson-content h1{
-    color:var(--cream);
-    font-size:32px;
-    font-weight:900;
-    margin:0 0 22px;
-    padding-bottom:16px;
-    border-bottom:1px solid var(--line);
-    letter-spacing:-1px;
-    line-height:1.3;
-}
-
-.lesson-content h2{
-    color:var(--cyan);
-    font-size:24px;
-    font-weight:800;
-    margin:38px 0 18px;
-    letter-spacing:-.5px;
-    line-height:1.4;
-    display:flex;
-    align-items:center;
-    gap:10px;
-}
-
-.lesson-content h2::before{
-    content:"";
-    width:5px;
-    height:22px;
-    border-radius:3px;
-    background:linear-gradient(180deg, var(--cyan), var(--orange));
-    flex-shrink:0;
-}
-
-.lesson-content h3{
-    color:var(--white);
-    font-size:19px;
-    font-weight:800;
-    margin:28px 0 14px;
-    line-height:1.5;
-}
-
-.lesson-content h4{
-    color:var(--white);
-    font-size:17px;
-    font-weight:700;
-    margin:22px 0 10px;
-}
-
-.lesson-content p{
-    margin-bottom:18px;
-    color:#cbd5e1;
-}
-
-.lesson-content strong{
-    color:var(--cream);
-    font-weight:700;
-}
-
-.lesson-content em{
-    color:var(--cyan);
-    font-style:normal;
-    font-weight:600;
-}
-
-.lesson-content a{
-    color:var(--cyan);
-    text-decoration:underline;
-    text-underline-offset:3px;
-    transition:.2s;
-}
-
-.lesson-content a:hover{
-    color:var(--orange);
-}
-
-.lesson-content ul,
-.lesson-content ol{
-    margin:16px 0 20px;
-    padding-right:26px;
-}
-
-.lesson-content li{
-    margin-bottom:10px;
-    line-height:2;
-    padding-right:8px;
-}
-
-.lesson-content ul li::marker{
-    color:var(--cyan);
-    font-size:1.2em;
-}
-
-.lesson-content ol li::marker{
-    color:var(--cyan);
-    font-weight:700;
-}
-
-.lesson-content code{
-    background:rgba(34,211,238,.12);
-    padding:3px 8px;
-    border-radius:6px;
-    color:var(--cyan);
-    font-family:'JetBrains Mono',monospace;
-    font-size:14px;
-    direction:ltr;
-    display:inline-block;
-}
-
-.lesson-content pre{
-    background:#0a0f14;
-    border:1px solid rgba(34, 211, 238, 0.2);
-    padding:20px;
-    border-radius:12px;
-    overflow-x:auto;
-    margin:20px 0;
-    direction:ltr;
-    text-align:left;
-    line-height:1.7;
-}
-
-.lesson-content pre code{
-    background:none;
-    padding:0;
-    color:#cbd5e1;
-    font-size:13px;
-    display:block;
-    white-space:pre;
-    font-family:'JetBrains Mono',monospace;
-}
-
-.lesson-content blockquote{
-    border-right:4px solid var(--cyan);
-    background:rgba(34,211,238,.05);
-    padding:16px 22px;
-    margin:22px 0;
-    border-radius:0 12px 12px 0;
-    color:#cbd5e1;
-    font-style:italic;
-    line-height:2;
-}
-
-.lesson-content blockquote p{
-    margin:0;
-}
-
-.lesson-content blockquote strong{
-    color:var(--cyan);
-}
-
-.lesson-content hr{
-    border:none;
-    height:1px;
-    background:linear-gradient(90deg, transparent, var(--line-2), transparent);
-    margin:36px 0;
-}
-
-.lesson-content img{
-    max-width:100%;
-    border-radius:14px;
-    margin:20px 0;
-    border:1px solid var(--line);
-    display:block;
-}
-
-.lesson-content table{
-    width:100%;
-    border-collapse:collapse;
-    margin:22px 0;
-    border-radius:10px;
-    overflow:hidden;
-    font-size:14.5px;
-}
-
-.lesson-content th,
-.lesson-content td{
-    border:1px solid var(--line);
-    padding:12px 16px;
-    text-align:right;
-    line-height:1.8;
-}
-
-.lesson-content th{
-    background:rgba(34,211,238,.08);
-    color:var(--cyan);
-    font-weight:800;
-}
-
-.lesson-content tbody tr:hover{
-    background:rgba(255,255,255,.02);
-}
-
-.lesson-content input[type="checkbox"]{
-    margin-left:8px;
-    accent-color:var(--cyan);
-    transform:scale(1.1);
-}
-
-.lesson-content iframe{
-    width:100%;
-    border:1px solid rgba(34, 211, 238, 0.2);
-    border-radius:16px;
-    background:#071923;
-    min-height:600px;
-    margin:20px 0;
-}
-
-
-/* =========================================================
-   NAVIGATION
-========================================================= */
-.lesson-nav{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:16px;
-    padding:30px 0 60px;
-    position:relative;
-    z-index:2;
-}
-
-.nav-card{
-    display:flex;
-    align-items:center;
-    gap:16px;
-    padding:20px 22px;
-    background:var(--glass-bg);
-    backdrop-filter:var(--glass-blur);
-    -webkit-backdrop-filter:var(--glass-blur);
-    border:1px solid var(--glass-border);
-    border-radius:16px;
-    transition:.3s;
-    text-decoration:none;
-    color:inherit;
-    position:relative;
-    overflow:hidden;
-}
-
-.nav-card::before{
-    content:"";
-    position:absolute;
-    top:0;right:0;
-    width:2px;
-    height:100%;
-    background:linear-gradient(180deg, transparent, var(--cyan), transparent);
-    transform:translateY(-100%);
-    transition:transform .5s;
-}
-
-.nav-card:hover::before{
-    transform:translateY(100%);
-}
-
-.nav-card:hover{
-    border-color:rgba(34,211,238,.4);
-    transform:translateY(-3px);
-    box-shadow:0 15px 40px rgba(0,0,0,.4);
-}
-
-.nav-card.next{
-    flex-direction:row-reverse;
-}
-
-.nav-card-arrow{
-    font-size:24px;
-    color:var(--cyan);
-    flex-shrink:0;
-    transition:.3s;
-}
-
-.nav-card:hover .nav-card-arrow{
-    transform:translateX(-6px);
-}
-
-.nav-card.next:hover .nav-card-arrow{
-    transform:translateX(6px);
-}
-
-.nav-card-info{
-    flex:1;
-    min-width:0;
-}
-
-.nav-card-label{
-    font-family:'JetBrains Mono',monospace;
-    font-size:11px;
-    color:var(--muted-2);
-    margin-bottom:5px;
-    letter-spacing:.05em;
-    direction:ltr;
-}
-
-.nav-card-title{
-    font-size:15px;
-    font-weight:800;
-    color:var(--white);
-    line-height:1.4;
-    overflow:hidden;
-    text-overflow:ellipsis;
-    display:-webkit-box;
-    -webkit-line-clamp:2;
-    -webkit-box-orient:vertical;
-}
-
-.nav-card:hover .nav-card-title{
-    color:var(--cyan);
-}
-
-.nav-card.disabled{
-    opacity:.35;
-    cursor:not-allowed;
-    pointer-events:none;
-}
-
-
-/* =========================================================
-   COMPLETION
-========================================================= */
-.completion-section{
-    padding:20px 0 60px;
-    position:relative;
-    z-index:2;
-}
-
-.completion-card{
-    background:linear-gradient(135deg, rgba(34,197,94,.08), rgba(34,211,238,.05));
-    border:1px solid rgba(34,197,94,.25);
-    border-radius:20px;
-    padding:32px;
-    text-align:center;
-}
-
-.completion-card .icon{
-    font-size:48px;
-    margin-bottom:16px;
-    display:block;
-}
-
-.completion-card h3{
-    font-size:22px;
-    font-weight:900;
-    color:var(--white);
-    margin-bottom:10px;
-    letter-spacing:-.5px;
-}
-
-.completion-card p{
-    color:var(--muted);
-    font-size:14.5px;
-    line-height:1.9;
-    max-width:520px;
-    margin:0 auto 22px;
-}
-
-.btn-telegram{
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    gap:9px;
-    padding:14px 28px;
-    background:var(--orange);
-    color:#101820;
-    border-radius:13px;
-    font-weight:700;
-    font-size:14px;
-    transition:.25s;
-    box-shadow:0 12px 35px rgba(245,158,11,.2);
-}
-
-.btn-telegram:hover{
-    transform:translateY(-3px);
-    box-shadow:0 16px 45px rgba(245,158,11,.4);
-}
-
-
-/* =========================================================
-   LOADING & ERROR
-========================================================= */
-.loading-page,
-.error-page{
-    min-height:70vh;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    flex-direction:column;
-    color:var(--muted);
-    font-size:14px;
-    padding:120px 20px 60px;
-    text-align:center;
-    position:relative;
-    z-index:2;
-}
-
-.spinner{
-    width:44px;
-    height:44px;
-    border:3px solid rgba(34,211,238,.15);
-    border-top-color:var(--cyan);
-    border-radius:50%;
-    animation:spin 1s linear infinite;
-    margin-bottom:16px;
-}
-
-@keyframes spin{
-    to{transform:rotate(360deg);}
-}
-
-.error-page .icon{
-    font-size:64px;
-    margin-bottom:20px;
-    display:block;
-    opacity:.5;
-}
-
-.error-page h3{
-    font-size:22px;
-    font-weight:800;
-    color:var(--white);
-    margin-bottom:12px;
-}
-
-.error-page p{
-    font-size:14.5px;
-    line-height:1.9;
-    max-width:480px;
-    margin:0 auto 24px;
-}
-
-.error-page .btn{
-    display:inline-flex;
-    align-items:center;
-    gap:8px;
-    padding:12px 24px;
-    background:var(--orange);
-    color:#101820;
-    border-radius:12px;
-    font-weight:700;
-    font-size:14px;
-    transition:.25s;
-    text-decoration:none;
-}
-
-.error-page .btn:hover{
-    transform:translateY(-3px);
-    box-shadow:0 12px 35px rgba(245,158,11,.3);
-}
-
-
-/* =========================================================
-   FOOTER
-========================================================= */
-footer{
-    border-top:1px solid var(--line);
-    padding:50px 20px 35px;
-    position:relative;
-    z-index:2;
-    background:rgba(6,23,32,.85);
-    backdrop-filter:blur(14px);
-    -webkit-backdrop-filter:blur(14px);
-}
-
-.footer-inner{
-    width:min(1180px,100%);
-    margin:auto;
-    display:grid;
-    grid-template-columns:2fr 1fr 1fr;
-    gap:50px;
-    margin-bottom:40px;
-}
-
-.footer-brand h4{
-    font-size:18px;
-    font-weight:800;
-    margin-bottom:12px;
-    display:flex;
-    align-items:center;
-    gap:9px;
-    direction:ltr;
-}
-
-.footer-brand p{
-    color:var(--muted);
-    font-size:13px;
-    line-height:2;
-    max-width:340px;
-}
-
-.footer-col h5{
-    font-family:'JetBrains Mono',monospace;
-    font-size:11px;
-    color:var(--muted-2);
-    margin-bottom:16px;
-    direction:ltr;
-    letter-spacing:.1em;
-    font-weight:500;
-}
-
-.footer-col ul{
-    list-style:none;
-    display:flex;
-    flex-direction:column;
-    gap:10px;
-}
-
-.footer-col a{
-    color:#b8c7cf;
-    font-size:13px;
-    transition:.2s;
-}
-
-.footer-col a:hover{color:var(--cyan);}
-
-.footer-bottom{
-    width:min(1180px,100%);
-    margin:auto;
-    padding-top:30px;
-    border-top:1px solid var(--line);
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    flex-wrap:wrap;
-    gap:12px;
-    font-size:12px;
-    color:var(--muted-2);
-    font-family:'JetBrains Mono',monospace;
-    direction:ltr;
-}
-
-.footer-bottom .heart{
-    color:var(--orange);
-    display:inline-block;
-    animation:heartbeat 1.8s infinite;
-}
-
-@keyframes heartbeat{
-    0%,100%{transform:scale(1);}
-    15%{transform:scale(1.18);}
-    30%{transform:scale(1);}
-}
-
-
-/* =========================================================
-   RESPONSIVE
-========================================================= */
-@media(max-width:1024px){
-    .container{width:min(100% - 48px, 900px);}
-    .container-wide{width:min(100% - 48px, 1180px);}
-    .lesson-content{padding:40px 40px;}
-}
-
-@media(max-width:768px){
-
-    body{font-size:15px;line-height:1.75;}
-
+.lesson-content::before{content:"";position:absolute;top:0;right:0;width:100%;height:2px;background:linear-gradient(90deg, transparent, var(--cyan), transparent);}
+.lesson-content h1{color:var(--cream);font-size:28px;font-weight:900;margin:0 0 22px;padding-bottom:16px;border-bottom:1px solid var(--line);}
+.lesson-content h2{color:var(--cyan);font-size:22px;font-weight:800;margin:32px 0 16px;display:flex;align-items:center;gap:10px;}
+.lesson-content h2::before{content:"";width:5px;height:22px;border-radius:3px;background:linear-gradient(180deg, var(--cyan), var(--orange));flex-shrink:0;}
+.lesson-content h3{color:var(--white);font-size:18px;font-weight:800;margin:24px 0 12px;}
+.lesson-content p{margin-bottom:18px;}
+.lesson-content strong{color:var(--cream);}
+.lesson-content em{color:var(--cyan);font-style:normal;font-weight:600;}
+.lesson-content a{color:var(--cyan);text-decoration:underline;text-underline-offset:3px;transition:.2s;}
+.lesson-content a:hover{color:var(--orange);}
+.lesson-content ul,.lesson-content ol{margin:16px 0 20px;padding-right:26px;}
+.lesson-content li{margin-bottom:10px;}
+.lesson-content ul li::marker{color:var(--cyan);}
+.lesson-content code{background:rgba(34,211,238,.12);padding:3px 8px;border-radius:6px;color:var(--cyan);font-family:'JetBrains Mono',monospace;font-size:14px;direction:ltr;display:inline-block;}
+.lesson-content pre{background:#0a0f14;border:1px solid rgba(34, 211, 238, 0.2);padding:20px;border-radius:12px;overflow-x:auto;margin:20px 0;direction:ltr;text-align:left;}
+.lesson-content pre code{background:none;padding:0;color:#cbd5e1;font-size:13px;display:block;white-space:pre;}
+.lesson-content blockquote{border-right:4px solid var(--cyan);background:rgba(34,211,238,.05);padding:16px 22px;margin:22px 0;border-radius:0 12px 12px 0;font-style:italic;}
+.lesson-content img{max-width:100%;border-radius:14px;margin:20px 0;border:1px solid var(--line);display:block;}
+.lesson-content table{width:100%;border-collapse:collapse;margin:22px 0;font-size:14px;}
+.lesson-content th,.lesson-content td{border:1px solid var(--line);padding:12px 16px;text-align:right;}
+.lesson-content th{background:rgba(34,211,238,.08);color:var(--cyan);font-weight:800;}
+
+/* دکمه‌های ناوبری */
+.lesson-nav{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:40px;}
+.nav-card{display:flex;align-items:center;gap:16px;padding:18px 20px;background:var(--glass-bg);border:1px solid var(--glass-border);border-radius:16px;transition:.3s;text-decoration:none;color:inherit;}
+.nav-card:hover{border-color:rgba(34,211,238,.4);transform:translateY(-3px);box-shadow:0 15px 40px rgba(0,0,0,.4);}
+.nav-card.next{flex-direction:row-reverse;}
+.nav-card-arrow{font-size:24px;color:var(--cyan);}
+.nav-card-info{flex:1;min-width:0;}
+.nav-card-label{font-size:11px;color:var(--muted-2);margin-bottom:5px;font-family:'JetBrains Mono',monospace;}
+.nav-card.next .nav-card-label{text-align:left;}
+.nav-card-title{font-size:14px;font-weight:800;color:var(--white);line-height:1.4;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;}
+.nav-card.disabled{opacity:.35;cursor:not-allowed;pointer-events:none;}
+
+/* ریسپانسیو */
+@media(max-width: 1100px) {
+    .lesson-layout {
+        grid-template-columns: 1fr; /* تک ستونه */
+        padding-top: 100px;
+    }
+    .visual-col {
+        position: relative;
+        top: 0;
+        height: auto;
+        order: -1; /* انتقال انیمیشن به بالای متن */
+        margin-bottom: 30px;
+    }
+    .brain-container {
+        width: 80vw;
+        height: 80vw;
+        max-width: 500px;
+        max-height: 500px;
+    }
+}
+
+@media(max-width: 768px){
+    body{font-size:15px;}
     .nav-menu{display:none;}
-    .navbar{height:70px;gap:12px;}
+    .navbar{height:70px;padding:0 15px;}
     header.scrolled .navbar{height:60px;}
-    .logo{font-size:15px;gap:8px;}
-    .logo-mark{width:32px;height:32px;}
-    .logo-mark .dot-one,
-    .logo-mark .dot-two{width:6px;height:6px;}
-    .logo-mark .dot-one{left:6px;bottom:6px;}
-    .logo-mark .dot-two{right:6px;top:6px;}
-    .logo-mark .path{width:20px;height:14px;left:6px;top:9px;}
-    .nav-cta{padding:8px 12px;font-size:11px;}
-
-    .lesson-hero{padding:110px 0 30px;}
-    .breadcrumb{font-size:12px;gap:7px;margin-bottom:18px;}
-    .lesson-hero h1{font-size:clamp(22px, 7vw, 34px);letter-spacing:-1px;margin-bottom:14px;}
-    .lesson-hero .excerpt{font-size:14.5px;line-height:1.95;}
-    .tag{font-size:11px;padding:5px 11px;}
-
-    .lesson-content-section{padding:30px 0 40px;}
-    .lesson-content{padding:28px 22px;border-radius:18px;font-size:15.5px;line-height:2;}
-
-    .lesson-content h1{font-size:24px;margin-bottom:18px;padding-bottom:12px;}
-    .lesson-content h2{font-size:19px;margin:28px 0 14px;}
-    .lesson-content h2::before{height:18px;width:4px;}
-    .lesson-content h3{font-size:17px;margin:22px 0 10px;}
-    .lesson-content h4{font-size:15.5px;}
-    .lesson-content p{margin-bottom:14px;}
-    .lesson-content ul,
-    .lesson-content ol{padding-right:22px;margin:14px 0 16px;}
-    .lesson-content li{margin-bottom:8px;}
-    .lesson-content code{font-size:13px;padding:2px 7px;}
-    .lesson-content pre{padding:14px 16px;font-size:13px;margin:16px 0;}
-    .lesson-content pre code{font-size:13px;}
-    .lesson-content blockquote{padding:14px 18px;margin:18px 0;}
-    .lesson-content table{font-size:13px;}
-    .lesson-content th,
-    .lesson-content td{padding:9px 11px;}
-
-    .lesson-nav{
-        grid-template-columns:1fr;
-        gap:12px;
-        padding:20px 0 40px;
-    }
-
-    .nav-card{padding:16px 18px;}
-    .nav-card-arrow{font-size:20px;}
-    .nav-card-title{font-size:14px;}
-    .nav-card-label{font-size:10px;}
-
-    .completion-section{padding:10px 0 40px;}
-    .completion-card{padding:24px 20px;border-radius:16px;}
-    .completion-card .icon{font-size:40px;margin-bottom:12px;}
-    .completion-card h3{font-size:19px;}
-    .completion-card p{font-size:13.5px;}
-    .btn-telegram{padding:12px 22px;font-size:13px;}
-
-    footer{padding:40px 20px 28px;}
-    .footer-inner{grid-template-columns:1fr;gap:30px;margin-bottom:30px;}
-    .footer-brand h4{font-size:16px;}
-    .footer-brand p{font-size:12.5px;max-width:100%;}
-    .footer-col ul{flex-direction:row;flex-wrap:wrap;gap:12px;}
-    .footer-col a{font-size:12px;}
-    .footer-bottom{flex-direction:column;text-align:center;gap:10px;padding-top:20px;font-size:11px;}
+    .logo{font-size:15px;}
+    
+    .lesson-content{padding:24px 20px;border-radius:16px;font-size:14.5px;}
+    .lesson-content h1{font-size:24px;}
+    .lesson-content h2{font-size:19px;}
+    .lesson-nav{grid-template-columns:1fr;gap:12px;}
 }
-
-@media(max-width:480px){
-    body{font-size:14.5px;}
-    .container{width:min(100% - 24px, 900px);}
-    .container-wide{width:min(100% - 24px, 1180px);}
-
-    .lesson-hero{padding:95px 0 25px;}
-    .lesson-hero h1{font-size:22px;}
-
-    .lesson-content{padding:22px 18px;border-radius:16px;font-size:15px;}
-    .lesson-content h1{font-size:21px;}
-    .lesson-content h2{font-size:17px;}
-    .lesson-content h3{font-size:15.5px;}
-    .lesson-content pre{padding:12px 14px;font-size:12px;}
-    .lesson-content pre code{font-size:12px;}
-
-    .nav-card{padding:14px 14px;}
-    .nav-card-title{font-size:13px;-webkit-line-clamp:1;}
-
-    .completion-card{padding:20px 16px;}
-
-    .footer-brand h4{font-size:15px;}
-}
-
-@media(prefers-reduced-motion:reduce){
-    *,*::before,*::after{
-        animation-duration:.01ms !important;
-        animation-iteration-count:1 !important;
-        transition-duration:.01ms !important;
-        scroll-behavior:auto !important;
-    }
-}
-
 </style>
 </head>
 
@@ -990,102 +251,60 @@ footer{
 
 <canvas id="dnaCanvas" aria-hidden="true"></canvas>
 <div class="bg-overlay" aria-hidden="true"></div>
-
 <div class="progress-bar" id="progressBar" aria-hidden="true"></div>
 
-
 <header id="header">
-<div class="container-wide">
-<nav class="navbar">
-
-<a href="index.html" class="logo">
-<span class="logo-mark" aria-hidden="true">
-<span class="dot-one"></span>
-<span class="dot-two"></span>
-<span class="path"></span>
-</span>
-<span>Hamsafar AI</span>
-</a>
-
-<div class="nav-menu">
-<a href="courses.html">مسیر یادگیری</a>
-<a href="courses.html">دوره‌ها</a>
-<a href="index.html#tools">ابزارها</a>
-<a href="about.html">درباره</a>
-</div>
-
-<a href="https://t.me/hamsafar_ai" class="nav-cta" target="_blank" rel="noopener">کانال تلگرام همسفر AI</a>
-
-</nav>
-</div>
+    <nav class="navbar">
+        <a href="index.html" class="logo">
+            <span class="logo-mark" aria-hidden="true">
+                <span class="dot-one"></span>
+                <span class="dot-two"></span>
+                <span class="path"></span>
+            </span>
+            <span>Hamsafar AI</span>
+        </a>
+        <div class="nav-menu">
+            <a href="courses.html">مسیر یادگیری</a>
+            <a href="courses.html">دوره‌ها</a>
+            <a href="index.html#tools">ابزارها</a>
+            <a href="about.html">درباره</a>
+        </div>
+        <a href="https://t.me/hamsafar_ai" class="nav-cta" target="_blank" rel="noopener">کانال تلگرام</a>
+    </nav>
 </header>
 
-
 <main id="mainContent">
-    <div class="loading-page">
-        <div class="spinner"></div>
-        در حال بارگذاری درس...
+    <div class="container-wide">
+        <div class="lesson-layout">
+            
+            <!-- ستون سمت راست: محتوا -->
+            <div class="lesson-content-col" id="lessonContentCol">
+                <!-- محتوا با جاوااسکریپت لود می‌شود -->
+            </div>
+
+            <!-- ستون سمت چپ: انیمیشن مغز -->
+            <div class="visual-col">
+                <div class="brain-container">
+                    <canvas id="brainCanvas"></canvas>
+                </div>
+            </div>
+
+        </div>
     </div>
 </main>
 
-
-<footer>
-<div class="footer-inner">
-
-<div class="footer-brand">
-<h4>
-<span class="logo-mark" style="width:28px;height:28px;display:inline-flex;">
-<span class="dot-one" style="width:6px;height:6px;left:6px;bottom:6px;"></span>
-<span class="dot-two" style="width:6px;height:6px;right:6px;top:6px;"></span>
-<span class="path" style="width:18px;height:12px;left:5px;top:8px;border-top-width:1.5px;"></span>
-</span>
-Hamsafar AI
-</h4>
-<p>
-مسیر واقعی یادگیری هوش مصنوعی، از صفر، رایگان، با هم.
-بدون وعده پول‌سازی، بدون دوره فروشی.
-</p>
-</div>
-
-<div class="footer-col">
-<h5>navigate</h5>
-<ul>
-<li><a href="index.html">خانه</a></li>
-<li><a href="courses.html">دوره‌ها</a></li>
-<li><a href="about.html">درباره</a></li>
-<li><a href="https://t.me/hamsafar_ai" target="_blank" rel="noopener">تلگرام</a></li>
-<li><a href="admin.html">ورود مدیر</a></li>    
-</ul>
-</div>
-
-<div class="footer-col">
-<h5>connect</h5>
-<ul>
-<li><a href="https://t.me/hamsafar_ai" target="_blank" rel="noopener">تلگرام</a></li>
-</ul>
-</div>
-
-</div>
-
-<div class="footer-bottom">
-<span>made with <span class="heart">♥</span> for learners</span>
-<span>© 2026 Hamsafar AI</span>
-</div>
+<!-- دکمه‌ها و محتوای لود شده در جاوااسکریپت -->
+<footer style="border-top: 1px solid var(--line); padding: 30px 20px; text-align: center; color: var(--muted); font-size: 13px; margin-top: 40px; z-index: 2; position: relative;">
+    © 2026 Hamsafar AI — تمامی حقوق محفوظ است.
 </footer>
 
-
-
 <script>
-
-'use strict';
-
 /* =========================================================
-   CONFIG
+   CONFIG & SUPABASE
 ========================================================= */
 const SUPABASE_URL = 'https://yakalqyryegakukobtwu.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_WXEwSb3Uv3-WuPkOyIjh9Q_qQsQ4TNF';
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
 
 /* =========================================================
    DNA BACKGROUND
@@ -1093,302 +312,370 @@ const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 (function(){
     const canvas = document.getElementById('dnaCanvas');
     const ctx = canvas.getContext('2d');
-
     let W, H, time = 0;
-
-    const HELIX_TURNS = 3;
-    const NODES_PER_TURN = 20;
-    const RADIUS = 110;
-    const VERTICAL_SPACING = 22;
-    const ROTATION_SPEED = 0.006;
-
+    const HELIX_TURNS = 3, NODES_PER_TURN = 20, RADIUS = 110, VERTICAL_SPACING = 22, ROTATION_SPEED = 0.006;
     const TOTAL_NODES = Math.floor(HELIX_TURNS * NODES_PER_TURN);
+    const COLOR_A = { r: 34, g: 211, b: 238 }, COLOR_B = { r: 245, g: 158, b: 11 }, COLOR_LINK = { r: 254, g: 243, b: 199 };
 
-    const COLOR_A = { r: 34, g: 211, b: 238 };
-    const COLOR_B = { r: 245, g: 158, b: 11 };
-    const COLOR_LINK = { r: 254, g: 243, b: 199 };
-
-    function resize(){
-        W = canvas.width = window.innerWidth;
-        H = canvas.height = window.innerHeight;
-    }
-
+    function resize(){ W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
     function draw(){
-        ctx.clearRect(0, 0, W, H);
-        time += ROTATION_SPEED;
-
-        const CX = W / 2;
-        const CY = H / 2;
-
-        const totalHeight = TOTAL_NODES * VERTICAL_SPACING;
-        const startY = CY - totalHeight / 2;
-
-        const nodesA = [];
-        const nodesB = [];
-
+        ctx.clearRect(0, 0, W, H); time += ROTATION_SPEED;
+        const CX = W / 2, CY = H / 2, totalHeight = TOTAL_NODES * VERTICAL_SPACING, startY = CY - totalHeight / 2;
+        const nodesA = [], nodesB = [];
         for(let i = 0; i < TOTAL_NODES; i++){
             const y = startY + i * VERTICAL_SPACING;
             const angle = (i / NODES_PER_TURN) * Math.PI * 2 + time;
-
-            const ax = Math.cos(angle);
-            const az = Math.sin(angle);
-            const bx = Math.cos(angle + Math.PI);
-            const bz = Math.sin(angle + Math.PI);
-
-            const perspectiveA = 1 + az * 0.5;
-            const perspectiveB = 1 + bz * 0.5;
-
-            const finalXA = CX + ax * RADIUS * perspectiveA;
-            const finalXB = CX + bx * RADIUS * perspectiveB;
-
-            const opacityA = 0.25 + (az + 1) / 2 * 0.75;
-            const opacityB = 0.25 + (bz + 1) / 2 * 0.75;
-
-            const sizeA = 1.5 + (az + 1) / 2 * 2.5;
-            const sizeB = 1.5 + (bz + 1) / 2 * 2.5;
-
-            nodesA.push({
-                x: finalXA, y: y, z: az,
-                size: sizeA * perspectiveA,
-                opacity: opacityA,
-                color: COLOR_A
-            });
-
-            nodesB.push({
-                x: finalXB, y: y, z: bz,
-                size: sizeB * perspectiveB,
-                opacity: opacityB,
-                color: COLOR_B
-            });
+            const az = Math.sin(angle), bz = Math.sin(angle + Math.PI);
+            const perspectiveA = 1 + az * 0.5, perspectiveB = 1 + bz * 0.5;
+            nodesA.push({ x: CX + Math.cos(angle) * RADIUS * perspectiveA, y, z: az, size: (1.5 + (az+1)/2*2.5) * perspectiveA, opacity: 0.25 + (az+1)/2*0.75, color: COLOR_A });
+            nodesB.push({ x: CX + Math.cos(angle + Math.PI) * RADIUS * perspectiveB, y, z: bz, size: (1.5 + (bz+1)/2*2.5) * perspectiveB, opacity: 0.25 + (bz+1)/2*0.75, color: COLOR_B });
         }
-
         for(let i = 0; i < TOTAL_NODES; i++){
-            const a = nodesA[i];
-            const b = nodesB[i];
-            const zAvg = (a.z + b.z) / 2;
-            const depth = (zAvg + 1) / 2;
-            const opacity = 0.05 + depth * 0.35;
-
-            const grad = ctx.createLinearGradient(a.x, a.y, b.x, b.y);
-            grad.addColorStop(0, `rgba(${COLOR_A.r}, ${COLOR_A.g}, ${COLOR_A.b}, ${opacity})`);
-            grad.addColorStop(0.5, `rgba(${COLOR_LINK.r}, ${COLOR_LINK.g}, ${COLOR_LINK.b}, ${opacity * 1.4})`);
-            grad.addColorStop(1, `rgba(${COLOR_B.r}, ${COLOR_B.g}, ${COLOR_B.b}, ${opacity})`);
-
-            ctx.strokeStyle = grad;
-            ctx.lineWidth = 0.6 + depth * 1.4;
-            ctx.beginPath();
-            ctx.moveTo(a.x, a.y);
-            ctx.lineTo(b.x, b.y);
-            ctx.stroke();
+            const a = nodesA[i], b = nodesB[i], depth = ((a.z + b.z)/2 + 1)/2;
+            ctx.strokeStyle = `rgba(34, 211, 238, ${0.05 + depth * 0.35})`;
+            ctx.lineWidth = 0.6 + depth * 1.4; ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
         }
-
-        for(let i = 0; i < nodesA.length - 1; i++){
-            const p1 = nodesA[i];
-            const p2 = nodesA[i + 1];
-            const zAvg = (p1.z + p2.z) / 2;
-            const depth = (zAvg + 1) / 2;
-            const opacity = 0.08 + depth * 0.5;
-
-            ctx.strokeStyle = `rgba(${COLOR_A.r}, ${COLOR_A.g}, ${COLOR_A.b}, ${opacity})`;
-            ctx.lineWidth = 0.7 + depth * 1.3;
-            ctx.beginPath();
-            ctx.moveTo(p1.x, p1.y);
-            ctx.lineTo(p2.x, p2.y);
-            ctx.stroke();
-        }
-
-        for(let i = 0; i < nodesB.length - 1; i++){
-            const p1 = nodesB[i];
-            const p2 = nodesB[i + 1];
-            const zAvg = (p1.z + p2.z) / 2;
-            const depth = (zAvg + 1) / 2;
-            const opacity = 0.08 + depth * 0.5;
-
-            ctx.strokeStyle = `rgba(${COLOR_B.r}, ${COLOR_B.g}, ${COLOR_B.b}, ${opacity})`;
-            ctx.lineWidth = 0.7 + depth * 1.3;
-            ctx.beginPath();
-            ctx.moveTo(p1.x, p1.y);
-            ctx.lineTo(p2.x, p2.y);
-            ctx.stroke();
-        }
-
-        const allNodes = [...nodesA, ...nodesB];
-        allNodes.sort((a, b) => a.z - b.z);
-
-        allNodes.forEach(n => {
-            if(n.z > 0.2){
-                const glow = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, n.size * 5);
-                glow.addColorStop(0, `rgba(${n.color.r}, ${n.color.g}, ${n.color.b}, ${n.opacity * 0.5})`);
-                glow.addColorStop(1, `rgba(${n.color.r}, ${n.color.g}, ${n.color.b}, 0)`);
-                ctx.fillStyle = glow;
-                ctx.beginPath();
-                ctx.arc(n.x, n.y, n.size * 5, 0, Math.PI * 2);
-                ctx.fill();
-            }
-
-            ctx.fillStyle = `rgba(${n.color.r}, ${n.color.g}, ${n.color.b}, ${n.opacity})`;
-            ctx.beginPath();
-            ctx.arc(n.x, n.y, n.size, 0, Math.PI * 2);
-            ctx.fill();
-
-            if(n.z > 0.4){
-                ctx.fillStyle = `rgba(254, 243, 199, ${n.opacity * 0.7})`;
-                ctx.beginPath();
-                ctx.arc(n.x, n.y, n.size * 0.4, 0, Math.PI * 2);
-                ctx.fill();
+        [nodesA, nodesB].forEach(nodes => {
+            for(let i = 0; i < nodes.length - 1; i++){
+                const p1 = nodes[i], p2 = nodes[i+1], depth = ((p1.z + p2.z)/2 + 1)/2;
+                ctx.strokeStyle = `rgba(${nodes===nodesA?34:245}, ${nodes===nodesA?211:158}, ${nodes===nodesA?238:11}, ${0.08 + depth * 0.5})`;
+                ctx.lineWidth = 0.7 + depth * 1.3; ctx.beginPath(); ctx.moveTo(p1.x, p1.y); ctx.lineTo(p2.x, p2.y); ctx.stroke();
             }
         });
-
+        const allNodes = [...nodesA, ...nodesB].sort((a,b) => a.z - b.z);
+        allNodes.forEach(n => {
+            ctx.fillStyle = `rgba(${n.color.r}, ${n.color.g}, ${n.color.b}, ${n.opacity})`;
+            ctx.beginPath(); ctx.arc(n.x, n.y, n.size, 0, Math.PI * 2); ctx.fill();
+        });
         requestAnimationFrame(draw);
     }
-
-    window.addEventListener('resize', resize);
-    resize();
-    draw();
+    window.addEventListener('resize', resize); resize(); draw();
 })();
 
+/* =========================================================
+   BRAIN CANVAS ANIMATION (LOOP)
+========================================================= */
+(function() {
+    const canvas = document.getElementById('brainCanvas');
+    const ctx = canvas.getContext('2d');
+    let W, H, CX, CY;
+
+    function resize() {
+        // ابعاد کانواس دقیقاً به اندازه کانتینر دایره‌ای
+        W = canvas.width = canvas.clientWidth;
+        H = canvas.height = canvas.clientHeight;
+        CX = W / 2;
+        CY = H / 2;
+    }
+    window.addEventListener('resize', resize);
+    
+    let phase = 'collecting'; 
+    let collectedCount = 0;
+    let targetCount = 30; // تعداد کمتر برای دایره کوچکتر
+    let time = 0;
+    
+    let brainRadius = 0;
+    let maxBrainRadius = Math.min(W, H) * 0.35; 
+
+    let particles = [];
+    let brainNodes = []; 
+    let bigBangParticles = [];
+    let shakeIntensity = 0;
+    let flashAlpha = 0;
+    let chargingTimer = 0;
+    let bigBangTimer = 0;
+    let waitingTimer = 0;
+
+    function initParticles() {
+        particles = [];
+        collectedCount = 0;
+        for (let i = 0; i < targetCount; i++) {
+            const angle = Math.random() * Math.PI * 2;
+            const dist = Math.max(W, H) * 0.5; // از نزدیک‌تر شروع می‌شوند
+            particles.push({
+                x: CX + Math.cos(angle) * dist,
+                y: CY + Math.sin(angle) * dist,
+                targetX: CX,
+                targetY: CY,
+                color: Math.random() > 0.5 ? '34, 211, 238' : '245, 158, 11',
+                speed: Math.random() * 3 + 4,
+                size: Math.random() * 1.5 + 0.5,
+                active: true
+            });
+        }
+    }
+
+    function initBrain() {
+        brainRadius = 0;
+        brainNodes = [];
+        for(let i=0; i<10; i++) {
+            const angle = Math.random() * Math.PI * 2;
+            const r = Math.random() * 10; 
+            const x = Math.cos(angle) * r * 1.2;
+            const y = Math.sin(angle) * r * 0.8;
+            
+            brainNodes.push({
+                x: CX + x, y: CY + y,
+                baseX: CX + x, baseY: CY + y,
+                phase: Math.random() * Math.PI * 2,
+                color: Math.random() > 0.5 ? '34, 211, 238' : '245, 158, 11',
+                size: Math.random() * 1.5 + 1
+            });
+        }
+    }
+
+    function growBrain() {
+        brainRadius += 12;
+        for(let i=0; i<12; i++) {
+            const angle = Math.random() * Math.PI * 2;
+            const r = Math.random() * brainRadius; 
+            const x = Math.cos(angle) * r * 1.2;
+            const y = Math.sin(angle) * r * 0.8;
+            
+            brainNodes.push({
+                x: CX + x, y: CY + y,
+                baseX: CX + x, baseY: CY + y,
+                phase: Math.random() * Math.PI * 2,
+                color: Math.random() > 0.5 ? '34, 211, 238' : '245, 158, 11',
+                size: Math.random() * 1.5 + 1
+            });
+        }
+    }
+
+    function startCharging() {
+        phase = 'charging';
+        shakeIntensity = 1;
+        flashAlpha = 0;
+        chargingTimer = 0;
+    }
+
+    function triggerBigBang() {
+        phase = 'bigbang';
+        flashAlpha = 1;
+        bigBangTimer = 0;
+        
+        brainNodes.forEach(node => {
+            const angle = Math.atan2(node.y - CY, node.x - CX);
+            const speed = Math.random() * 10 + 5;
+            bigBangParticles.push({
+                x: node.x, y: node.y,
+                vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed,
+                color: node.color, size: node.size
+            });
+        });
+        
+        for (let i = 0; i < 200; i++) {
+            const angle = Math.random() * Math.PI * 2;
+            const dist = Math.random() * brainRadius;
+            const speed = Math.random() * 15 + 5;
+            const colors = ['34, 211, 238', '245, 158, 11', '255, 255, 255'];
+            bigBangParticles.push({
+                x: CX + Math.cos(angle) * dist,
+                y: CY + Math.sin(angle) * dist,
+                vx: Math.cos(angle) * speed,
+                vy: Math.sin(angle) * speed,
+                color: colors[Math.floor(Math.random() * colors.length)],
+                size: Math.random() * 2 + 0.5
+            });
+        }
+        brainNodes = []; 
+    }
+
+    function resetCycle() {
+        phase = 'collecting';
+        shakeIntensity = 1;
+        chargingTimer = 0;
+        bigBangTimer = 0;
+        waitingTimer = 0;
+        initParticles();
+        initBrain();
+    }
+
+    // شروع اولیه
+    setTimeout(() => {
+        resize();
+        resetCycle();
+        render();
+    }, 100);
+
+    function render() {
+        ctx.fillStyle = 'rgba(2, 5, 10, 0.3)';
+        ctx.fillRect(0, 0, W, H);
+        time += 0.08;
+
+        if (phase === 'charging') {
+            ctx.save();
+            const dx = (Math.random() - 0.5) * shakeIntensity * 8;
+            const dy = (Math.random() - 0.5) * shakeIntensity * 8;
+            ctx.translate(dx, dy);
+            shakeIntensity += 0.3;
+            chargingTimer += 1;
+            if (chargingTimer > 25) triggerBigBang();
+        }
+
+        if (phase === 'collecting' || phase === 'charging') {
+            if (brainNodes.length > 0) {
+                const pulse = phase === 'charging' ? 1 + Math.sin(time * 30) * 0.15 : 1 + Math.sin(time * 2) * 0.05;
+
+                // خطوط اتصال
+                if (phase === 'collecting') {
+                    ctx.lineWidth = 1;
+                    for (let i = 0; i < brainNodes.length; i++) {
+                        for (let j = i + 1; j < brainNodes.length; j++) {
+                            const dx = brainNodes[i].x - brainNodes[j].x;
+                            const dy = brainNodes[i].y - brainNodes[j].y;
+                            const dist = Math.sqrt(dx*dx + dy*dy);
+                            const maxDist = 30 + brainRadius * 0.3; 
+                            if (dist < maxDist) {
+                                let alpha = (1 - dist/maxDist) * 0.4;
+                                ctx.strokeStyle = `rgba(34, 211, 238, ${alpha})`;
+                                ctx.beginPath(); ctx.moveTo(brainNodes[i].x, brainNodes[i].y); ctx.lineTo(brainNodes[j].x, brainNodes[j].y); ctx.stroke();
+                            }
+                        }
+                    }
+                }
+
+                // نورون‌ها
+                brainNodes.forEach(node => {
+                    const pulseSize = (node.size + Math.sin(time * 3 + node.phase) * 1) * pulse;
+                    node.x = node.baseX + Math.sin(time + node.phase) * 1;
+                    node.y = node.baseY + Math.cos(time + node.phase) * 1;
+                    ctx.fillStyle = `rgba(${node.color}, 1)`;
+                    ctx.shadowBlur = phase === 'charging' ? 20 : 5; 
+                    ctx.shadowColor = `rgba(${node.color}, 1)`;
+                    ctx.beginPath(); ctx.arc(node.x, node.y, pulseSize, 0, Math.PI*2); ctx.fill();
+                    ctx.shadowBlur = 0;
+                });
+            }
+
+            // ذرات
+            if (phase === 'collecting') {
+                particles.forEach(p => {
+                    if (!p.active) return;
+                    const dx = p.targetX - p.x;
+                    const dy = p.targetY - p.y;
+                    const dist = Math.sqrt(dx*dx + dy*dy);
+
+                    if (dist < 10) {
+                        p.active = false;
+                        collectedCount++;
+                        if (collectedCount >= targetCount) {
+                            growBrain();
+                            if (brainRadius >= maxBrainRadius) startCharging(); 
+                            else initParticles(); 
+                        }
+                    } else {
+                        p.x += (dx / dist) * p.speed;
+                        p.y += (dy / dist) * p.speed;
+                        ctx.strokeStyle = `rgba(${p.color}, 0.6)`;
+                        ctx.lineWidth = p.size;
+                        ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p.x - (dx/dist)*15, p.y - (dy/dist)*15); ctx.stroke();
+                        ctx.fillStyle = `rgba(${p.color}, 1)`;
+                        ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI*2); ctx.fill();
+                    }
+                });
+            }
+            if (phase === 'charging') ctx.restore(); 
+
+        } else if (phase === 'bigbang') {
+            bigBangTimer++;
+            if (flashAlpha > 0) {
+                ctx.fillStyle = `rgba(255, 255, 255, ${flashAlpha})`;
+                ctx.fillRect(0, 0, W, H);
+                flashAlpha -= 0.05;
+            }
+            bigBangParticles.forEach(p => {
+                p.x += p.vx; p.y += p.vy;
+                p.vx *= 0.98; p.vy *= 0.98;
+                ctx.strokeStyle = `rgba(${p.color}, 0.8)`;
+                ctx.lineWidth = p.size;
+                ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p.x - p.vx*2, p.y - p.vy*2); ctx.stroke();
+                ctx.fillStyle = `rgba(${p.color}, 1)`;
+                ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI*2); ctx.fill();
+            });
+            // اگر ۱۰۰ فریم گذشت، ریست کن
+            if (bigBangTimer > 100) resetCycle();
+        }
+        requestAnimationFrame(render);
+    }
+})();
 
 /* =========================================================
-   UTILS
+   UTILS & LOAD LESSON
 ========================================================= */
 function escapeHtml(text){
     if(text === null || text === undefined) return '';
-    const div = document.createElement('div');
-    div.textContent = String(text);
+    const div = document.createElement('div'); div.textContent = String(text);
     return div.innerHTML;
 }
 
-function getLevelTag(level){
-    if(level === 'intermediate') return { text: '🟡 متوسط', class: 'tag-level-intermediate' };
-    if(level === 'advanced') return { text: '🔴 پیشرفته', class: 'tag-level-advanced' };
-    return { text: '🟢 مبتدی', class: 'tag-level-beginner' };
-}
-
-function toFa(num){
-    if(num === null || num === undefined) return '۰';
-    const digits = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
-    return String(num).replace(/\d/g, d => digits[d]);
-}
-
-
-/* =========================================================
-   LOAD LESSON
-========================================================= */
 async function loadLesson(){
-    const main = document.getElementById('mainContent');
-
+    const container = document.getElementById('lessonContentCol');
     const params = new URLSearchParams(window.location.search);
     const slug = params.get('slug');
 
     if(!slug){
-        main.innerHTML = renderError('درسی انتخاب نشده', 'به صفحه‌ی دوره‌ها برگرد و یه درس انتخاب کن');
+        container.innerHTML = renderError('درسی انتخاب نشده', 'به صفحه‌ی دوره‌ها برگرد و یه درس انتخاب کن');
         return;
     }
 
     try{
-        const { data: lesson, error: lessonError } = await sb
-            .from('lessons')
-            .select('*')
-            .eq('slug', slug)
-            .eq('status', 'published')
-            .maybeSingle();
-
-        if(lessonError || !lesson){
-            main.innerHTML = renderError('درس پیدا نشد', 'شاید این درس حذف شده یا هنوز منتشر نشده');
+        const { data: lesson, error } = await sb.from('lessons').select('*').eq('slug', slug).eq('status', 'published').maybeSingle();
+        if(error || !lesson){
+            container.innerHTML = renderError('درس پیدا نشد', 'شاید این درس حذف شده یا هنوز منتشر نشده');
             return;
         }
 
-        const { data: course } = await sb
-            .from('courses')
-            .select('*')
-            .eq('id', lesson.course_id)
-            .maybeSingle();
-
+        const { data: course } = await sb.from('courses').select('*').eq('id', lesson.course_id).maybeSingle();
         let track = null;
         if(course && course.track_id){
-            const { data: t } = await sb
-                .from('tracks')
-                .select('*')
-                .eq('id', course.track_id)
-                .maybeSingle();
+            const { data: t } = await sb.from('tracks').select('*').eq('id', course.track_id).maybeSingle();
             track = t;
         }
 
         let siblings = [];
         if(course){
-            const { data: s } = await sb
-                .from('lessons')
-                .select('id, title, slug, order_num')
-                .eq('course_id', course.id)
-                .eq('status', 'published')
-                .order('order_num', { ascending: true });
+            const { data: s } = await sb.from('lessons').select('id, title, slug, order_num').eq('course_id', course.id).eq('status', 'published').order('order_num', { ascending: true });
             siblings = s || [];
         }
 
-        renderLesson(lesson, course, track, siblings);
+        renderLesson(lesson, course, track, siblings, container);
 
     }catch(e){
         console.error(e);
-        main.innerHTML = renderError('خطا در بارگذاری', e.message);
+        container.innerHTML = renderError('خطا در بارگذاری', e.message);
     }
 }
 
-
-/* =========================================================
-   RENDER LESSON
-========================================================= */
-function renderLesson(lesson, course, track, siblings){
-    const main = document.getElementById('mainContent');
-
-    // رندر Markdown
+function renderLesson(lesson, course, track, siblings, container){
     let contentHtml = '';
     try{
-        const rawHtml = marked.parse(lesson.content || '', {
-            breaks: true,
-            gfm: true
-        });
-        contentHtml = DOMPurify.sanitize(rawHtml, {
-            ADD_TAGS: ['iframe'],
-            ADD_ATTR: ['src', 'width', 'height', 'frameborder', 'allow', 'allowfullscreen', 'style']
-        });
+        const rawHtml = marked.parse(lesson.content || '', { breaks: true, gfm: true });
+        contentHtml = DOMPurify.sanitize(rawHtml, { ADD_TAGS: ['iframe'], ADD_ATTR: ['src', 'width', 'height', 'frameborder', 'allow', 'allowfullscreen', 'style'] });
     }catch(e){
         contentHtml = '<p>خطا در نمایش محتوا</p>';
     }
 
-    // پیدا کردن ایندکس فعلی
     const currentIndex = siblings.findIndex(s => s.id === lesson.id);
     const prevLesson = currentIndex > 0 ? siblings[currentIndex - 1] : null;
     const nextLesson = currentIndex < siblings.length - 1 ? siblings[currentIndex + 1] : null;
 
-    // Breadcrumb
     const breadcrumbHTML = `
-        <div class="breadcrumb">
-            <a href="index.html">🏠 خانه</a>
-            <span class="sep">›</span>
+        <div class="breadcrumb" style="display:flex; gap:8px; font-size:13px; color:var(--muted); margin-bottom:20px; flex-wrap:wrap;">
+            <a href="index.html">🏠 خانه</a> <span>›</span>
             <a href="courses.html">📚 دوره‌ها</a>
-            ${track ? `
-                <span class="sep">›</span>
-                <span>${escapeHtml(track.icon || '')} ${escapeHtml(track.title)}</span>
-            ` : ''}
-            ${course ? `
-                <span class="sep">›</span>
-                <a href="course.html?slug=${encodeURIComponent(course.slug)}">${escapeHtml(course.title)}</a>
-            ` : ''}
-            <span class="sep">›</span>
-            <span class="current">${escapeHtml(lesson.title)}</span>
+            ${track ? `<span>›</span> <span>${escapeHtml(track.title)}</span>` : ''}
+            ${course ? `<span>›</span> <a href="course.html?slug=${encodeURIComponent(course.slug)}">${escapeHtml(course.title)}</a>` : ''}
         </div>
     `;
 
-    // Tags
     const tagsHTML = `
         <div class="lesson-hero-tags">
-            ${track ? `<span class="tag tag-track">${escapeHtml(track.icon || '')} ${escapeHtml(track.title)}</span>` : ''}
-            ${course ? `<span class="tag tag-course">📚 ${escapeHtml(course.title)}</span>` : ''}
+            ${track ? `<span class="tag tag-track">${escapeHtml(track.title)}</span>` : ''}
             ${lesson.duration ? `<span class="tag tag-time">⏱ ${escapeHtml(lesson.duration)}</span>` : ''}
         </div>
     `;
 
-    // Prev/Next
     let navHTML = '';
     if(prevLesson || nextLesson){
         navHTML = `
@@ -1416,88 +703,42 @@ function renderLesson(lesson, course, track, siblings){
         `;
     }
 
-    main.innerHTML = `
+    container.innerHTML = `
         <section class="lesson-hero">
-            <div class="container">
-                ${breadcrumbHTML}
-                ${tagsHTML}
-                <h1>${escapeHtml(lesson.title)}</h1>
-                ${lesson.excerpt ? `<p class="excerpt">${escapeHtml(lesson.excerpt)}</p>` : ''}
-            </div>
+            ${breadcrumbHTML}
+            ${tagsHTML}
+            <h1>${escapeHtml(lesson.title)}</h1>
+            ${lesson.excerpt ? `<p class="excerpt">${escapeHtml(lesson.excerpt)}</p>` : ''}
         </section>
 
-        <section class="lesson-content-section">
-            <div class="container">
-                <article class="lesson-content">
-                    ${contentHtml}
-                </article>
-            </div>
-        </section>
+        <article class="lesson-content">
+            ${contentHtml}
+        </article>
 
         ${navHTML}
-
-        <section class="completion-section">
-            <div class="container">
-                <div class="completion-card">
-                    <span class="icon">🎉</span>
-                    <h3>درس رو تموم کردی!</h3>
-                    <p>
-                        حالا برو درس بعدی، یا بیا تو کانال تلگرام و با بقیه همسفرها ادامه بده.
-                    </p>
-                    <a href="https://t.me/hamsafar_ai" target="_blank" rel="noopener" class="btn-telegram">
-                        📬 عضویت در کانال
-                    </a>
-                </div>
-            </div>
-        </section>
     `;
-
-    window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-
-/* =========================================================
-   ERROR
-========================================================= */
 function renderError(title, message){
     return `
-        <div class="error-page">
-            <span class="icon">🔍</span>
+        <div class="error-page" style="text-align:center; padding:50px 20px;">
             <h3>${escapeHtml(title)}</h3>
             <p>${escapeHtml(message)}</p>
-            <a href="courses.html" class="btn">← بازگشت به دوره‌ها</a>
+            <a href="courses.html" style="color:var(--cyan); margin-top:20px; display:inline-block;">← بازگشت به دوره‌ها</a>
         </div>
     `;
 }
 
-
-/* =========================================================
-   PROGRESS BAR + HEADER
-========================================================= */
-const progressBar = document.getElementById('progressBar');
-const header = document.getElementById('header');
-
-let ticking = false;
+/* Scroll & Progress Bar */
 window.addEventListener('scroll', () => {
-    if(!ticking){
-        window.requestAnimationFrame(() => {
-            const scrollTop = window.scrollY;
-            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-            const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-            progressBar.style.width = progress + '%';
-            header.classList.toggle('scrolled', scrollTop > 60);
-            ticking = false;
-        });
-        ticking = true;
-    }
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    document.getElementById('progressBar').style.width = progress + '%';
+    document.getElementById('header').classList.toggle('scrolled', scrollTop > 60);
 }, { passive: true });
 
-
-/* =========================================================
-   INIT
-========================================================= */
 loadLesson();
-
 </script>
 
 </body>

@@ -14,50 +14,8 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-
- /* =========================================================
-   NAV BACK
-========================================================= */
-.nav-back{
-    display:flex;
-    gap:10px;
-    margin-bottom:20px;
-    flex-wrap:wrap;
-}
-
-.back-link{
-    display:inline-flex;
-    align-items:center;
-    gap:8px;
-    padding:10px 18px;
-    background:rgba(13, 38, 51, 0.6);
-    backdrop-filter:blur(12px);
-    -webkit-backdrop-filter:blur(12px);
-    border:1px solid rgba(34, 211, 238, 0.2);
-    border-radius:11px;
-    color:#91A5B2;
-    font-size:13px;
-    font-weight:700;
-    transition:.25s;
-}
-
-.back-link:hover{
-    color:#22D3EE;
-    border-color:rgba(34, 211, 238, 0.5);
-    transform:translateX(4px);
-}
-
-@media(max-width:600px){
-    .nav-back{
-        justify-content:center;
-    }
-    .back-link{
-        padding:9px 14px;
-        font-size:12px;
-    }
-}  
 /* =========================================================
-   RESET
+   RESET & VARIABLES
 ========================================================= */
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
@@ -84,754 +42,210 @@ button{font:inherit;cursor:pointer;border:none;outline:none;}
 ::-webkit-scrollbar-thumb{background:#1a3a48;border-radius:5px;}
 ::-webkit-scrollbar-thumb:hover{background:#22D3EE;}
 
-
-/* =========================================================
-   VARIABLES
-========================================================= */
 :root{
-    --bg:#071923;
-    --orange:#F59E0B;
-    --cyan:#22D3EE;
-    --cream:#FEF3C7;
-    --white:#F8FAFC;
-    --muted:#91A5B2;
-    --muted-2:#61798a;
-    --line:rgba(255,255,255,.09);
-    --line-2:rgba(255,255,255,.15);
-    --glass-bg:rgba(13, 38, 51, 0.22);
-    --glass-border:rgba(34, 211, 238, 0.15);
-    --glass-blur:blur(14px);
+    --bg:#071923; --orange:#F59E0B; --cyan:#22D3EE; --cream:#FEF3C7;
+    --white:#F8FAFC; --muted:#91A5B2; --muted-2:#61798a; --line:rgba(255,255,255,.09);
+    --glass-bg:rgba(13, 38, 51, 0.22); --glass-border:rgba(34, 211, 238, 0.15); --glass-blur:blur(14px);
 }
 
+.container-wide{ width:min(1400px, calc(100% - 40px)); margin:auto; }
 
 /* =========================================================
-   GLOBAL
+   BACKGROUND GLOW & STARFIELD
 ========================================================= */
-.container{
-    width:min(1180px, calc(100% - 40px));
-    margin:auto;
-}
-
-section{position:relative;}
-
-.label{
-    display:inline-flex;
-    align-items:center;
-    gap:9px;
-    color:var(--cyan);
-    font-family:'JetBrains Mono',monospace;
-    font-size:12px;
-    font-weight:700;
-    letter-spacing:.05em;
-    margin-bottom:18px;
-    direction:ltr;
-}
-
-.label::before{
-    content:"";
-    width:7px;height:7px;
-    border-radius:50%;
-    background:var(--cyan);
-    box-shadow:0 0 14px var(--cyan);
-    animation:pulseDot 2s infinite;
-    flex-shrink:0;
-}
-
-@keyframes pulseDot{
-    0%,100%{opacity:1;transform:scale(1);}
-    50%{opacity:.6;transform:scale(1.2);}
-}
-
-
-/* =========================================================
-   BACKGROUND GLOW
-========================================================= */
-.background-glow{
-    position:fixed;
-    width:600px;height:600px;
-    border-radius:50%;
-    filter:blur(120px);
-    pointer-events:none;
-    opacity:.08;
-    z-index:0;
-}
-
+.background-glow{position:fixed;width:600px;height:600px;border-radius:50%;filter:blur(120px);pointer-events:none;opacity:.08;z-index:0;}
 .glow-one{background:var(--cyan);top:-300px;right:-250px;}
 .glow-two{background:var(--orange);bottom:-300px;left:-250px;}
 
+#starfieldCanvas{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.85;}
+
+.progress-bar{position:fixed;top:0;right:0;height:2px;background:linear-gradient(90deg,var(--orange),var(--cyan));z-index:999;width:0;transition:width .1s linear;box-shadow:0 0 12px rgba(34,211,238,.5);}
 
 /* =========================================================
-   STARFIELD CANVAS
+   HEADER
 ========================================================= */
-#starfieldCanvas{
-    position:fixed;
-    inset:0;
-    z-index:1;
-    pointer-events:none;
-    opacity:.85;
-}
-
-
-/* =========================================================
-   PROGRESS BAR
-========================================================= */
-.progress-bar{
-    position:fixed;
-    top:0;right:0;
-    height:2px;
-    background:linear-gradient(90deg,var(--orange),var(--cyan));
-    z-index:999;
-    width:0;
-    transition:width .1s linear;
-    box-shadow:0 0 12px rgba(34,211,238,.5);
-}
-
-
-/* =========================================================
-   NAV
-========================================================= */
-header{
-    position:fixed;
-    top:0;left:0;right:0;
-    z-index:100;
-    transition:all .3s;
-}
-
-header.scrolled{
-    background:rgba(7,25,35,.85);
-    backdrop-filter:blur(20px);
-    -webkit-backdrop-filter:blur(20px);
-    border-bottom:1px solid var(--line);
-}
-
-.navbar{
-    height:86px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    transition:height .3s;
-    gap:20px;
-}
-
+header{position:fixed;top:0;left:0;right:0;z-index:100;transition:all .3s;}
+header.scrolled{background:rgba(7,25,35,.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--line);}
+.navbar{height:86px;display:flex;align-items:center;justify-content:space-between;transition:height .3s;gap:20px;}
 header.scrolled .navbar{height:70px;}
 
-.logo{
-    display:flex;
-    align-items:center;
-    gap:11px;
-    direction:ltr;
-    font-size:18px;
-    font-weight:800;
-    flex-shrink:0;
-}
+.logo{display:flex;align-items:center;gap:11px;direction:ltr;font-size:18px;font-weight:800;flex-shrink:0;}
+.logo-mark{position:relative;width:39px;height:39px;border-radius:50%;border:1px solid rgba(255,255,255,.18);background:#061620;flex-shrink:0;}
+.logo-mark .dot-one{position:absolute;width:8px;height:8px;border-radius:50%;background:var(--orange);left:8px;bottom:8px;box-shadow:0 0 15px rgba(245,158,11,.65);}
+.logo-mark .dot-two{position:absolute;width:8px;height:8px;border-radius:50%;background:var(--cyan);right:8px;top:8px;box-shadow:0 0 15px rgba(34,211,238,.65);}
+.logo-mark .path{position:absolute;width:25px;height:17px;border-top:2px solid var(--cream);border-radius:50%;left:7px;top:11px;transform:rotate(-27deg);}
 
-.logo-mark{
-    position:relative;
-    width:39px;height:39px;
-    border-radius:50%;
-    border:1px solid rgba(255,255,255,.18);
-    background:#061620;
-    flex-shrink:0;
-}
-
-.logo-mark .dot-one{
-    position:absolute;
-    width:8px;height:8px;
-    border-radius:50%;
-    background:var(--orange);
-    left:8px;bottom:8px;
-    box-shadow:0 0 15px rgba(245,158,11,.65);
-}
-
-.logo-mark .dot-two{
-    position:absolute;
-    width:8px;height:8px;
-    border-radius:50%;
-    background:var(--cyan);
-    right:8px;top:8px;
-    box-shadow:0 0 15px rgba(34,211,238,.65);
-}
-
-.logo-mark .path{
-    position:absolute;
-    width:25px;height:17px;
-    border-top:2px solid var(--cream);
-    border-radius:50%;
-    left:7px;top:11px;
-    transform:rotate(-27deg);
-}
-
-.nav-menu{
-    display:flex;
-    align-items:center;
-    gap:32px;
-    color:#9DAFB9;
-    font-size:13px;
-}
-
+.nav-menu{display:flex;align-items:center;gap:32px;color:#9DAFB9;font-size:13px;}
 .nav-menu a{transition:.25s;}
 .nav-menu a:hover{color:white;}
 .nav-menu a.active{color:var(--cyan);}
 
-.nav-cta{
-    padding:10px 17px;
-    border:1px solid rgba(34,211,238,.3);
-    border-radius:12px;
-    color:var(--cyan);
-    font-size:12px;
-    font-weight:600;
-    transition:.25s;
-    background:rgba(34,211,238,.04);
-    flex-shrink:0;
-}
-
-.nav-cta:hover{
-    background:rgba(34,211,238,.12);
-    border-color:var(--cyan);
-}
-
+.nav-cta{padding:10px 17px;border:1px solid rgba(34,211,238,.3);border-radius:12px;color:var(--cyan);font-size:12px;font-weight:600;transition:.25s;background:rgba(34,211,238,.04);flex-shrink:0;}
+.nav-cta:hover{background:rgba(34,211,238,.12);border-color:var(--cyan);}
 
 /* =========================================================
-   HERO
+   LAYOUT (Two Columns)
 ========================================================= */
-.courses-hero{
-    padding:180px 0 60px;
-    position:relative;
-    z-index:2;
-    text-align:center;
+.courses-layout {
+    display: grid;
+    grid-template-columns: 1fr 28vw; /* ستون راست محتوا، ستون چپ دایره */
+    gap: 40px;
+    padding-top: 140px;
+    position: relative;
+    z-index: 2;
+    align-items: start;
 }
 
-.courses-hero .horizon{
-    position:absolute;
-    left:0;right:0;top:50%;
-    height:1px;
-    background:linear-gradient(90deg,transparent,rgba(34,211,238,.15),rgba(254,243,199,.5),rgba(245,158,11,.2),transparent);
-    box-shadow:0 0 40px rgba(254,243,199,.15);
-    pointer-events:none;
+.main-content-col {
+    /* محتوای اصلی اینجا قرار می‌گیرد */
 }
 
-.courses-hero-inner{
-    position:relative;
-    z-index:3;
-    max-width:800px;
-    margin:0 auto;
+/* =========================================================
+   BRAIN ANIMATION CONTAINER (Sticky Left Column)
+========================================================= */
+.visual-col {
+    position: sticky;
+    top: 120px;
+    display: flex;
+    justify-content: center;
 }
 
+.brain-circle {
+    width: 25vw; /* یک چهارم عرض لپ تاپ */
+    height: 25vw;
+    min-width: 250px;
+    min-height: 250px;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+    background: #02050a;
+    border: 2px solid rgba(34, 211, 238, 0.2);
+    box-shadow: 0 0 60px rgba(34, 211, 238, 0.1), inset 0 0 40px rgba(0,0,0,0.8);
+    outline: 4px solid rgba(34, 211, 238, 0.05);
+    outline-offset: 10px;
+}
+
+.brain-circle canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+/* =========================================================
+   HERO & FILTERS & GRID (کد اصلی شما)
+========================================================= */
+.nav-back{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;}
+.back-link{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;background:rgba(13, 38, 51, 0.6);backdrop-filter:blur(12px);border:1px solid rgba(34, 211, 238, 0.2);border-radius:11px;color:#91A5B2;font-size:13px;font-weight:700;transition:.25s;}
+.back-link:hover{color:#22D3EE;border-color:rgba(34, 211, 238, 0.5);transform:translateX(4px);}
+
+.label{display:inline-flex;align-items:center;gap:9px;color:var(--cyan);font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;letter-spacing:.05em;margin-bottom:18px;direction:ltr;}
+.label::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--cyan);box-shadow:0 0 14px var(--cyan);animation:pulseDot 2s infinite;flex-shrink:0;}
+@keyframes pulseDot{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.6;transform:scale(1.2);}}
+
+.courses-hero{padding:40px 0 40px;position:relative;text-align:center;}
+.courses-hero .horizon{position:absolute;left:0;right:0;top:50%;height:1px;background:linear-gradient(90deg,transparent,rgba(34,211,238,.15),rgba(254,243,199,.5),rgba(245,158,11,.2),transparent);box-shadow:0 0 40px rgba(254,243,199,.15);pointer-events:none;}
+.courses-hero-inner{position:relative;z-index:3;max-width:800px;margin:0 auto;}
 .courses-hero .label{justify-content:center;}
-
-.courses-hero h1{
-    font-size:clamp(32px, 5.5vw, 62px);
-    font-weight:900;
-    line-height:1.2;
-    letter-spacing:-2px;
-    margin-bottom:22px;
-}
-
+.courses-hero h1{font-size:clamp(32px, 5.5vw, 62px);font-weight:900;line-height:1.2;letter-spacing:-2px;margin-bottom:22px;}
 .courses-hero h1 .orange{color:var(--orange);}
+.courses-hero h1 .cyan{color:var(--cyan);position:relative;display:inline-block;}
+.courses-hero h1 .cyan::after{content:"";position:absolute;bottom:.05em;right:0;left:0;height:.12em;background:var(--cyan);opacity:.2;z-index:-1;}
+.courses-hero p{color:var(--muted);font-size:17px;line-height:2.1;max-width:640px;margin:0 auto;}
 
-.courses-hero h1 .cyan{
-    color:var(--cyan);
-    position:relative;
-    display:inline-block;
-}
+.filters-section{padding:20px 0;position:relative;z-index:2;}
+.filters{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
+.filter-btn{display:inline-flex;align-items:center;gap:8px;padding:11px 20px;background:rgba(13,38,51,.5);backdrop-filter:blur(12px);border:1px solid var(--glass-border);border-radius:12px;color:var(--muted);font-size:13.5px;font-weight:700;transition:.25s;cursor:pointer;font-family:inherit;}
+.filter-btn:hover{color:var(--cyan);border-color:rgba(34,211,238,.4);transform:translateY(-2px);}
+.filter-btn.active{background:linear-gradient(135deg, var(--cyan), #0891b2);color:var(--bg);border-color:var(--cyan);box-shadow:0 8px 25px rgba(34,211,238,.3);}
+.filter-btn .count{font-family:'JetBrains Mono',monospace;font-size:11px;padding:2px 7px;background:rgba(0,0,0,.2);border-radius:6px;}
+.filter-btn.active .count{background:rgba(0,0,0,.3);}
 
-.courses-hero h1 .cyan::after{
-    content:"";
-    position:absolute;
-    bottom:.05em;right:0;left:0;
-    height:.12em;
-    background:var(--cyan);
-    opacity:.2;
-    z-index:-1;
-}
+.courses-section{padding:20px 0 60px;position:relative;z-index:2;}
+.courses-grid{display:grid;grid-template-columns:repeat(auto-fill, minmax(300px, 1fr));gap:20px;}
 
-.courses-hero p{
-    color:var(--muted);
-    font-size:17px;
-    line-height:2.1;
-    max-width:640px;
-    margin:0 auto;
-}
+.course-card{display:flex;flex-direction:column;background:var(--glass-bg);backdrop-filter:var(--glass-blur);border:1px solid var(--glass-border);border-radius:20px;overflow:hidden;transition:.3s;cursor:pointer;text-decoration:none;color:inherit;position:relative;}
+.course-card::before{content:"";position:absolute;top:0;right:0;width:100%;height:2px;background:linear-gradient(90deg, transparent, var(--cyan), transparent);transform:translateX(100%);transition:transform .8s;z-index:3;}
+.course-card:hover::before{transform:translateX(-100%);}
+.course-card:hover{transform:translateY(-6px);border-color:rgba(34,211,238,.4);box-shadow:0 25px 60px rgba(0,0,0,.5), 0 0 40px rgba(34,211,238,.1);}
 
+.course-card-cover{height:180px;position:relative;overflow:hidden;background:linear-gradient(135deg, rgba(34,211,238,.15), rgba(7,25,35,.9));display:flex;align-items:center;justify-content:center;}
+.course-card-cover img{width:100%;height:100%;object-fit:cover;transition:transform .4s ease;}
+.course-card:hover .course-card-cover img{transform:scale(1.05);}
+.course-card-cover .placeholder{font-size:64px;opacity:.6;}
+.course-card-cover::after{content:"";position:absolute;bottom:0;left:0;right:0;height:50%;background:linear-gradient(180deg, transparent, rgba(7,25,35,.85));pointer-events:none;}
 
-/* =========================================================
-   FILTERS
-========================================================= */
-.filters-section{
-    padding:40px 0 20px;
-    position:relative;
-    z-index:2;
-}
+.course-badges{position:absolute;top:12px;right:12px;left:12px;display:flex;gap:6px;flex-wrap:wrap;z-index:2;}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:5px 11px;border-radius:8px;font-size:11px;font-weight:800;backdrop-filter:blur(8px);}
+.badge-level-beginner{background:rgba(34,197,94,.85);color:#fff;}
+.badge-level-intermediate{background:rgba(245,158,11,.85);color:#fff;}
+.badge-level-advanced{background:rgba(239,68,68,.85);color:#fff;}
+.badge-track{background:rgba(34,211,238,.85);color:#071923;}
 
-.filters{
-    display:flex;
-    gap:10px;
-    flex-wrap:wrap;
-    justify-content:center;
-}
+.course-card-body{padding:22px 20px;flex:1;display:flex;flex-direction:column;}
+.course-card-title{font-size:17px;font-weight:800;color:var(--white);line-height:1.5;margin-bottom:10px;letter-spacing:-.3px;}
+.course-card-excerpt{font-size:13.5px;color:var(--muted);line-height:1.85;margin-bottom:16px;flex:1;}
+.course-card-meta{display:flex;gap:14px;flex-wrap:wrap;padding-top:14px;border-top:1px solid var(--line);font-size:12px;color:var(--muted-2);font-family:'JetBrains Mono',monospace;}
+.course-card-meta span{display:flex;align-items:center;gap:5px;}
+.course-card-arrow{position:absolute;bottom:22px;left:20px;color:var(--cyan);font-size:16px;opacity:0;transition:.3s;}
+.course-card:hover .course-card-arrow{opacity:1;transform:translateX(-5px);}
 
-.filter-btn{
-    display:inline-flex;
-    align-items:center;
-    gap:8px;
-    padding:11px 20px;
-    background:rgba(13,38,51,.5);
-    backdrop-filter:blur(12px);
-    -webkit-backdrop-filter:blur(12px);
-    border:1px solid var(--glass-border);
-    border-radius:12px;
-    color:var(--muted);
-    font-size:13.5px;
-    font-weight:700;
-    transition:.25s;
-    cursor:pointer;
-    font-family:inherit;
-}
+.empty-state{text-align:center;padding:80px 20px;color:var(--muted);grid-column:1/-1;}
+.empty-state .icon{font-size:64px;margin-bottom:20px;display:block;opacity:.4;}
+.empty-state h3{font-size:22px;font-weight:800;color:var(--white);margin-bottom:12px;}
+.empty-state p{font-size:15px;line-height:1.9;max-width:500px;margin:0 auto 24px;}
+.empty-state .btn{display:inline-flex;align-items:center;gap:8px;padding:13px 26px;background:var(--orange);color:#101820;border-radius:12px;font-weight:700;font-size:14px;transition:.25s;text-decoration:none;}
+.empty-state .btn:hover{transform:translateY(-3px);box-shadow:0 12px 35px rgba(245,158,11,.3);}
 
-.filter-btn:hover{
-    color:var(--cyan);
-    border-color:rgba(34,211,238,.4);
-    transform:translateY(-2px);
-}
+.loading{text-align:center;padding:80px 20px;color:var(--muted);font-size:14px;grid-column:1/-1;}
+.spinner{width:40px;height:40px;border:3px solid rgba(34,211,238,.15);border-top-color:var(--cyan);border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 16px;}
+@keyframes spin{to{transform:rotate(360deg);}}
 
-.filter-btn.active{
-    background:linear-gradient(135deg, var(--cyan), #0891b2);
-    color:var(--bg);
-    border-color:var(--cyan);
-    box-shadow:0 8px 25px rgba(34,211,238,.3);
-}
-
-.filter-btn .count{
-    font-family:'JetBrains Mono',monospace;
-    font-size:11px;
-    padding:2px 7px;
-    background:rgba(0,0,0,.2);
-    border-radius:6px;
-}
-
-.filter-btn.active .count{
-    background:rgba(0,0,0,.3);
-}
-
-
-/* =========================================================
-   COURSES GRID
-========================================================= */
-.courses-section{
-    padding:30px 0 100px;
-    position:relative;
-    z-index:2;
-}
-
-.courses-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fill, minmax(320px, 1fr));
-    gap:20px;
-}
-
-
-/* =========================================================
-   COURSE CARD
-========================================================= */
-.course-card{
-    display:flex;
-    flex-direction:column;
-    background:var(--glass-bg);
-    backdrop-filter:var(--glass-blur);
-    -webkit-backdrop-filter:var(--glass-blur);
-    border:1px solid var(--glass-border);
-    border-radius:20px;
-    overflow:hidden;
-    transition:.3s;
-    cursor:pointer;
-    text-decoration:none;
-    color:inherit;
-    position:relative;
-}
-
-.course-card::before{
-    content:"";
-    position:absolute;
-    top:0;right:0;
-    width:100%;
-    height:2px;
-    background:linear-gradient(90deg, transparent, var(--cyan), transparent);
-    transform:translateX(100%);
-    transition:transform .8s;
-    z-index:3;
-}
-
-.course-card:hover::before{
-    transform:translateX(-100%);
-}
-
-.course-card:hover{
-    transform:translateY(-6px);
-    border-color:rgba(34,211,238,.4);
-    box-shadow:
-        0 25px 60px rgba(0,0,0,.5),
-        0 0 40px rgba(34,211,238,.1);
-}
-
-.course-card-cover{
-    height:180px;
-    position:relative;
-    overflow:hidden;
-    background:linear-gradient(135deg, rgba(34,211,238,.15), rgba(7,25,35,.9));
-    display:flex;
-    align-items:center;
-    justify-content:center;
-}
-
-.course-card-cover img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    transition:transform .4s ease;
-}
-
-.course-card:hover .course-card-cover img{
-    transform:scale(1.05);
-}
-
-.course-card-cover .placeholder{
-    font-size:64px;
-    opacity:.6;
-}
-
-.course-card-cover::after{
-    content:"";
-    position:absolute;
-    bottom:0;
-    left:0;
-    right:0;
-    height:50%;
-    background:linear-gradient(180deg, transparent, rgba(7,25,35,.85));
-    pointer-events:none;
-}
-
-.course-badges{
-    position:absolute;
-    top:12px;
-    right:12px;
-    left:12px;
-    display:flex;
-    gap:6px;
-    flex-wrap:wrap;
-    z-index:2;
-}
-
-.badge{
-    display:inline-flex;
-    align-items:center;
-    gap:4px;
-    padding:5px 11px;
-    border-radius:8px;
-    font-size:11px;
-    font-weight:800;
-    backdrop-filter:blur(8px);
-    -webkit-backdrop-filter:blur(8px);
-}
-
-.badge-level-beginner{
-    background:rgba(34,197,94,.85);
-    color:#fff;
-}
-
-.badge-level-intermediate{
-    background:rgba(245,158,11,.85);
-    color:#fff;
-}
-
-.badge-level-advanced{
-    background:rgba(239,68,68,.85);
-    color:#fff;
-}
-
-.badge-track{
-    background:rgba(34,211,238,.85);
-    color:#071923;
-}
-
-.course-card-body{
-    padding:22px 20px;
-    flex:1;
-    display:flex;
-    flex-direction:column;
-}
-
-.course-card-title{
-    font-size:17px;
-    font-weight:800;
-    color:var(--white);
-    line-height:1.5;
-    margin-bottom:10px;
-    letter-spacing:-.3px;
-}
-
-.course-card-excerpt{
-    font-size:13.5px;
-    color:var(--muted);
-    line-height:1.85;
-    margin-bottom:16px;
-    flex:1;
-}
-
-.course-card-meta{
-    display:flex;
-    gap:14px;
-    flex-wrap:wrap;
-    padding-top:14px;
-    border-top:1px solid var(--line);
-    font-size:12px;
-    color:var(--muted-2);
-    font-family:'JetBrains Mono',monospace;
-}
-
-.course-card-meta span{
-    display:flex;
-    align-items:center;
-    gap:5px;
-}
-
-.course-card-arrow{
-    position:absolute;
-    bottom:22px;
-    left:20px;
-    color:var(--cyan);
-    font-size:16px;
-    opacity:0;
-    transition:.3s;
-}
-
-.course-card:hover .course-card-arrow{
-    opacity:1;
-    transform:translateX(-5px);
-}
-
-
-/* =========================================================
-   EMPTY STATE
-========================================================= */
-.empty-state{
-    text-align:center;
-    padding:80px 20px;
-    color:var(--muted);
-}
-
-.empty-state .icon{
-    font-size:64px;
-    margin-bottom:20px;
-    display:block;
-    opacity:.4;
-}
-
-.empty-state h3{
-    font-size:22px;
-    font-weight:800;
-    color:var(--white);
-    margin-bottom:12px;
-}
-
-.empty-state p{
-    font-size:15px;
-    line-height:1.9;
-    max-width:500px;
-    margin:0 auto 24px;
-}
-
-.empty-state .btn{
-    display:inline-flex;
-    align-items:center;
-    gap:8px;
-    padding:13px 26px;
-    background:var(--orange);
-    color:#101820;
-    border-radius:12px;
-    font-weight:700;
-    font-size:14px;
-    transition:.25s;
-    text-decoration:none;
-}
-
-.empty-state .btn:hover{
-    transform:translateY(-3px);
-    box-shadow:0 12px 35px rgba(245,158,11,.3);
-}
-
-
-/* =========================================================
-   LOADING
-========================================================= */
-.loading{
-    text-align:center;
-    padding:80px 20px;
-    color:var(--muted);
-    font-size:14px;
-    grid-column:1/-1;
-}
-
-.spinner{
-    width:40px;
-    height:40px;
-    border:3px solid rgba(34,211,238,.15);
-    border-top-color:var(--cyan);
-    border-radius:50%;
-    animation:spin 1s linear infinite;
-    margin:0 auto 16px;
-}
-
-@keyframes spin{
-    to{transform:rotate(360deg);}
-}
-
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .8s cubic-bezier(.4,0,.2,1), transform .8s cubic-bezier(.4,0,.2,1);}
+.reveal.visible{opacity:1;transform:translateY(0);}
 
 /* =========================================================
    FOOTER
 ========================================================= */
-footer{
-    border-top:1px solid var(--line);
-    padding:50px 20px 35px;
-    position:relative;
-    z-index:2;
-    background:rgba(6,23,32,.7);
-    backdrop-filter:blur(14px);
-    -webkit-backdrop-filter:blur(14px);
-}
-
-.footer-inner{
-    width:min(1180px,100%);
-    margin:auto;
-    display:grid;
-    grid-template-columns:2fr 1fr 1fr;
-    gap:50px;
-    margin-bottom:40px;
-}
-
-.footer-brand h4{
-    font-size:18px;
-    font-weight:800;
-    margin-bottom:12px;
-    display:flex;
-    align-items:center;
-    gap:9px;
-    direction:ltr;
-}
-
-.footer-brand p{
-    color:var(--muted);
-    font-size:13px;
-    line-height:2;
-    max-width:340px;
-}
-
-.footer-col h5{
-    font-family:'JetBrains Mono',monospace;
-    font-size:11px;
-    color:var(--muted-2);
-    margin-bottom:16px;
-    direction:ltr;
-    letter-spacing:.1em;
-    font-weight:500;
-}
-
-.footer-col ul{
-    list-style:none;
-    display:flex;
-    flex-direction:column;
-    gap:10px;
-}
-
-.footer-col a{
-    color:#b8c7cf;
-    font-size:13px;
-    transition:.2s;
-}
-
+footer{border-top:1px solid var(--line);padding:50px 20px 35px;position:relative;z-index:2;background:rgba(6,23,32,.7);backdrop-filter:blur(14px);}
+.footer-inner{width:min(1180px,100%);margin:auto;display:grid;grid-template-columns:2fr 1fr 1fr;gap:50px;margin-bottom:40px;}
+.footer-brand h4{font-size:18px;font-weight:800;margin-bottom:12px;display:flex;align-items:center;gap:9px;direction:ltr;}
+.footer-brand p{color:var(--muted);font-size:13px;line-height:2;max-width:340px;}
+.footer-col h5{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted-2);margin-bottom:16px;direction:ltr;letter-spacing:.1em;font-weight:500;}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:10px;}
+.footer-col a{color:#b8c7cf;font-size:13px;transition:.2s;}
 .footer-col a:hover{color:var(--cyan);}
-
-.footer-bottom{
-    width:min(1180px,100%);
-    margin:auto;
-    padding-top:30px;
-    border-top:1px solid var(--line);
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    flex-wrap:wrap;
-    gap:12px;
-    font-size:12px;
-    color:var(--muted-2);
-    font-family:'JetBrains Mono',monospace;
-    direction:ltr;
-}
-
-.footer-bottom .heart{
-    color:var(--orange);
-    display:inline-block;
-    animation:heartbeat 1.8s infinite;
-}
-
-@keyframes heartbeat{
-    0%,100%{transform:scale(1);}
-    15%{transform:scale(1.18);}
-    30%{transform:scale(1);}
-}
-
-
-/* =========================================================
-   SCROLL REVEAL
-========================================================= */
-.reveal{
-    opacity:0;
-    transform:translateY(24px);
-    transition:opacity .8s cubic-bezier(.4,0,.2,1), transform .8s cubic-bezier(.4,0,.2,1);
-}
-
-.reveal.visible{
-    opacity:1;
-    transform:translateY(0);
-}
-
+.footer-bottom{width:min(1180px,100%);margin:auto;padding-top:30px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;font-size:12px;color:var(--muted-2);font-family:'JetBrains Mono',monospace;direction:ltr;}
+.footer-bottom .heart{color:var(--orange);display:inline-block;animation:heartbeat 1.8s infinite;}
+@keyframes heartbeat{0%,100%{transform:scale(1);}15%{transform:scale(1.18);}30%{transform:scale(1);}}
 
 /* =========================================================
    RESPONSIVE
 ========================================================= */
-@media(max-width:1024px){
-    .container{width:min(100% - 48px, 1180px);}
-    .courses-grid{grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));}
+@media(max-width: 1100px) {
+    .courses-layout { grid-template-columns: 1fr; padding-top: 100px; }
+    .visual-col { position: relative; top: 0; order: -1; margin-bottom: 30px; }
+    .brain-circle { width: 50vw; height: 50vw; max-width: 300px; max-height: 300px; }
 }
 
 @media(max-width:768px){
-
-    body{font-size:15px;line-height:1.75;}
-
-    .nav-menu{display:none;}
-    .navbar{height:70px;gap:12px;}
-    header.scrolled .navbar{height:60px;}
-    .logo{font-size:15px;gap:8px;}
-    .logo-mark{width:32px;height:32px;}
-    .logo-mark .dot-one,
-    .logo-mark .dot-two{width:6px;height:6px;}
-    .logo-mark .dot-one{left:6px;bottom:6px;}
-    .logo-mark .dot-two{right:6px;top:6px;}
+    .nav-menu{display:none;} .navbar{height:70px;gap:12px;} header.scrolled .navbar{height:60px;}
+    .logo{font-size:15px;gap:8px;} .logo-mark{width:32px;height:32px;}
+    .logo-mark .dot-one, .logo-mark .dot-two{width:6px;height:6px;}
+    .logo-mark .dot-one{left:6px;bottom:6px;} .logo-mark .dot-two{right:6px;top:6px;}
     .logo-mark .path{width:20px;height:14px;left:6px;top:9px;}
     .nav-cta{padding:8px 12px;font-size:11px;}
 
-    .courses-hero{padding:120px 0 40px;}
+    .courses-hero{padding:20px 0 30px;}
     .courses-hero h1{font-size:clamp(26px, 8vw, 40px);letter-spacing:-1px;}
     .courses-hero p{font-size:14.5px;line-height:1.95;}
 
-    .filters-section{padding:30px 0 15px;}
+    .filters-section{padding:15px 0 10px;}
     .filters{gap:8px;}
     .filter-btn{padding:9px 14px;font-size:12px;}
     .filter-btn .count{font-size:10px;}
 
     .courses-section{padding:20px 0 60px;}
-    .courses-grid{
-        grid-template-columns:1fr;
-        gap:16px;
-    }
+    .courses-grid{grid-template-columns:1fr;gap:16px;}
 
     .course-card-cover{height:150px;}
     .course-card-body{padding:18px 16px;}
@@ -847,28 +261,9 @@ footer{
     .footer-bottom{flex-direction:column;text-align:center;gap:10px;padding-top:20px;font-size:11px;}
 }
 
-@media(max-width:480px){
-    body{font-size:14.5px;}
-    .container{width:min(100% - 24px, 1180px);}
-    .courses-hero{padding:100px 0 30px;}
-    .courses-hero h1{font-size:24px;}
-    .filter-btn{padding:8px 12px;font-size:11px;}
-    .course-card-cover{height:130px;}
-    .course-card-cover .placeholder{font-size:48px;}
-    .course-card-body{padding:16px 14px;}
-    .course-card-title{font-size:15px;}
-    .footer-brand h4{font-size:15px;}
-}
-
 @media(prefers-reduced-motion:reduce){
-    *,*::before,*::after{
-        animation-duration:.01ms !important;
-        animation-iteration-count:1 !important;
-        transition-duration:.01ms !important;
-        scroll-behavior:auto !important;
-    }
+    *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;scroll-behavior:auto !important;}
 }
-
 </style>
 </head>
 
@@ -876,105 +271,85 @@ footer{
 
 <div class="background-glow glow-one"></div>
 <div class="background-glow glow-two"></div>
-
 <canvas id="starfieldCanvas" aria-hidden="true"></canvas>
-
 <div class="progress-bar" id="progressBar" aria-hidden="true"></div>
 
-
-<!-- =========================================================
-     HEADER
-========================================================= -->
 <header id="header">
-<div class="container">
-<nav class="navbar">
-
-<a href="index.html" class="logo">
-<span class="logo-mark" aria-hidden="true">
-<span class="dot-one"></span>
-<span class="dot-two"></span>
-<span class="path"></span>
-</span>
-<span>Hamsafar AI</span>
-</a>
-
-<div class="nav-menu">
-<a href="index.html#journey">مسیر یادگیری</a>
-<a href="courses.html" class="active">دوره‌ها</a>
-<a href="index.html#tools">ابزارها</a>
-<a href="about.html">درباره</a>
-</div>
-
-<a href="https://t.me/hamsafar_ai" class="nav-cta" target="_blank" rel="noopener">کانال تلگرام همسفر AI</a>
-
-</nav>
-</div>
+    <div class="container-wide">
+        <nav class="navbar">
+            <a href="index.html" class="logo">
+                <span class="logo-mark" aria-hidden="true">
+                    <span class="dot-one"></span>
+                    <span class="dot-two"></span>
+                    <span class="path"></span>
+                </span>
+                <span>Hamsafar AI</span>
+            </a>
+            <div class="nav-menu">
+                <a href="index.html#journey">مسیر یادگیری</a>
+                <a href="courses.html" class="active">دوره‌ها</a>
+                <a href="index.html#tools">ابزارها</a>
+                <a href="about.html">درباره</a>
+            </div>
+            <a href="https://t.me/hamsafar_ai" class="nav-cta" target="_blank" rel="noopener">کانال تلگرام همسفر AI</a>
+        </nav>
+    </div>
 </header>
 
+<main class="container-wide">
+    <div class="courses-layout">
+        
+        <!-- ستون راست: محتوای اصلی -->
+        <div class="main-content-col">
+            
+            <section class="courses-hero">
+                <div class="horizon"></div>
+                <div class="courses-hero-inner">
+                    <div class="nav-back">
+                        <a href="index.html" class="back-link">🏠 خانه</a>
+                    </div>   
+                    <div class="label">all_courses</div>
+                    <h1>دوره‌های <span class="orange">همسفر</span> <span class="cyan">AI</span></h1>
+                    <p>
+                        مسیر کامل یادگیری هوش مصنوعی، از صفر تا پروژه.
+                        هر دوره شامل چند درس، هر درس شامل تمرین عملی.
+                        همه رایگان، همه با هم.
+                    </p>
+                </div>
+            </section>
 
-<!-- =========================================================
-     HERO
-========================================================= -->
-<section class="courses-hero">
+            <section class="filters-section">
+                <div class="filters" id="filters">
+                    <button class="filter-btn active" data-track="all">
+                        <span>همه</span>
+                        <span class="count" id="countAll">0</span>
+                    </button>
+                </div>
+            </section>
 
-<div class="horizon"></div>
+            <section class="courses-section">
+                <div class="courses-grid" id="coursesGrid">
+                    <div class="loading">
+                        <div class="spinner"></div>
+                        در حال بارگذاری دوره‌ها...
+                    </div>
+                </div>
+            </section>
 
-<div class="container courses-hero-inner">
-<div class="nav-back">
-    <a href="index.html" class="back-link">🏠 خانه</a>
-</div>   
+        </div>
 
-<div class="label">all_courses</div>
+        <!-- ستون چپ: انیمیشن مغز (دایره‌ای) -->
+        <div class="visual-col">
+            <div class="brain-circle">
+                <canvas id="brainCanvas"></canvas>
+            </div>
+        </div>
 
-<h1>دوره‌های <span class="orange">همسفر</span> <span class="cyan">AI</span></h1>
-
-<p>
-مسیر کامل یادگیری هوش مصنوعی، از صفر تا پروژه.
-هر دوره شامل چند درس، هر درس شامل تمرین عملی.
-همه رایگان، همه با هم.
-</p>
-
-</div>
-</section>
-
-
-<!-- =========================================================
-     FILTERS
-========================================================= -->
-<section class="filters-section">
-<div class="container">
-<div class="filters" id="filters">
-    <button class="filter-btn active" data-track="all">
-        <span>همه</span>
-        <span class="count" id="countAll">0</span>
-    </button>
-    <!-- فیلترهای Track با JS اضافه می‌شن -->
-</div>
-</div>
-</section>
-
-
-<!-- =========================================================
-     COURSES GRID
-========================================================= -->
-<section class="courses-section">
-<div class="container">
-<div class="courses-grid" id="coursesGrid">
-    <div class="loading">
-        <div class="spinner"></div>
-        در حال بارگذاری دوره‌ها...
     </div>
-</div>
-</div>
-</section>
+</main>
 
-
-<!-- =========================================================
-     FOOTER
-========================================================= -->
 <footer>
 <div class="footer-inner">
-
 <div class="footer-brand">
 <h4>
 <span class="logo-mark" style="width:28px;height:28px;display:inline-flex;">
@@ -984,12 +359,8 @@ footer{
 </span>
 Hamsafar AI
 </h4>
-<p>
-مسیر واقعی یادگیری هوش مصنوعی، از صفر، رایگان، با هم.
-بدون وعده پول‌سازی، بدون دوره فروشی.
-</p>
+<p>مسیر واقعی یادگیری هوش مصنوعی، از صفر، رایگان، با هم.<br>بدون وعده پول‌سازی، بدون دوره فروشی.</p>
 </div>
-
 <div class="footer-col">
 <h5>navigate</h5>
 <ul>
@@ -999,31 +370,25 @@ Hamsafar AI
 <li><a href="https://t.me/hamsafar_ai" target="_blank" rel="noopener">تلگرام</a></li>
 </ul>
 </div>
-
 <div class="footer-col">
 <h5>connect</h5>
 <ul>
 <li><a href="https://t.me/hamsafar_ai" target="_blank" rel="noopener">تلگرام</a></li>
- <li><a href="admin.html">ورود مدیر</a></li>
+<li><a href="admin.html">ورود مدیر</a></li>
 </ul>
 </div>
-
 </div>
-
 <div class="footer-bottom">
 <span>made with <span class="heart">♥</span> for learners</span>
 <span>© 2026 Hamsafar AI</span>
 </div>
 </footer>
 
-
-
 <script>
-
 'use strict';
 
 /* =========================================================
-   CONFIG
+   CONFIG & SUPABASE
 ========================================================= */
 const SUPABASE_URL = 'https://yakalqyryegakukobtwu.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_WXEwSb3Uv3-WuPkOyIjh9Q_qQsQ4TNF';
@@ -1034,9 +399,8 @@ let coursesCache = [];
 let lessonsCache = [];
 let currentTrackFilter = 'all';
 
-
 /* =========================================================
-   STARFIELD
+   STARFIELD BACKGROUND
 ========================================================= */
 (function(){
     const canvas = document.getElementById('starfieldCanvas');
@@ -1085,7 +449,6 @@ let currentTrackFilter = 'all';
 
             const twinkle = 0.6 + Math.sin(time * s.twinkleSpeed + s.twinkle) * 0.4;
             const opacity = s.opacity * twinkle;
-
             const rgb = s.hue === 'orange' ? '245,158,11' : '34,211,238';
 
             if(s.size > 1.2){
@@ -1112,6 +475,269 @@ let currentTrackFilter = 'all';
     draw();
 })();
 
+/* =========================================================
+   BRAIN ANIMATION (LOOP)
+========================================================= */
+(function() {
+    const canvas = document.getElementById('brainCanvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    let W, H, CX, CY;
+
+    function resize() {
+        const rect = canvas.parentElement.getBoundingClientRect();
+        W = canvas.width = rect.width;
+        H = canvas.height = rect.height;
+        CX = W / 2;
+        CY = H / 2;
+    }
+    
+    setTimeout(resize, 50);
+    window.addEventListener('resize', resize);
+    
+    let phase = 'collecting'; 
+    let collectedCount = 0;
+    let targetCount = 40;
+    let time = 0;
+    
+    let brainRadius = 0;
+    let maxBrainRadius = Math.min(W, H) * 0.45; 
+
+    let particles = [];
+    let brainNodes = []; 
+    let bigBangParticles = [];
+    let shakeIntensity = 0;
+    let flashAlpha = 0;
+    let chargingTimer = 0;
+    let resetTimer = 0;
+
+    function initParticles() {
+        particles = [];
+        collectedCount = 0;
+        for (let i = 0; i < targetCount + 20; i++) {
+            const angle = Math.random() * Math.PI * 2;
+            const dist = Math.max(W, H) * 0.8 + Math.random() * 200;
+            particles.push({
+                x: CX + Math.cos(angle) * dist,
+                y: CY + Math.sin(angle) * dist,
+                targetX: CX, targetY: CY,
+                color: Math.random() > 0.5 ? '34, 211, 238' : '245, 158, 11',
+                speed: Math.random() * 4 + 5,
+                size: Math.random() * 2 + 1,
+                active: true
+            });
+        }
+    }
+
+    function initBrain() {
+        brainRadius = 0;
+        brainNodes = [];
+        for(let i=0; i<20; i++) {
+            const angle = Math.random() * Math.PI * 2;
+            const r = Math.random() * 20; 
+            const x = Math.cos(angle) * r * 1.2;
+            const y = Math.sin(angle) * r * 0.8;
+            brainNodes.push({
+                x: CX + x, y: CY + y, baseX: CX + x, baseY: CY + y,
+                phase: Math.random() * Math.PI * 2,
+                color: Math.random() > 0.5 ? '34, 211, 238' : '245, 158, 11',
+                size: Math.random() * 2 + 1.5
+            });
+        }
+    }
+
+    function growBrain() {
+        brainRadius += 25; 
+        for(let i=0; i<25; i++) {
+            const angle = Math.random() * Math.PI * 2;
+            const r = Math.random() * brainRadius; 
+            const x = Math.cos(angle) * r * 1.2;
+            const y = Math.sin(angle) * r * 0.8;
+            brainNodes.push({
+                x: CX + x, y: CY + y, baseX: CX + x, baseY: CY + y,
+                phase: Math.random() * Math.PI * 2,
+                color: Math.random() > 0.5 ? '34, 211, 238' : '245, 158, 11',
+                size: Math.random() * 2 + 1.5
+            });
+        }
+    }
+
+    function startCharging() {
+        phase = 'charging';
+        shakeIntensity = 1;
+        flashAlpha = 0;
+        chargingTimer = 0;
+    }
+
+    function triggerBigBang() {
+        phase = 'bigbang';
+        flashAlpha = 1;
+        resetTimer = 0;
+        
+        brainNodes.forEach(node => {
+            const angle = Math.atan2(node.y - CY, node.x - CX);
+            const speed = Math.random() * 8 + 3;
+            bigBangParticles.push({
+                x: node.x, y: node.y,
+                vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed,
+                color: node.color, size: node.size
+            });
+        });
+        for (let i = 0; i < 300; i++) {
+            const angle = Math.random() * Math.PI * 2;
+            const dist = Math.random() * brainRadius;
+            const speed = Math.random() * 12 + 2;
+            const colors = ['34, 211, 238', '245, 158, 11', '255, 255, 255'];
+            bigBangParticles.push({
+                x: CX + Math.cos(angle) * dist,
+                y: CY + Math.sin(angle) * dist,
+                vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed,
+                color: colors[Math.floor(Math.random() * colors.length)],
+                size: Math.random() * 3 + 0.5
+            });
+        }
+        brainNodes = []; 
+    }
+
+    function resetCycle() {
+        phase = 'collecting';
+        shakeIntensity = 1;
+        chargingTimer = 0;
+        resetTimer = 0;
+        bigBangParticles = [];
+        initParticles();
+        initBrain();
+    }
+
+    setTimeout(() => {
+        resize();
+        maxBrainRadius = Math.min(W, H) * 0.45;
+        resetCycle();
+        render();
+    }, 100);
+
+    function render() {
+        ctx.clearRect(0, 0, W, H);
+        
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(CX, CY, W / 2, 0, Math.PI * 2);
+        ctx.clip();
+
+        ctx.fillStyle = 'rgba(2, 5, 10, 0.4)';
+        ctx.fillRect(0, 0, W, H);
+
+        time += 0.08;
+
+        if (phase === 'charging') {
+            ctx.save();
+            const dx = (Math.random() - 0.5) * shakeIntensity * 10;
+            const dy = (Math.random() - 0.5) * shakeIntensity * 10;
+            ctx.translate(dx, dy);
+            shakeIntensity += 0.2;
+            chargingTimer += 1;
+            if (chargingTimer > 25) triggerBigBang();
+        }
+
+        if (phase === 'collecting' || phase === 'charging') {
+            if (brainNodes.length > 0) {
+                const pulse = phase === 'charging' ? 1 + Math.sin(time * 30) * 0.15 : 1 + Math.sin(time * 2) * 0.05;
+                ctx.lineWidth = 1;
+                for (let i = 0; i < brainNodes.length; i++) {
+                    for (let j = i + 1; j < brainNodes.length; j++) {
+                        const dx = brainNodes[i].x - brainNodes[j].x;
+                        const dy = brainNodes[i].y - brainNodes[j].y;
+                        const dist = Math.sqrt(dx*dx + dy*dy);
+                        const maxDist = 40 + brainRadius * 0.2; 
+                        if (dist < maxDist) {
+                            let alpha = (1 - dist/maxDist) * 0.4;
+                            if (phase === 'charging') alpha *= 3;
+                            ctx.strokeStyle = `rgba(34, 211, 238, ${alpha})`;
+                            ctx.beginPath(); ctx.moveTo(brainNodes[i].x, brainNodes[i].y); ctx.lineTo(brainNodes[j].x, brainNodes[j].y); ctx.stroke();
+                        }
+                    }
+                }
+                brainNodes.forEach(node => {
+                    const pulseSize = (node.size + Math.sin(time * 3 + node.phase) * 1.5) * pulse;
+                    node.x = node.baseX + Math.sin(time + node.phase) * 2;
+                    node.y = node.baseY + Math.cos(time + node.phase) * 2;
+                    ctx.fillStyle = `rgba(${node.color}, 1)`;
+                    ctx.shadowBlur = phase === 'charging' ? 30 : 10; 
+                    ctx.shadowColor = `rgba(${node.color}, 1)`;
+                    ctx.beginPath(); ctx.arc(node.x, node.y, pulseSize, 0, Math.PI*2); ctx.fill();
+                    ctx.shadowBlur = 0;
+                });
+            }
+
+            if (phase === 'collecting') {
+                particles.forEach(p => {
+                    if (!p.active) return;
+                    const dx = p.targetX - p.x;
+                    const dy = p.targetY - p.y;
+                    const dist = Math.sqrt(dx*dx + dy*dy);
+
+                    if (dist < 10) {
+                        p.active = false;
+                        collectedCount++;
+                        if (collectedCount >= targetCount) {
+                            growBrain();
+                            if (brainRadius >= maxBrainRadius) {
+                                startCharging(); 
+                            } else {
+                                initParticles(); 
+                            }
+                        }
+                    } else {
+                        p.x += (dx / dist) * p.speed;
+                        p.y += (dy / dist) * p.speed;
+                        
+                        ctx.strokeStyle = `rgba(${p.color}, 0.5)`;
+                        ctx.lineWidth = p.size;
+                        ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p.x - (dx/dist)*20, p.y - (dy/dist)*20); ctx.stroke();
+                        
+                        ctx.fillStyle = `rgba(${p.color}, 1)`;
+                        ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI*2); ctx.fill();
+                    }
+                });
+                const coreSize = (collectedCount / targetCount) * 50;
+                const grad = ctx.createRadialGradient(CX, CY, 0, CX, CY, coreSize);
+                grad.addColorStop(0, 'rgba(255, 255, 255, 0.8)');
+                grad.addColorStop(0.5, 'rgba(34, 211, 238, 0.4)');
+                grad.addColorStop(1, 'rgba(34, 211, 238, 0)');
+                ctx.fillStyle = grad;
+                ctx.beginPath(); ctx.arc(CX, CY, coreSize, 0, Math.PI*2); ctx.fill();
+            }
+            if (phase === 'charging') ctx.restore(); 
+
+        } else if (phase === 'bigbang') {
+            resetTimer += 0.08;
+
+            if (flashAlpha > 0) {
+                ctx.fillStyle = `rgba(255, 255, 255, ${flashAlpha})`;
+                ctx.fillRect(0, 0, W, H);
+                flashAlpha -= 0.05;
+            }
+            
+            bigBangParticles.forEach(p => {
+                p.x += p.vx; p.y += p.vy;
+                p.vx *= 0.97; p.vy *= 0.97;
+                
+                ctx.strokeStyle = `rgba(${p.color}, 0.6)`;
+                ctx.lineWidth = p.size * 0.8;
+                ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p.x - p.vx*2, p.y - p.vy*2); ctx.stroke();
+                
+                ctx.fillStyle = `rgba(${p.color}, 1)`;
+                ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI*2); ctx.fill();
+            });
+
+            if (resetTimer > 2.5) {
+                resetCycle();
+            }
+        }
+        ctx.restore(); 
+        requestAnimationFrame(render);
+    }
+})();
 
 /* =========================================================
    UTILS
@@ -1130,98 +756,58 @@ function getLevelBadge(level){
     return { text: '🟢 مبتدی', class: 'badge-level-beginner' };
 }
 
-
 /* =========================================================
-   LOAD DATA
+   DATA LOADING
 ========================================================= */
 async function loadAll(){
-    await Promise.all([
-        loadTracks(),
-        loadCourses(),
-        loadLessons()
-    ]);
-
+    await Promise.all([ loadTracks(), loadCourses(), loadLessons() ]);
     renderFilters();
     renderCourses();
 }
 
 async function loadTracks(){
     try{
-        const { data, error } = await sb
-            .from('tracks')
-            .select('*')
-            .eq('status', 'published')
-            .order('order_num', { ascending: true });
-
+        const { data, error } = await sb.from('tracks').select('*').eq('status', 'published').order('order_num', { ascending: true });
         if(error) throw error;
         tracksCache = data || [];
-    }catch(e){
-        console.error('Tracks load error:', e);
-        tracksCache = [];
-    }
+    }catch(e){ console.error(e); tracksCache = []; }
 }
 
 async function loadCourses(){
     try{
-        const { data, error } = await sb
-            .from('courses')
-            .select('*')
-            .eq('status', 'published')
-            .order('order_num', { ascending: true });
-
+        const { data, error } = await sb.from('courses').select('*').eq('status', 'published').order('order_num', { ascending: true });
         if(error) throw error;
         coursesCache = data || [];
-    }catch(e){
-        console.error('Courses load error:', e);
-        coursesCache = [];
-    }
+    }catch(e){ console.error(e); coursesCache = []; }
 }
 
 async function loadLessons(){
     try{
-        const { data, error } = await sb
-            .from('lessons')
-            .select('id, course_id, status')
-            .eq('status', 'published');
-
+        const { data, error } = await sb.from('lessons').select('id, course_id, status').eq('status', 'published');
         if(error) throw error;
         lessonsCache = data || [];
-    }catch(e){
-        console.error('Lessons load error:', e);
-        lessonsCache = [];
-    }
+    }catch(e){ console.error(e); lessonsCache = []; }
 }
 
-
 /* =========================================================
-   FILTERS
+   FILTERS & RENDER
 ========================================================= */
 function renderFilters(){
     const filtersEl = document.getElementById('filters');
-
-    // شمارش کل
     document.getElementById('countAll').textContent = coursesCache.length;
-
-    // حذف فیلترهای قبلی (به جز "همه")
     filtersEl.querySelectorAll('.filter-btn[data-track]:not([data-track="all"])').forEach(el => el.remove());
 
-    // اضافه کردن فیلتر هر Track
     tracksCache.forEach(track => {
         const count = coursesCache.filter(c => c.track_id === track.id).length;
         if(count === 0) return;
-
         const btn = document.createElement('button');
         btn.className = 'filter-btn';
         btn.dataset.track = track.id;
-        btn.innerHTML = `
-            <span>${escapeHtml(track.icon || '')} ${escapeHtml(track.title)}</span>
-            <span class="count">${count}</span>
-        `;
+        btn.innerHTML = `<span>${escapeHtml(track.icon || '')} ${escapeHtml(track.title)}</span><span class="count">${count}</span>`;
         btn.onclick = () => filterByTrack(track.id, btn);
         filtersEl.appendChild(btn);
     });
 
-    // کلیک "همه"
     const allBtn = filtersEl.querySelector('.filter-btn[data-track="all"]');
     allBtn.onclick = () => filterByTrack('all', allBtn);
 }
@@ -1233,29 +819,12 @@ function filterByTrack(trackId, btn){
     renderCourses();
 }
 
-
-/* =========================================================
-   RENDER COURSES
-========================================================= */
 function renderCourses(){
     const grid = document.getElementById('coursesGrid');
-
-    let filtered = coursesCache;
-    if(currentTrackFilter !== 'all'){
-        filtered = coursesCache.filter(c => c.track_id === parseInt(currentTrackFilter));
-    }
+    let filtered = currentTrackFilter === 'all' ? coursesCache : coursesCache.filter(c => c.track_id === parseInt(currentTrackFilter));
 
     if(filtered.length === 0){
-        grid.innerHTML = `
-            <div class="empty-state">
-                <span class="icon">📚</span>
-                <h3>هنوز دوره‌ای منتشر نشده</h3>
-                <p>ما در حال آماده‌سازی دوره‌های آموزشی هستیم. به‌زودی اینجا پر می‌شه!</p>
-                <a href="https://t.me/hamsafar_ai" target="_blank" rel="noopener" class="btn">
-                    📬 عضو کانال تلگرام شو
-                </a>
-            </div>
-        `;
+        grid.innerHTML = `<div class="empty-state"><span class="icon">📚</span><h3>هنوز دوره‌ای منتشر نشده</h3><p>ما در حال آماده‌سازی دوره‌های آموزشی هستیم.</p></div>`;
         return;
     }
 
@@ -1263,10 +832,7 @@ function renderCourses(){
         const track = tracksCache.find(t => t.id === course.track_id);
         const levelBadge = getLevelBadge(course.level);
         const lessonCount = lessonsCache.filter(l => l.course_id === course.id).length;
-
-        const coverHTML = course.cover_image
-            ? `<img src="${escapeHtml(course.cover_image)}" alt="${escapeHtml(course.title)}" onerror="this.style.display='none';this.parentElement.innerHTML='<span class=\\'placeholder\\'>📚</span>'">`
-            : `<span class="placeholder">📚</span>`;
+        const coverHTML = course.cover_image ? `<img src="${escapeHtml(course.cover_image)}" alt="${escapeHtml(course.title)}" onerror="this.style.display='none';this.parentElement.innerHTML='<span class=\\'placeholder\\'>📚</span>'">` : `<span class="placeholder">📚</span>`;
 
         return `
             <a href="course.html?slug=${encodeURIComponent(course.slug)}" class="course-card reveal">
@@ -1291,7 +857,6 @@ function renderCourses(){
         `;
     }).join('');
 
-    // اسکرول ریویل
     setTimeout(() => {
         document.querySelectorAll('.reveal').forEach((el, i) => {
             setTimeout(() => el.classList.add('visible'), i * 60);
@@ -1299,13 +864,11 @@ function renderCourses(){
     }, 50);
 }
 
-
 /* =========================================================
-   PROGRESS BAR + HEADER
+   SCROLL
 ========================================================= */
 const progressBar = document.getElementById('progressBar');
 const header = document.getElementById('header');
-
 let ticking = false;
 window.addEventListener('scroll', () => {
     if(!ticking){
@@ -1321,13 +884,7 @@ window.addEventListener('scroll', () => {
     }
 }, { passive: true });
 
-
-/* =========================================================
-   INIT
-========================================================= */
 loadAll();
-
 </script>
-
 </body>
 </html>

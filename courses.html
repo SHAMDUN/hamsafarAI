@@ -1221,22 +1221,17 @@ let currentTrackFilter = 'all';
        Cycle reset
     ----------------------------------------- */
     function resetCycle() {
-    phase = 'collecting';
-    phaseTime = 0;
+        phase = 'collecting';
+        phaseTime = 0;
+        particles = [];
+        shockwaves = [];
+        gasClouds = [];
 
-    // در شروع هیچ شبکه‌ای وجود ندارد
-    nodes = [];
-    particles = [];
-    shockwaves = [];
-    gasClouds = [];
+        createNetwork();
+        createIncomingParticles();
 
-    createIncomingParticles();
-
-    setCaption(
-        'تولد کیهان',
-        'ذرات در مسیر شکل‌گیری جهان'
-    );
-}
+        setCaption('تولد کیهان', 'همه‌چیز از یک نقطه آغاز می‌شود');
+    }
 
     /* -----------------------------------------
        Main animation loop
@@ -1268,25 +1263,6 @@ let currentTrackFilter = 'all';
 
         if (phase === 'collecting') {
             drawIncoming(dt);
-           // تا قبل از پایان جمع‌آوری، شبکه رسم نمی‌شود
-            
-                // شبکه از مرکز به بیرون آشکار می‌شود
-                for (const node of nodes) {
-                    const dx = node.baseX - CX;
-                    const dy = node.baseY - CY;
-
-                    node.x = CX + dx * 0.03;
-                    node.y = CY + dy * 0.03;
-                }
-
-                phase = 'forming';
-                phaseTime = 0;
-
-                 setCaption(
-                    'شکل‌گیری شبکه',
-                    'ذرات به ساختاری منسجم تبدیل می‌شوند'
-                );
-            }
 
             // Slowly rotate the organized network.
             const rot = elapsed * 0.045;
@@ -1307,34 +1283,10 @@ let currentTrackFilter = 'all';
             drawNodes(1);
             drawCore(0.8);
 
-        }
-           else if (phase === 'forming') {
-               const progress = Math.min(phaseTime / 2.5, 1);
-               const eased = 1 - Math.pow(1 - progress, 3);
-
-                for (const node of nodes) {
-                    const dx = node.baseX - CX;
-                    const dy = node.baseY - CY;
-
-                    node.x = CX + dx * (0.03 + 0.97 * eased);
-                    node.y = CY + dy * (0.03 + 0.97 * eased);
-                }
-
-                // خطوط و گره‌ها به‌تدریج ظاهر می‌شوند
-                drawNetwork(eased);
-                drawNodes(eased);
-                drawCore(0.6 + eased * 0.4);
-
-                if (phaseTime > 2.5) {
-                    phase = 'charging';
-                    phaseTime = 0;
-
-                   setCaption(
-                        'انرژی کیهانی',
-                        'هسته در آستانه رهایی است'
-                    );
-                }
+            if (phaseTime > 7.5) {
+                beginCharging();
             }
+        }
 
         else if (phase === 'charging') {
             const pulse = 1 + Math.sin(phaseTime * 13) * 0.12;

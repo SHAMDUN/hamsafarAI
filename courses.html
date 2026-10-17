@@ -110,25 +110,143 @@ header.scrolled .navbar{height:70px;}
     justify-content: center;
 }
 
+/* =========================================================
+   COSMIC ANIMATION — NEON GLASS
+========================================================= */
 .brain-circle {
-    width: 25vw; /* یک چهارم عرض لپ تاپ */
+    width: 25vw;
     height: 25vw;
     min-width: 250px;
     min-height: 250px;
+    max-width: 440px;
+    max-height: 440px;
     border-radius: 50%;
     overflow: hidden;
     position: relative;
-    background: #02050a;
-    border: 2px solid rgba(34, 211, 238, 0.2);
-    box-shadow: 0 0 60px rgba(34, 211, 238, 0.1), inset 0 0 40px rgba(0,0,0,0.8);
-    outline: 4px solid rgba(34, 211, 238, 0.05);
-    outline-offset: 10px;
+    isolation: isolate;
+    background:
+        radial-gradient(circle at 50% 48%,
+            #101b39 0%,
+            #050b19 48%,
+            #01040a 100%);
+    border: 1px solid rgba(103, 232, 249, 0.38);
+    box-shadow:
+        0 0 18px rgba(34, 211, 238, 0.12),
+        0 0 60px rgba(99, 102, 241, 0.12),
+        inset 0 0 50px rgba(0, 0, 0, 0.8);
+    outline: 1px solid rgba(34, 211, 238, 0.12);
+    outline-offset: 8px;
+}
+
+.brain-circle::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    border-radius: inherit;
+    pointer-events: none;
+    background:
+        radial-gradient(
+            ellipse at center,
+            transparent 42%,
+            rgba(2, 5, 15, 0.18) 68%,
+            rgba(1, 3, 9, 0.8) 100%
+        );
 }
 
 .brain-circle canvas {
+    position: absolute;
+    inset: 0;
     display: block;
     width: 100%;
     height: 100%;
+    z-index: 1;
+}
+
+.cosmos-caption {
+    position: absolute;
+    z-index: 3;
+    left: 12px;
+    right: 12px;
+    bottom: 24px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    pointer-events: none;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.95);
+}
+
+.cosmos-caption-kicker {
+    direction: ltr;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(7px, 0.65vw, 10px);
+    font-weight: 700;
+    color: #67e8f9;
+    opacity: 0.9;
+    margin-bottom: 5px;
+    text-shadow: 0 0 12px rgba(34, 211, 238, 0.8);
+}
+
+.cosmos-caption strong {
+    color: #f0fdff;
+    font-family: 'Vazirmatn', Tahoma, sans-serif;
+    font-size: clamp(15px, 1.3vw, 21px);
+    font-weight: 900;
+    line-height: 1.7;
+    text-shadow:
+        0 0 8px rgba(103, 232, 249, 0.65),
+        0 0 24px rgba(34, 211, 238, 0.35);
+}
+
+.cosmos-caption > span:nth-of-type(2) {
+    max-width: 95%;
+    color: #c4b5fd;
+    font-size: clamp(9px, 0.8vw, 12px);
+    line-height: 1.8;
+    font-family: 'Vazirmatn', Tahoma, sans-serif;
+    text-shadow: 0 0 12px rgba(139, 92, 246, 0.45);
+}
+
+.cosmos-caption-line {
+    width: 42px;
+    height: 2px;
+    border-radius: 4px;
+    margin-top: 9px;
+    background: linear-gradient(90deg, #22d3ee, #a78bfa, #fbbf24);
+    box-shadow: 0 0 12px rgba(34, 211, 238, 0.7);
+}
+
+@media (max-width: 1100px) {
+    .brain-circle {
+        width: min(50vw, 330px);
+        height: min(50vw, 330px);
+        min-width: 250px;
+        min-height: 250px;
+    }
+
+    .cosmos-caption {
+        bottom: 22px;
+    }
+
+    .cosmos-caption-kicker {
+        font-size: 8px;
+    }
+
+    .cosmos-caption strong {
+        font-size: 17px;
+    }
+
+    .cosmos-caption > span:nth-of-type(2) {
+        font-size: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .brain-circle {
+        width: min(78vw, 310px);
+        height: min(78vw, 310px);
+    }
 }
 
 /* =========================================================
@@ -341,9 +459,16 @@ footer{border-top:1px solid var(--line);padding:50px 20px 35px;position:relative
         <!-- ستون چپ: انیمیشن مغز (دایره‌ای) -->
         <div class="visual-col">
             <div class="brain-circle">
-                <canvas id="brainCanvas"></canvas>
-            </div>
-        </div>
+                <canvas id="brainCanvas" aria-label="انیمیشن تعاملی تولد کیهان"></canvas>
+
+                <div class="cosmos-caption" aria-live="polite">
+                    <span class="cosmos-caption-kicker">H A M S A F A R&nbsp; A I</span>
+                    <strong id="cosmosTitle">تولد کیهان</strong>
+                    <span id="cosmosSubtitle">همه‌چیز از یک نقطه آغاز می‌شود</span>
+                    <span class="cosmos-caption-line"></span>
+               </div>
+             </div>
+         </div>
 
     </div>
 </main>
@@ -475,273 +600,815 @@ let currentTrackFilter = 'all';
     draw();
 })();
 
-/* =========================================================
-   BRAIN ANIMATION (LOOP)
+   /* =========================================================
+   COSMIC ENGINE — STRUCTURED NETWORK & BIG BANG
 ========================================================= */
-(function() {
+(function () {
     const canvas = document.getElementById('brainCanvas');
     if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    let W, H, CX, CY;
+
+    const ctx = canvas.getContext('2d', { alpha: true });
+    const titleEl = document.getElementById('cosmosTitle');
+    const subtitleEl = document.getElementById('cosmosSubtitle');
+
+    if (!ctx) return;
+
+    const reduceMotion = window.matchMedia(
+        '(prefers-reduced-motion: reduce)'
+    ).matches;
+
+    const TAU = Math.PI * 2;
+
+    let W = 300;
+    let H = 300;
+    let CX = 150;
+    let CY = 150;
+    let DPR = 1;
+    let radius = 120;
+    let lastTime = 0;
+    let elapsed = 0;
+    let phase = 'collecting';
+    let phaseTime = 0;
+    let nodes = [];
+    let particles = [];
+    let shockwaves = [];
+    let gasClouds = [];
+    let stars = [];
+    let backgroundStars = [];
+    let animationFrame = 0;
+    let destroyed = false;
+
+    const config = {
+        cyan: [34, 211, 238],
+        blue: [96, 165, 250],
+        purple: [167, 139, 250],
+        gold: [251, 191, 36],
+        white: [240, 253, 255],
+        maxNodes: 155,
+        maxParticles: 560
+    };
+
+    const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
+
+    const rand = (min, max) => min + Math.random() * (max - min);
+
+    const mix = (a, b, t) => a + (b - a) * t;
+
+    function rgb(color, alpha = 1) {
+        return `rgba(${color[0]},${color[1]},${color[2]},${alpha})`;
+    }
+
+    function setCaption(title, subtitle) {
+        if (titleEl) titleEl.textContent = title;
+        if (subtitleEl) subtitleEl.textContent = subtitle;
+    }
 
     function resize() {
-        const rect = canvas.parentElement.getBoundingClientRect();
-        W = canvas.width = rect.width;
-        H = canvas.height = rect.height;
+        const rect = canvas.getBoundingClientRect();
+
+        if (!rect.width || !rect.height) return;
+
+        W = rect.width;
+        H = rect.height;
+        DPR = Math.min(window.devicePixelRatio || 1, 2);
+
+        canvas.width = Math.round(W * DPR);
+        canvas.height = Math.round(H * DPR);
+
+        ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+
         CX = W / 2;
         CY = H / 2;
+        radius = Math.min(W, H) * 0.43;
+
+        createBackgroundStars();
+        createNetwork();
+
+        if (phase === 'collecting') {
+            createIncomingParticles();
+        }
     }
-    
-    setTimeout(resize, 50);
-    window.addEventListener('resize', resize);
-    
-    let phase = 'collecting'; 
-    let collectedCount = 0;
-    let targetCount = 40;
-    let time = 0;
-    
-    let brainRadius = 0;
-    let maxBrainRadius = Math.min(W, H) * 0.45; 
 
-    let particles = [];
-    let brainNodes = []; 
-    let bigBangParticles = [];
-    let shakeIntensity = 0;
-    let flashAlpha = 0;
-    let chargingTimer = 0;
-    let resetTimer = 0;
+    /* -----------------------------------------
+       Background: stable star distribution
+    ----------------------------------------- */
+    function createBackgroundStars() {
+        backgroundStars = [];
 
-    function initParticles() {
+        const count = Math.round(
+            clamp((W * H) / 95, 150, 440)
+        );
+
+        for (let i = 0; i < count; i++) {
+            const angle = rand(0, TAU);
+            const dist = Math.sqrt(Math.random()) * radius * 1.9;
+
+            backgroundStars.push({
+                x: CX + Math.cos(angle) * dist,
+                y: CY + Math.sin(angle) * dist,
+                size: rand(0.35, 1.25),
+                alpha: rand(0.12, 0.65),
+                phase: rand(0, TAU),
+                speed: rand(0.3, 1.4),
+                color: Math.random() > 0.82
+                    ? config.purple
+                    : config.blue
+            });
+        }
+    }
+
+    /* -----------------------------------------
+       Organized network:
+       radial rings + spiral arms
+    ----------------------------------------- */
+    function createNetwork() {
+        nodes = [];
+
+        const ringCount = 7;
+        const perRing = 15;
+        const arms = 4;
+
+        for (let ring = 1; ring <= ringCount; ring++) {
+            const ringRadius = (ring / ringCount) * radius * 0.83;
+            const count = perRing + ring * 2;
+
+            for (let i = 0; i < count; i++) {
+                const baseAngle = (i / count) * TAU;
+                const armOffset = Math.sin(baseAngle * arms + ring * 0.6) * 0.08;
+                const angle = baseAngle + armOffset;
+
+                const jitter = ringRadius * 0.035;
+
+                const x = CX + Math.cos(angle) * ringRadius + rand(-jitter, jitter);
+                const y = CY + Math.sin(angle) * ringRadius + rand(-jitter, jitter);
+
+                nodes.push({
+                    x,
+                    y,
+                    baseX: x,
+                    baseY: y,
+                    ring,
+                    angle,
+                    radius: ringRadius,
+                    phase: rand(0, TAU),
+                    size: rand(0.7, 1.8),
+                    color: ring % 4 === 0
+                        ? config.purple
+                        : (Math.random() > 0.78 ? config.gold : config.cyan),
+                    energy: rand(0.5, 1),
+                    vx: 0,
+                    vy: 0
+                });
+            }
+        }
+
+        // Spiral-arm anchor nodes provide a clearer geometric structure.
+        for (let arm = 0; arm < arms; arm++) {
+            const offset = arm * TAU / arms;
+
+            for (let j = 0; j < 16; j++) {
+                const t = j / 15;
+                const r = radius * (0.08 + t * 0.77);
+                const angle = offset + t * 2.8;
+
+                const x = CX + Math.cos(angle) * r;
+                const y = CY + Math.sin(angle) * r;
+
+                nodes.push({
+                    x, y,
+                    baseX: x,
+                    baseY: y,
+                    ring: 2 + Math.round(t * 5),
+                    angle,
+                    radius: r,
+                    phase: rand(0, TAU),
+                    size: rand(0.9, 1.9),
+                    color: arm % 2 ? config.blue : config.cyan,
+                    energy: rand(0.6, 1),
+                    vx: 0,
+                    vy: 0
+                });
+            }
+        }
+
+        if (nodes.length > config.maxNodes) {
+            nodes = nodes.slice(0, config.maxNodes);
+        }
+    }
+
+    /* -----------------------------------------
+       Inward-moving particles
+    ----------------------------------------- */
+    function createIncomingParticles() {
         particles = [];
-        collectedCount = 0;
-        for (let i = 0; i < targetCount + 20; i++) {
-            const angle = Math.random() * Math.PI * 2;
-            const dist = Math.max(W, H) * 0.8 + Math.random() * 200;
+
+        const count = reduceMotion ? 24 : 68;
+
+        for (let i = 0; i < count; i++) {
+            const angle = rand(0, TAU);
+            const dist = radius * rand(1.08, 1.9);
+
             particles.push({
                 x: CX + Math.cos(angle) * dist,
                 y: CY + Math.sin(angle) * dist,
-                targetX: CX, targetY: CY,
-                color: Math.random() > 0.5 ? '34, 211, 238' : '245, 158, 11',
-                speed: Math.random() * 4 + 5,
-                size: Math.random() * 2 + 1,
-                active: true
+                vx: 0,
+                vy: 0,
+                angle,
+                speed: rand(0.6, 1.8),
+                size: rand(0.5, 1.7),
+                color: Math.random() > 0.7 ? config.gold : config.cyan,
+                progress: rand(0, 0.16)
             });
         }
     }
 
-    function initBrain() {
-        brainRadius = 0;
-        brainNodes = [];
-        for(let i=0; i<20; i++) {
-            const angle = Math.random() * Math.PI * 2;
-            const r = Math.random() * 20; 
-            const x = Math.cos(angle) * r * 1.2;
-            const y = Math.sin(angle) * r * 0.8;
-            brainNodes.push({
-                x: CX + x, y: CY + y, baseX: CX + x, baseY: CY + y,
-                phase: Math.random() * Math.PI * 2,
-                color: Math.random() > 0.5 ? '34, 211, 238' : '245, 158, 11',
-                size: Math.random() * 2 + 1.5
-            });
-        }
-    }
+    /* -----------------------------------------
+       Gas clouds / nebula wisps
+    ----------------------------------------- */
+    function createGasClouds() {
+        gasClouds = [];
 
-    function growBrain() {
-        brainRadius += 25; 
-        for(let i=0; i<25; i++) {
-            const angle = Math.random() * Math.PI * 2;
-            const r = Math.random() * brainRadius; 
-            const x = Math.cos(angle) * r * 1.2;
-            const y = Math.sin(angle) * r * 0.8;
-            brainNodes.push({
-                x: CX + x, y: CY + y, baseX: CX + x, baseY: CY + y,
-                phase: Math.random() * Math.PI * 2,
-                color: Math.random() > 0.5 ? '34, 211, 238' : '245, 158, 11',
-                size: Math.random() * 2 + 1.5
-            });
-        }
-    }
+        const count = reduceMotion ? 12 : 38;
 
-    function startCharging() {
-        phase = 'charging';
-        shakeIntensity = 1;
-        flashAlpha = 0;
-        chargingTimer = 0;
-    }
+        for (let i = 0; i < count; i++) {
+            const angle = rand(0, TAU);
+            const dist = rand(0, radius * 0.72);
 
-    function triggerBigBang() {
-        phase = 'bigbang';
-        flashAlpha = 1;
-        resetTimer = 0;
-        
-        brainNodes.forEach(node => {
-            const angle = Math.atan2(node.y - CY, node.x - CX);
-            const speed = Math.random() * 8 + 3;
-            bigBangParticles.push({
-                x: node.x, y: node.y,
-                vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed,
-                color: node.color, size: node.size
-            });
-        });
-        for (let i = 0; i < 300; i++) {
-            const angle = Math.random() * Math.PI * 2;
-            const dist = Math.random() * brainRadius;
-            const speed = Math.random() * 12 + 2;
-            const colors = ['34, 211, 238', '245, 158, 11', '255, 255, 255'];
-            bigBangParticles.push({
+            gasClouds.push({
                 x: CX + Math.cos(angle) * dist,
                 y: CY + Math.sin(angle) * dist,
-                vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed,
-                color: colors[Math.floor(Math.random() * colors.length)],
-                size: Math.random() * 3 + 0.5
+                vx: Math.cos(angle) * rand(0.08, 0.65),
+                vy: Math.sin(angle) * rand(0.08, 0.65),
+                size: rand(radius * 0.025, radius * 0.095),
+                rotation: rand(0, TAU),
+                spin: rand(-0.008, 0.008),
+                alpha: rand(0.035, 0.13),
+                color: [config.cyan, config.blue, config.purple][
+                    Math.floor(Math.random() * 3)
+                ]
             });
         }
-        brainNodes = []; 
     }
 
-    function resetCycle() {
-        phase = 'collecting';
-        shakeIntensity = 1;
-        chargingTimer = 0;
-        resetTimer = 0;
-        bigBangParticles = [];
-        initParticles();
-        initBrain();
-    }
+    /* -----------------------------------------
+       Network drawing with distance-limited links
+    ----------------------------------------- */
+    function drawNetwork(power = 1) {
+        const linkDistance = radius * 0.29;
 
-    setTimeout(() => {
-        resize();
-        maxBrainRadius = Math.min(W, H) * 0.45;
-        resetCycle();
-        render();
-    }, 100);
-
-    function render() {
-        ctx.clearRect(0, 0, W, H);
-        
         ctx.save();
-        ctx.beginPath();
-        ctx.arc(CX, CY, W / 2, 0, Math.PI * 2);
-        ctx.clip();
+        ctx.lineWidth = 0.65;
 
-        ctx.fillStyle = 'rgba(2, 5, 10, 0.4)';
+        for (let i = 0; i < nodes.length; i++) {
+            const a = nodes[i];
+
+            for (let j = i + 1; j < nodes.length; j++) {
+                const b = nodes[j];
+                const dx = a.x - b.x;
+                const dy = a.y - b.y;
+                const d2 = dx * dx + dy * dy;
+
+                if (d2 > linkDistance * linkDistance) continue;
+
+                const dist = Math.sqrt(d2);
+                const alpha = (1 - dist / linkDistance) * 0.32 * power;
+
+                // Favor same-ring and nearby-ring connections.
+                const ringDiff = Math.abs(a.ring - b.ring);
+                const strength = ringDiff <= 1 ? 1 : 0.55;
+
+                ctx.strokeStyle = rgb(
+                    ringDiff > 1 ? config.blue : config.cyan,
+                    alpha * strength
+                );
+
+                ctx.beginPath();
+                ctx.moveTo(a.x, a.y);
+                ctx.lineTo(b.x, b.y);
+                ctx.stroke();
+            }
+        }
+
+        ctx.restore();
+    }
+
+    function drawNodes(power = 1) {
+        for (const node of nodes) {
+            const pulse = 0.78 + Math.sin(elapsed * 1.8 + node.phase) * 0.22;
+            const r = node.size * pulse * power;
+
+            ctx.save();
+            ctx.shadowBlur = 5 + 8 * power;
+            ctx.shadowColor = rgb(node.color, 0.75);
+            ctx.fillStyle = rgb(node.color, 0.6 + pulse * 0.4);
+            ctx.beginPath();
+            ctx.arc(node.x, node.y, Math.max(0.3, r), 0, TAU);
+            ctx.fill();
+            ctx.restore();
+        }
+    }
+
+    /* -----------------------------------------
+       Core glow
+    ----------------------------------------- */
+    function drawCore(intensity = 1) {
+        const pulse = 1 + Math.sin(elapsed * 2.2) * 0.07;
+        const coreRadius = radius * 0.19 * pulse;
+
+        const glow = ctx.createRadialGradient(
+            CX, CY, 0,
+            CX, CY, coreRadius * 2.5
+        );
+
+        glow.addColorStop(0, `rgba(255,255,255,${0.95 * intensity})`);
+        glow.addColorStop(0.12, `rgba(186,230,253,${0.8 * intensity})`);
+        glow.addColorStop(0.3, `rgba(34,211,238,${0.34 * intensity})`);
+        glow.addColorStop(0.65, `rgba(99,102,241,${0.12 * intensity})`);
+        glow.addColorStop(1, 'rgba(99,102,241,0)');
+
+        ctx.fillStyle = glow;
+        ctx.beginPath();
+        ctx.arc(CX, CY, coreRadius * 2.5, 0, TAU);
+        ctx.fill();
+
+        ctx.save();
+        ctx.shadowBlur = 20 * intensity;
+        ctx.shadowColor = '#a5f3fc';
+        ctx.fillStyle = `rgba(255,255,255,${0.8 * intensity})`;
+        ctx.beginPath();
+        ctx.arc(CX, CY, Math.max(1.2, coreRadius * 0.14), 0, TAU);
+        ctx.fill();
+        ctx.restore();
+    }
+
+    /* -----------------------------------------
+       Nebula drawing
+    ----------------------------------------- */
+    function drawGas() {
+        for (const gas of gasClouds) {
+            gas.x += gas.vx;
+            gas.y += gas.vy;
+            gas.rotation += gas.spin;
+
+            ctx.save();
+            ctx.translate(gas.x, gas.y);
+            ctx.rotate(gas.rotation);
+
+            const grad = ctx.createRadialGradient(
+                0, 0, 0,
+                0, 0, gas.size
+            );
+
+            grad.addColorStop(0, rgb(gas.color, gas.alpha));
+            grad.addColorStop(0.5, rgb(gas.color, gas.alpha * 0.35));
+            grad.addColorStop(1, rgb(gas.color, 0));
+
+            ctx.fillStyle = grad;
+            ctx.scale(1.7, 0.6);
+            ctx.beginPath();
+            ctx.arc(0, 0, gas.size, 0, TAU);
+            ctx.fill();
+            ctx.restore();
+        }
+    }
+
+    /* -----------------------------------------
+       Incoming particles
+    ----------------------------------------- */
+    function drawIncoming(dt) {
+        for (const p of particles) {
+            const dx = CX - p.x;
+            const dy = CY - p.y;
+            const dist = Math.max(0.01, Math.hypot(dx, dy));
+
+            const acceleration = 0.6 + (1 - p.progress) * 0.3;
+
+            p.vx += (dx / dist) * acceleration * dt * 60;
+            p.vy += (dy / dist) * acceleration * dt * 60;
+
+            p.vx *= 0.985;
+            p.vy *= 0.985;
+
+            p.x += p.vx * p.speed * dt * 60;
+            p.y += p.vy * p.speed * dt * 60;
+            p.progress = clamp(p.progress + dt * 0.12, 0, 1);
+
+            ctx.save();
+            ctx.strokeStyle = rgb(p.color, 0.55);
+            ctx.lineWidth = p.size;
+
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(p.x - p.vx * 2, p.y - p.vy * 2);
+            ctx.stroke();
+
+            ctx.fillStyle = rgb(p.color, 0.9);
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.size, 0, TAU);
+            ctx.fill();
+            ctx.restore();
+        }
+    }
+
+    /* -----------------------------------------
+       Explosion preparation
+    ----------------------------------------- */
+    function beginCharging() {
+        phase = 'charging';
+        phaseTime = 0;
+        setCaption('انرژی کیهانی', 'هسته در آستانه رهایی است');
+    }
+
+    function explode() {
+        phase = 'explosion';
+        phaseTime = 0;
+        shockwaves = [];
+        particles = [];
+
+        const total = reduceMotion ? 110 : 310;
+
+        for (let i = 0; i < total; i++) {
+            const angle = rand(0, TAU);
+
+            // A radial distribution with some clustered filaments.
+            const cluster = Math.random() > 0.65
+                ? rand(0.2, 1)
+                : Math.sqrt(Math.random());
+
+            const startDist = radius * 0.12 * cluster;
+            const speed = rand(0.6, 4.2) *
+                (Math.random() > 0.8 ? 1.6 : 1);
+
+            const colorSet = [
+                config.cyan,
+                config.blue,
+                config.purple,
+                config.gold,
+                config.white
+            ];
+
+            const color = colorSet[
+                Math.floor(Math.random() * colorSet.length)
+            ];
+
+            particles.push({
+                x: CX + Math.cos(angle) * startDist,
+                y: CY + Math.sin(angle) * startDist,
+                vx: Math.cos(angle) * speed,
+                vy: Math.sin(angle) * speed,
+                size: rand(0.45, 2.1),
+                color,
+                alpha: rand(0.6, 1),
+                drag: rand(0.988, 0.998),
+                life: rand(1.1, 3.2),
+                maxLife: 3.2,
+                twist: rand(-0.02, 0.02)
+            });
+        }
+
+        for (let i = 0; i < nodes.length; i++) {
+            const n = nodes[i];
+            const dx = n.x - CX;
+            const dy = n.y - CY;
+            const d = Math.max(0.01, Math.hypot(dx, dy));
+            const speed = rand(1.2, 3.5);
+
+            particles.push({
+                x: n.x,
+                y: n.y,
+                vx: (dx / d) * speed,
+                vy: (dy / d) * speed,
+                size: n.size * 1.2,
+                color: n.color,
+                alpha: 0.95,
+                drag: 0.994,
+                life: rand(1.3, 2.8),
+                maxLife: 2.8,
+                twist: rand(-0.012, 0.012)
+            });
+        }
+
+        nodes = [];
+        createGasClouds();
+
+        shockwaves.push({
+            radius: radius * 0.06,
+            speed: radius * 1.8,
+            alpha: 1,
+            width: 3
+        });
+
+        setCaption('انفجار بزرگ', 'آغاز گسترش جهان');
+    }
+
+    /* -----------------------------------------
+       Shockwave rings
+    ----------------------------------------- */
+    function drawShockwaves(dt) {
+        for (let i = shockwaves.length - 1; i >= 0; i--) {
+            const wave = shockwaves[i];
+
+            wave.radius += wave.speed * dt;
+            wave.alpha -= dt * 0.48;
+            wave.width = Math.max(0.5, wave.width - dt * 1.1);
+
+            if (wave.alpha <= 0 || wave.radius > radius * 2.5) {
+                shockwaves.splice(i, 1);
+                continue;
+            }
+
+            ctx.save();
+
+            ctx.lineWidth = wave.width;
+            ctx.strokeStyle = `rgba(255,255,255,${wave.alpha * 0.85})`;
+            ctx.shadowBlur = 18;
+            ctx.shadowColor = '#67e8f9';
+
+            ctx.beginPath();
+            ctx.arc(CX, CY, wave.radius, 0, TAU);
+            ctx.stroke();
+
+            ctx.lineWidth = wave.width * 3.5;
+            ctx.strokeStyle = `rgba(34,211,238,${wave.alpha * 0.16})`;
+            ctx.beginPath();
+            ctx.arc(CX, CY, wave.radius * 0.985, 0, TAU);
+            ctx.stroke();
+
+            ctx.restore();
+        }
+    }
+
+    /* -----------------------------------------
+       Explosion particles
+    ----------------------------------------- */
+    function drawExplosion(dt) {
+        for (let i = particles.length - 1; i >= 0; i--) {
+            const p = particles[i];
+
+            p.life -= dt;
+
+            if (p.life <= 0) {
+                particles.splice(i, 1);
+                continue;
+            }
+
+            // Slight curved trajectories instead of straight uniform rays.
+            const vx = p.vx;
+            const vy = p.vy;
+
+            p.vx += -vy * p.twist * dt * 60;
+            p.vy += vx * p.twist * dt * 60;
+
+            p.x += p.vx * dt * 60;
+            p.y += p.vy * dt * 60;
+
+            p.vx *= p.drag;
+            p.vy *= p.drag;
+
+            const fade = clamp(p.life / p.maxLife, 0, 1);
+            const alpha = p.alpha * fade;
+
+            ctx.save();
+
+            ctx.strokeStyle = rgb(p.color, alpha * 0.36);
+            ctx.lineWidth = Math.max(0.35, p.size * 0.6);
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(p.x - p.vx * 2.2, p.y - p.vy * 2.2);
+            ctx.stroke();
+
+            ctx.shadowBlur = p.size * 5;
+            ctx.shadowColor = rgb(p.color, alpha);
+            ctx.fillStyle = rgb(p.color, alpha);
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, Math.max(0.25, p.size * fade), 0, TAU);
+            ctx.fill();
+
+            ctx.restore();
+        }
+    }
+
+    /* -----------------------------------------
+       Scene background
+    ----------------------------------------- */
+    function drawBackground() {
+        ctx.clearRect(0, 0, W, H);
+
+        const bg = ctx.createRadialGradient(
+            CX, CY, 0,
+            CX, CY, radius * 1.6
+        );
+
+        bg.addColorStop(0, '#101832');
+        bg.addColorStop(0.55, '#070d1c');
+        bg.addColorStop(1, '#02050b');
+
+        ctx.fillStyle = bg;
         ctx.fillRect(0, 0, W, H);
 
-        time += 0.08;
+        for (const s of backgroundStars) {
+            const twinkle = 0.65 +
+                Math.sin(elapsed * s.speed + s.phase) * 0.35;
 
-        if (phase === 'charging') {
-            ctx.save();
-            const dx = (Math.random() - 0.5) * shakeIntensity * 10;
-            const dy = (Math.random() - 0.5) * shakeIntensity * 10;
-            ctx.translate(dx, dy);
-            shakeIntensity += 0.2;
-            chargingTimer += 1;
-            if (chargingTimer > 25) triggerBigBang();
+            ctx.fillStyle = rgb(s.color, s.alpha * twinkle);
+            ctx.beginPath();
+            ctx.arc(s.x, s.y, s.size, 0, TAU);
+            ctx.fill();
+        }
+    }
+
+    /* -----------------------------------------
+       Cycle reset
+    ----------------------------------------- */
+    function resetCycle() {
+        phase = 'collecting';
+        phaseTime = 0;
+        particles = [];
+        shockwaves = [];
+        gasClouds = [];
+
+        createNetwork();
+        createIncomingParticles();
+
+        setCaption('تولد کیهان', 'همه‌چیز از یک نقطه آغاز می‌شود');
+    }
+
+    /* -----------------------------------------
+       Main animation loop
+    ----------------------------------------- */
+    function render(now) {
+        if (destroyed) return;
+
+        if (!lastTime) lastTime = now;
+
+        // Delta-time cap prevents huge jumps after tab inactivity.
+        const dt = Math.min((now - lastTime) / 1000, 0.033);
+        lastTime = now;
+
+        if (!reduceMotion) {
+            elapsed += dt;
+            phaseTime += dt;
+        } else {
+            elapsed += 0.005;
+            phaseTime += 0.005;
         }
 
-        if (phase === 'collecting' || phase === 'charging') {
-            if (brainNodes.length > 0) {
-                const pulse = phase === 'charging' ? 1 + Math.sin(time * 30) * 0.15 : 1 + Math.sin(time * 2) * 0.05;
-                ctx.lineWidth = 1;
-                for (let i = 0; i < brainNodes.length; i++) {
-                    for (let j = i + 1; j < brainNodes.length; j++) {
-                        const dx = brainNodes[i].x - brainNodes[j].x;
-                        const dy = brainNodes[i].y - brainNodes[j].y;
-                        const dist = Math.sqrt(dx*dx + dy*dy);
-                        const maxDist = 40 + brainRadius * 0.2; 
-                        if (dist < maxDist) {
-                            let alpha = (1 - dist/maxDist) * 0.4;
-                            if (phase === 'charging') alpha *= 3;
-                            ctx.strokeStyle = `rgba(34, 211, 238, ${alpha})`;
-                            ctx.beginPath(); ctx.moveTo(brainNodes[i].x, brainNodes[i].y); ctx.lineTo(brainNodes[j].x, brainNodes[j].y); ctx.stroke();
-                        }
-                    }
-                }
-                brainNodes.forEach(node => {
-                    const pulseSize = (node.size + Math.sin(time * 3 + node.phase) * 1.5) * pulse;
-                    node.x = node.baseX + Math.sin(time + node.phase) * 2;
-                    node.y = node.baseY + Math.cos(time + node.phase) * 2;
-                    ctx.fillStyle = `rgba(${node.color}, 1)`;
-                    ctx.shadowBlur = phase === 'charging' ? 30 : 10; 
-                    ctx.shadowColor = `rgba(${node.color}, 1)`;
-                    ctx.beginPath(); ctx.arc(node.x, node.y, pulseSize, 0, Math.PI*2); ctx.fill();
-                    ctx.shadowBlur = 0;
-                });
+        ctx.save();
+
+        ctx.beginPath();
+        ctx.arc(CX, CY, Math.min(W, H) / 2, 0, TAU);
+        ctx.clip();
+
+        drawBackground();
+
+        if (phase === 'collecting') {
+            drawIncoming(dt);
+
+            // Slowly rotate the organized network.
+            const rot = elapsed * 0.045;
+            for (const node of nodes) {
+                const cos = Math.cos(rot);
+                const sin = Math.sin(rot);
+                const dx = node.baseX - CX;
+                const dy = node.baseY - CY;
+
+                node.x = CX + dx * cos - dy * sin +
+                    Math.sin(elapsed * 0.9 + node.phase) * 1.2;
+
+                node.y = CY + dx * sin + dy * cos +
+                    Math.cos(elapsed * 0.8 + node.phase) * 1.2;
             }
 
-            if (phase === 'collecting') {
-                particles.forEach(p => {
-                    if (!p.active) return;
-                    const dx = p.targetX - p.x;
-                    const dy = p.targetY - p.y;
-                    const dist = Math.sqrt(dx*dx + dy*dy);
+            drawNetwork(0.95);
+            drawNodes(1);
+            drawCore(0.8);
 
-                    if (dist < 10) {
-                        p.active = false;
-                        collectedCount++;
-                        if (collectedCount >= targetCount) {
-                            growBrain();
-                            if (brainRadius >= maxBrainRadius) {
-                                startCharging(); 
-                            } else {
-                                initParticles(); 
-                            }
-                        }
-                    } else {
-                        p.x += (dx / dist) * p.speed;
-                        p.y += (dy / dist) * p.speed;
-                        
-                        ctx.strokeStyle = `rgba(${p.color}, 0.5)`;
-                        ctx.lineWidth = p.size;
-                        ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p.x - (dx/dist)*20, p.y - (dy/dist)*20); ctx.stroke();
-                        
-                        ctx.fillStyle = `rgba(${p.color}, 1)`;
-                        ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI*2); ctx.fill();
-                    }
-                });
-                const coreSize = (collectedCount / targetCount) * 50;
-                const grad = ctx.createRadialGradient(CX, CY, 0, CX, CY, coreSize);
-                grad.addColorStop(0, 'rgba(255, 255, 255, 0.8)');
-                grad.addColorStop(0.5, 'rgba(34, 211, 238, 0.4)');
-                grad.addColorStop(1, 'rgba(34, 211, 238, 0)');
-                ctx.fillStyle = grad;
-                ctx.beginPath(); ctx.arc(CX, CY, coreSize, 0, Math.PI*2); ctx.fill();
+            if (phaseTime > 7.5) {
+                beginCharging();
             }
-            if (phase === 'charging') ctx.restore(); 
+        }
 
-        } else if (phase === 'bigbang') {
-            resetTimer += 0.08;
+        else if (phase === 'charging') {
+            const pulse = 1 + Math.sin(phaseTime * 13) * 0.12;
+            const energy = clamp(phaseTime / 2.1, 0, 1);
 
-            if (flashAlpha > 0) {
-                ctx.fillStyle = `rgba(255, 255, 255, ${flashAlpha})`;
+            ctx.save();
+            ctx.translate(
+                Math.sin(phaseTime * 27) * energy * 1.2,
+                Math.cos(phaseTime * 23) * energy * 1.2
+            );
+
+            drawNetwork(0.8 + energy * 1.1);
+            drawNodes(pulse);
+            drawCore(1 + energy * 0.8);
+
+            // Tightening luminous ring before release.
+            ctx.strokeStyle = `rgba(103,232,249,${0.25 + energy * 0.65})`;
+            ctx.lineWidth = 1.1 + energy;
+            ctx.beginPath();
+            ctx.arc(CX, CY, radius * (0.75 - energy * 0.24), 0, TAU);
+            ctx.stroke();
+
+            ctx.restore();
+
+            if (phaseTime > 2.1) {
+                explode();
+            }
+        }
+
+        else if (phase === 'explosion') {
+            drawGas();
+            drawShockwaves(dt);
+            drawExplosion(dt);
+
+            // Brief luminous flash at the very beginning.
+            if (phaseTime < 0.14) {
+                const alpha = (1 - phaseTime / 0.14) * 0.58;
+                ctx.fillStyle = `rgba(225,248,255,${alpha})`;
                 ctx.fillRect(0, 0, W, H);
-                flashAlpha -= 0.05;
             }
-            
-            bigBangParticles.forEach(p => {
-                p.x += p.vx; p.y += p.vy;
-                p.vx *= 0.97; p.vy *= 0.97;
-                
-                ctx.strokeStyle = `rgba(${p.color}, 0.6)`;
-                ctx.lineWidth = p.size * 0.8;
-                ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p.x - p.vx*2, p.y - p.vy*2); ctx.stroke();
-                
-                ctx.fillStyle = `rgba(${p.color}, 1)`;
-                ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI*2); ctx.fill();
-            });
 
-            if (resetTimer > 2.5) {
+            if (phaseTime > 1.1) {
+                phase = 'nebula';
+                phaseTime = 0;
+                setCaption('جهان در حال گسترش', 'ذرات، ستاره‌ها را شکل می‌دهند');
+            }
+        }
+
+        else if (phase === 'nebula') {
+            drawGas();
+            drawShockwaves(dt);
+            drawExplosion(dt);
+
+            // A gentle new core emerges from the expanding cloud.
+            const emergence = clamp(phaseTime / 2.4, 0, 1);
+            if (emergence > 0.15) {
+                drawCore(emergence * 0.48);
+            }
+
+            if (phaseTime > 5.5) {
+                phase = 'rebuilding';
+                phaseTime = 0;
+                createNetwork();
+                setCaption('شکل‌گیری ساختارها', 'نظم از دل آشوب پدید می‌آید');
+            }
+        }
+
+        else if (phase === 'rebuilding') {
+            drawGas();
+            drawShockwaves(dt);
+            drawExplosion(dt);
+
+            const progress = clamp(phaseTime / 3.3, 0, 1);
+
+            ctx.save();
+            ctx.globalAlpha = progress;
+            drawNetwork(progress);
+            drawNodes(progress);
+            drawCore(progress * 0.8);
+            ctx.restore();
+
+            if (phaseTime > 4.2) {
                 resetCycle();
             }
         }
-        ctx.restore(); 
-        requestAnimationFrame(render);
-    }
-})();
 
-/* =========================================================
-   UTILS
-========================================================= */
+        ctx.restore();
+
+        animationFrame = requestAnimationFrame(render);
+    }
+
+    function start() {
+        resize();
+        resetCycle();
+        lastTime = 0;
+        animationFrame = requestAnimationFrame(render);
+    }
+
+    window.addEventListener('resize', resize, { passive: true });
+
+    // ResizeObserver keeps the canvas aligned if the layout changes.
+    let resizeObserver = null;
+
+    if ('ResizeObserver' in window) {
+        resizeObserver = new ResizeObserver(resize);
+        resizeObserver.observe(canvas.parentElement);
+    }
+
+    start();
+
+    // Keep the animation from running unnecessarily when the page is hidden.
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+            cancelAnimationFrame(animationFrame);
+            lastTime = 0;
+        } else if (!destroyed) {
+            lastTime = 0;
+            animationFrame = requestAnimationFrame(render);
+        }
+    });
+})();
+   
 function escapeHtml(text){
     if(text === null || text === undefined) return '';
     const div = document.createElement('div');

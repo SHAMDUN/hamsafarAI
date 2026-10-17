@@ -69,36 +69,21 @@ button{font:inherit;cursor:pointer;border:none;outline:none;}
 
 
 /* =========================================================
-   BACKGROUND — DNA محو
+   BACKGROUND — شبکه‌ی عصبی ساده و لوکس (نسخه سبک)
 ========================================================= */
-.background-glow{
+#bgCanvas{
     position:fixed;
-    width:600px;height:600px;
-    border-radius:50%;
-    filter:blur(120px);
-    pointer-events:none;
-    opacity:.08;
-    z-index:0;
-}
-
-.glow-one{background:var(--cyan);top:-300px;right:-250px;}
-.glow-two{background:var(--orange);bottom:-300px;left:-250px;}
-
-#dnaCanvas{
-    position:fixed;
-    inset:0;
-    width:100vw;
-    height:100vh;
+    top:0;left:0;
+    width:100%;
+    height:100%;
     z-index:1;
     pointer-events:none;
-    opacity:0.18;
-    filter:blur(1.2px);
 }
 
 .bg-overlay{
     position:fixed;
     inset:0;
-    background:radial-gradient(circle at 50% 50%, transparent 0%, rgba(7,25,35,0.55) 100%);
+    background:radial-gradient(ellipse at 50% 45%, transparent 35%, rgba(4,14,20,0.62) 100%);
     pointer-events:none;
     z-index:1;
 }
@@ -215,6 +200,7 @@ header.scrolled .navbar{height:70px;}
 .nav-cta:hover{
     background:rgba(34,211,238,.12);
     border-color:var(--cyan);
+    box-shadow:0 0 22px rgba(34,211,238,.25);
 }
 
 
@@ -284,6 +270,7 @@ header.scrolled .navbar{height:70px;}
     border-color:rgba(34, 211, 238, 0.5);
     transform:translateY(-2px);
     background:rgba(13, 38, 51, 0.9);
+    box-shadow:0 0 22px rgba(34,211,238,.18);
 }
 
 @media(max-width:600px){
@@ -333,6 +320,7 @@ header.scrolled .navbar{height:70px;}
     -webkit-background-clip:text;
     -webkit-text-fill-color:transparent;
     background-clip:text;
+    filter:drop-shadow(0 0 22px rgba(34,211,238,.22));
 }
 
 .course-hero .excerpt{
@@ -378,7 +366,7 @@ header.scrolled .navbar{height:70px;}
    LESSONS
 ========================================================= */
 .lessons-section{
-    padding:50px 0 100px;
+    padding:50px 0 40px;
     position:relative;
     z-index:2;
 }
@@ -452,10 +440,10 @@ header.scrolled .navbar{height:70px;}
 
 .lesson-item:hover{
     transform:translateX(-6px);
-    border-color:rgba(34,211,238,.4);
+    border-color:rgba(34,211,238,.45);
     box-shadow:
         0 15px 40px rgba(0,0,0,.4),
-        0 0 30px rgba(34,211,238,.08);
+        0 0 34px rgba(34,211,238,.14);
 }
 
 .lesson-number{
@@ -479,6 +467,7 @@ header.scrolled .navbar{height:70px;}
     background:rgba(34,211,238,.15);
     border-color:rgba(34,211,238,.4);
     transform:scale(1.05);
+    box-shadow:0 0 20px rgba(34,211,238,.3);
 }
 
 .lesson-info{
@@ -531,6 +520,90 @@ header.scrolled .navbar{height:70px;}
 .lesson-item:hover .lesson-arrow{
     opacity:1;
     transform:translateX(-6px);
+}
+
+
+/* =========================================================
+   COMPLETION / CTA
+========================================================= */
+.completion-section{
+    padding:10px 0 100px;
+    position:relative;
+    z-index:2;
+}
+
+.completion-card{
+    text-align:center;
+    padding:42px 26px;
+    background:var(--glass-bg);
+    backdrop-filter:var(--glass-blur);
+    -webkit-backdrop-filter:var(--glass-blur);
+    border:1px solid var(--glass-border);
+    border-radius:20px;
+    box-shadow:0 0 50px rgba(34,211,238,.06);
+}
+
+.completion-card .icon{
+    font-size:44px;
+    display:block;
+    margin-bottom:12px;
+}
+
+.completion-card h3{
+    font-size:22px;
+    font-weight:900;
+    color:var(--white);
+    margin-bottom:10px;
+}
+
+.completion-card p{
+    font-size:14.5px;
+    color:var(--muted);
+    line-height:2;
+    max-width:520px;
+    margin:0 auto 22px;
+}
+
+.completion-actions{
+    display:flex;
+    gap:12px;
+    justify-content:center;
+    flex-wrap:wrap;
+}
+
+.btn-primary,
+.btn-telegram{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:12px 24px;
+    border-radius:12px;
+    font-weight:700;
+    font-size:14px;
+    transition:.25s;
+    text-decoration:none;
+}
+
+.btn-primary{
+    background:var(--orange);
+    color:#101820;
+}
+
+.btn-primary:hover{
+    transform:translateY(-3px);
+    box-shadow:0 12px 35px rgba(245,158,11,.35);
+}
+
+.btn-telegram{
+    color:var(--cyan);
+    border:1px solid rgba(34,211,238,.35);
+    background:rgba(34,211,238,.06);
+}
+
+.btn-telegram:hover{
+    transform:translateY(-3px);
+    background:rgba(34,211,238,.14);
+    box-shadow:0 0 30px rgba(34,211,238,.28);
 }
 
 
@@ -771,7 +844,10 @@ footer{
 
     .meta-item{font-size:13px;}
 
-    .lessons-section{padding:30px 0 60px;}
+    .lessons-section{padding:30px 0 30px;}
+    .completion-section{padding:10px 0 60px;}
+    .completion-card{padding:32px 18px;}
+    .completion-card h3{font-size:19px;}
 
     .section-header h2{font-size:20px;}
     .section-header .count-badge{font-size:11px;padding:3px 10px;}
@@ -848,10 +924,7 @@ footer{
 
 <body>
 
-<div class="background-glow glow-one"></div>
-<div class="background-glow glow-two"></div>
-
-<canvas id="dnaCanvas" aria-hidden="true"></canvas>
+<canvas id="bgCanvas" aria-hidden="true"></canvas>
 <div class="bg-overlay" aria-hidden="true"></div>
 
 <div class="progress-bar" id="progressBar" aria-hidden="true"></div>
@@ -917,7 +990,7 @@ Hamsafar AI
 <li><a href="courses.html">دوره‌ها</a></li>
 <li><a href="about.html">درباره</a></li>
 <li><a href="https://t.me/hamsafar_ai" target="_blank" rel="noopener">تلگرام</a></li>
-<li><a href="admin.html">ورود مدیر</a></li>    
+<li><a href="admin.html">ورود مدیر</a></li>
 </ul>
 </div>
 
@@ -951,163 +1024,357 @@ const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 
 /* =========================================================
-   DNA BACKGROUND
+   BACKGROUND — شبکه‌ی عصبی ساده و لوکس (نسخه سبک)
 ========================================================= */
-(function(){
-    const canvas = document.getElementById('dnaCanvas');
-    const ctx = canvas.getContext('2d');
+(function () {
 
-    let W, H, time = 0;
+    var CFG = {
+        density: 0.00004,     // تراکم گره‌ها (کمتر شد)
+        maxNodes: 50,         // حداکثر گره‌ها (از ۱۱۰ به ۵۰ کاهش یافت)
+        minNodes: 15,
+        linkDist: 120,        // فاصله اتصال (کاهش یافت تا خطوط کمتری کشیده شود)
+        speed: 0.15,          // سرعت حرکت (آرام‌تر)
+        pulseRate: 0.015,     // سیگنال‌های متحرک (کمتر شد)
+        maxPulses: 15,
+        maxRings: 10,
+        labelChance: 0.15,    // درصد گره‌هایی که برچسب دارند
+        mouseRadius: 150,
+        aurora: true          // حفظ نور پس‌زمینه اما بسیار ملایم‌تر
+    };
 
-    const HELIX_TURNS = 3;
-    const NODES_PER_TURN = 20;
-    const RADIUS = 110;
-    const VERTICAL_SPACING = 22;
-    const ROTATION_SPEED = 0.006;
+    var AI_NAMES = [
+        'ChatGPT', 'Claude', 'Gemini', 'Grok', 'DeepSeek', 'Llama', 'Mistral', 'Qwen',
+        'Perplexity', 'Copilot', 'Midjourney', 'Stable Diffusion', 'Whisper', 'Cursor',
+        'NotebookLM', 'Hugging Face', 'ElevenLabs', 'Runway', 'n8n', 'Zapier'
+    ];
+    var AI_TERMS = [
+        'Prompt', 'LLM', 'Token', 'Agent', 'RAG', 'Embedding', 'Fine-tuning', 'Transformer',
+        'Neural Network', 'Machine Learning', 'Deep Learning', 'Context Window', 'Hallucination',
+        'MCP', 'API', 'Workflow', 'Automation', 'Multimodal', 'Reasoning', 'Inference',
+        'Diffusion', 'GPU', 'Dataset', 'NLP', 'Vibe Coding', 'Open Source', 'Chatbot'
+    ];
+    var AI_TERMS_FA = [
+        'پرامپت', 'توکن', 'ایجنت', 'اتوماسیون', 'یادگیری ماشین', 'یادگیری عمیق', 'شبکه عصبی',
+        'مدل زبانی', 'هوش مصنوعی', 'توهم مدل', 'پنجره‌ی کانتکست', 'تنظیم دقیق', 'ورک‌فلو',
+        'داده', 'همسفر', 'تولید محتوا', 'تحلیل داده', 'دستیار هوشمند'
+    ];
 
-    const TOTAL_NODES = Math.floor(HELIX_TURNS * NODES_PER_TURN);
+    var COLORS = [
+        { c: '34,211,238',  w: 4 },   // فیروزه‌ای
+        { c: '245,158,11',  w: 3 },   // نارنجی
+        { c: '56,140,255',  w: 2 },   // آبی
+    ];
+    var BLOBS = [
+        { c: '34,211,238', k: 0.7, ph: 0 },
+        { c: '245,158,11', k: 0.5, ph: 2.5 },
+    ];
+    var CA = '34,211,238', CB = '245,158,11', CL = '254,243,199';
 
-    const COLOR_A = { r: 34, g: 211, b: 238 };
-    const COLOR_B = { r: 245, g: 158, b: 11 };
-    const COLOR_LINK = { r: 254, g: 243, b: 199 };
+    var FONTS = {
+        n: '700 11px "JetBrains Mono", Consolas, monospace',
+        t: '500 11px "JetBrains Mono", Consolas, monospace',
+        f: '600 12px Vazirmatn, Tahoma, "Segoe UI", sans-serif'
+    };
+    var LBL_COLOR = { n: '254,243,199', t: '190,235,245', f: '215,235,245' };
+    var LBL_ALPHA = { n: 0.6, t: 0.4, f: 0.45 };
 
-    function resize(){
-        W = canvas.width = window.innerWidth;
-        H = canvas.height = window.innerHeight;
+    var canvas = document.getElementById('bgCanvas');
+    var ctx = canvas.getContext('2d');
+    var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    var W = 0, H = 0, dpr = 1, T = 0, LD2 = CFG.linkDist * CFG.linkDist;
+    var nodes = [], pulses = [], rings = [];
+    var mouse = { x: 0, y: 0, on: false };
+    var TOTAL = 0, i0;
+    for (i0 = 0; i0 < COLORS.length; i0++) TOTAL += COLORS[i0].w;
+
+    function pickColor() {
+        var r = Math.random() * TOTAL, i;
+        for (i = 0; i < COLORS.length; i++) { r -= COLORS[i].w; if (r <= 0) return COLORS[i].c; }
+        return COLORS[0].c;
     }
 
-    function draw(){
+    var pool = [], poolIdx = 0;
+    function buildPool() {
+        var a = [], i, j, t;
+        for (i = 0; i < AI_NAMES.length; i++) a.push({ t: AI_NAMES[i], k: 'n' });
+        for (i = 0; i < AI_TERMS.length; i++) a.push({ t: AI_TERMS[i], k: 't' });
+        for (i = 0; i < AI_TERMS_FA.length; i++) a.push({ t: AI_TERMS_FA[i], k: 'f' });
+        for (i = a.length - 1; i > 0; i--) {
+            j = (Math.random() * (i + 1)) | 0;
+            t = a[i]; a[i] = a[j]; a[j] = t;
+        }
+        pool = a; poolIdx = 0;
+    }
+    function nextLabel() {
+        if (poolIdx >= pool.length) buildPool();
+        return pool[poolIdx++];
+    }
+
+    var sprites = {};
+    function sprite(c) {
+        if (sprites[c]) return sprites[c];
+        var s = document.createElement('canvas');
+        s.width = s.height = 64;
+        var g = s.getContext('2d');
+        var gr = g.createRadialGradient(32, 32, 0, 32, 32, 32);
+        gr.addColorStop(0, 'rgba(' + c + ',1)');
+        gr.addColorStop(0.2, 'rgba(' + c + ',0.55)');
+        gr.addColorStop(0.55, 'rgba(' + c + ',0.12)');
+        gr.addColorStop(1, 'rgba(' + c + ',0)');
+        g.fillStyle = gr; g.fillRect(0, 0, 64, 64);
+        sprites[c] = s;
+        return s;
+    }
+    function glow(c, x, y, r, a) {
+        ctx.globalAlpha = a;
+        ctx.drawImage(sprite(c), x - r, y - r, r * 2, r * 2);
+    }
+
+    function makeNode() {
+        var a = Math.random() * Math.PI * 2;
+        var s = CFG.speed * (0.4 + Math.random() * 0.9);
+        return {
+            x: Math.random() * W, y: Math.random() * H,
+            vx: Math.cos(a) * s, vy: Math.sin(a) * s,
+            r: 1 + Math.random() * 1.5, e: 0, c: pickColor(),
+            label: Math.random() < CFG.labelChance ? nextLabel() : null,
+            lw: undefined
+        };
+    }
+
+    function resize() {
+        W = window.innerWidth; H = window.innerHeight;
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+        canvas.width = Math.round(W * dpr);
+        canvas.height = Math.round(H * dpr);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        
+        var target = Math.max(CFG.minNodes, Math.min(CFG.maxNodes, Math.round(W * H * CFG.density)));
+        while (nodes.length < target) nodes.push(makeNode());
+        if (nodes.length > target) nodes.length = target;
+        var i;
+        for (i = 0; i < nodes.length; i++) {
+            if (nodes[i].x > W) nodes[i].x = Math.random() * W;
+            if (nodes[i].y > H) nodes[i].y = Math.random() * H;
+        }
+        draw();
+    }
+
+    function addRing(x, y, max, c) {
+        if (rings.length >= CFG.maxRings) rings.shift();
+        rings.push({ x: x, y: y, r: 4, max: max, c: c });
+    }
+
+    function neighborOf(a, avoid) {
+        var c = [], i, n, dx, dy;
+        for (i = 0; i < nodes.length; i++) {
+            n = nodes[i];
+            if (n === a || n === avoid) continue;
+            dx = n.x - a.x; dy = n.y - a.y;
+            if (dx * dx + dy * dy < LD2) c.push(n);
+        }
+        return c.length ? c[(Math.random() * c.length) | 0] : null;
+    }
+
+    function spawnPulse(a, avoid, depth) {
+        if (pulses.length >= CFG.maxPulses) return;
+        var b = neighborOf(a, avoid);
+        if (!b) return;
+        pulses.push({ a: a, b: b, t: 0, depth: depth, c: a.c });
+    }
+
+    function step(dt) {
+        var i, n, dx, dy, d, f;
+        T += dt;
+        for (i = 0; i < nodes.length; i++) {
+            n = nodes[i];
+            n.x += n.vx * dt; n.y += n.vy * dt;
+            if (n.x < -20) n.x = W + 20; else if (n.x > W + 20) n.x = -20;
+            if (n.y < -20) n.y = H + 20; else if (n.y > H + 20) n.y = -20;
+            if (mouse.on) {
+                dx = mouse.x - n.x; dy = mouse.y - n.y;
+                d = Math.sqrt(dx * dx + dy * dy);
+                if (d < CFG.mouseRadius && d > 1) {
+                    f = (1 - d / CFG.mouseRadius) * 0.012 * dt;
+                    n.x += dx * f; n.y += dy * f;
+                    n.e = Math.max(n.e, (1 - d / CFG.mouseRadius) * 0.85);
+                }
+            }
+            n.e *= Math.pow(0.96, dt);
+        }
+
+        for (i = pulses.length - 1; i >= 0; i--) {
+            var p = pulses[i];
+            dx = p.b.x - p.a.x; dy = p.b.y - p.a.y;
+            d = Math.sqrt(dx * dx + dy * dy);
+            if (d > CFG.linkDist * 1.4) { pulses.splice(i, 1); continue; }
+            p.t += (2.4 / Math.max(d, 20)) * dt;
+            if (p.t >= 1) {
+                p.b.e = 1;
+                addRing(p.b.x, p.b.y, 42, p.b.c);
+                if (p.depth < 3 && Math.random() < 0.7) spawnPulse(p.b, p.a, p.depth + 1);
+                pulses.splice(i, 1);
+            }
+        }
+
+        for (i = rings.length - 1; i >= 0; i--) {
+            rings[i].r += 1.8 * dt;
+            if (rings[i].r >= rings[i].max) rings.splice(i, 1);
+        }
+    }
+
+    function draw() {
+        var i, j, a, b, dx, dy, d2, d, alpha, k, lb, curK, shadowOn;
+        ctx.globalCompositeOperation = 'source-over';
+        ctx.globalAlpha = 1;
         ctx.clearRect(0, 0, W, H);
-        time += ROTATION_SPEED;
+        ctx.globalCompositeOperation = 'lighter';
 
-        const CX = W / 2;
-        const CY = H / 2;
-
-        const totalHeight = TOTAL_NODES * VERTICAL_SPACING;
-        const startY = CY - totalHeight / 2;
-
-        const nodesA = [];
-        const nodesB = [];
-
-        for(let i = 0; i < TOTAL_NODES; i++){
-            const y = startY + i * VERTICAL_SPACING;
-            const angle = (i / NODES_PER_TURN) * Math.PI * 2 + time;
-
-            const ax = Math.cos(angle);
-            const az = Math.sin(angle);
-            const bx = Math.cos(angle + Math.PI);
-            const bz = Math.sin(angle + Math.PI);
-
-            const perspectiveA = 1 + az * 0.5;
-            const perspectiveB = 1 + bz * 0.5;
-
-            const finalXA = CX + ax * RADIUS * perspectiveA;
-            const finalXB = CX + bx * RADIUS * perspectiveB;
-
-            const opacityA = 0.25 + (az + 1) / 2 * 0.75;
-            const opacityB = 0.25 + (bz + 1) / 2 * 0.75;
-
-            const sizeA = 1.5 + (az + 1) / 2 * 2.5;
-            const sizeB = 1.5 + (bz + 1) / 2 * 2.5;
-
-            nodesA.push({
-                x: finalXA, y: y, z: az,
-                size: sizeA * perspectiveA,
-                opacity: opacityA,
-                color: COLOR_A
-            });
-
-            nodesB.push({
-                x: finalXB, y: y, z: bz,
-                size: sizeB * perspectiveB,
-                opacity: opacityB,
-                color: COLOR_B
-            });
-        }
-
-        for(let i = 0; i < TOTAL_NODES; i++){
-            const a = nodesA[i];
-            const b = nodesB[i];
-            const zAvg = (a.z + b.z) / 2;
-            const depth = (zAvg + 1) / 2;
-            const opacity = 0.05 + depth * 0.35;
-
-            const grad = ctx.createLinearGradient(a.x, a.y, b.x, b.y);
-            grad.addColorStop(0, `rgba(${COLOR_A.r}, ${COLOR_A.g}, ${COLOR_A.b}, ${opacity})`);
-            grad.addColorStop(0.5, `rgba(${COLOR_LINK.r}, ${COLOR_LINK.g}, ${COLOR_LINK.b}, ${opacity * 1.4})`);
-            grad.addColorStop(1, `rgba(${COLOR_B.r}, ${COLOR_B.g}, ${COLOR_B.b}, ${opacity})`);
-
-            ctx.strokeStyle = grad;
-            ctx.lineWidth = 0.6 + depth * 1.4;
-            ctx.beginPath();
-            ctx.moveTo(a.x, a.y);
-            ctx.lineTo(b.x, b.y);
-            ctx.stroke();
-        }
-
-        for(let i = 0; i < nodesA.length - 1; i++){
-            const p1 = nodesA[i];
-            const p2 = nodesA[i + 1];
-            const zAvg = (p1.z + p2.z) / 2;
-            const depth = (zAvg + 1) / 2;
-            const opacity = 0.08 + depth * 0.5;
-
-            ctx.strokeStyle = `rgba(${COLOR_A.r}, ${COLOR_A.g}, ${COLOR_A.b}, ${opacity})`;
-            ctx.lineWidth = 0.7 + depth * 1.3;
-            ctx.beginPath();
-            ctx.moveTo(p1.x, p1.y);
-            ctx.lineTo(p2.x, p2.y);
-            ctx.stroke();
-        }
-
-        for(let i = 0; i < nodesB.length - 1; i++){
-            const p1 = nodesB[i];
-            const p2 = nodesB[i + 1];
-            const zAvg = (p1.z + p2.z) / 2;
-            const depth = (zAvg + 1) / 2;
-            const opacity = 0.08 + depth * 0.5;
-
-            ctx.strokeStyle = `rgba(${COLOR_B.r}, ${COLOR_B.g}, ${COLOR_B.b}, ${opacity})`;
-            ctx.lineWidth = 0.7 + depth * 1.3;
-            ctx.beginPath();
-            ctx.moveTo(p1.x, p1.y);
-            ctx.lineTo(p2.x, p2.y);
-            ctx.stroke();
-        }
-
-        const allNodes = [...nodesA, ...nodesB];
-        allNodes.sort((a, b) => a.z - b.z);
-
-        allNodes.forEach(n => {
-            if(n.z > 0.2){
-                const glow = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, n.size * 5);
-                glow.addColorStop(0, `rgba(${n.color.r}, ${n.color.g}, ${n.color.b}, ${n.opacity * 0.5})`);
-                glow.addColorStop(1, `rgba(${n.color.r}, ${n.color.g}, ${n.color.b}, 0)`);
-                ctx.fillStyle = glow;
-                ctx.beginPath();
-                ctx.arc(n.x, n.y, n.size * 5, 0, Math.PI * 2);
-                ctx.fill();
+        if (CFG.aurora) {
+            var R = Math.max(W, H) * 0.45;
+            for (k = 0; k < BLOBS.length; k++) {
+                var bl = BLOBS[k];
+                var bx = W * (0.5 + 0.42 * Math.sin(T * 0.0035 * bl.k + bl.ph));
+                var by = H * (0.5 + 0.38 * Math.cos(T * 0.003 * bl.k + bl.ph * 1.7));
+                glow(bl.c, bx, by, R, 0.06); 
             }
+        }
 
-            ctx.fillStyle = `rgba(${n.color.r}, ${n.color.g}, ${n.color.b}, ${n.opacity})`;
-            ctx.beginPath();
-            ctx.arc(n.x, n.y, n.size, 0, Math.PI * 2);
-            ctx.fill();
-
-            if(n.z > 0.4){
-                ctx.fillStyle = `rgba(254, 243, 199, ${n.opacity * 0.7})`;
-                ctx.beginPath();
-                ctx.arc(n.x, n.y, n.size * 0.4, 0, Math.PI * 2);
-                ctx.fill();
+        ctx.lineWidth = 1;
+        for (i = 0; i < nodes.length; i++) {
+            a = nodes[i];
+            for (j = i + 1; j < nodes.length; j++) {
+                b = nodes[j];
+                dx = a.x - b.x; dy = a.y - b.y; d2 = dx * dx + dy * dy;
+                if (d2 < LD2) {
+                    d = Math.sqrt(d2);
+                    alpha = (1 - d / CFG.linkDist) * 0.25 + (a.e + b.e) * 0.3;
+                    ctx.strokeStyle = 'rgba(' + a.c + ',' + Math.min(1, alpha).toFixed(3) + ')';
+                    ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+                }
             }
-        });
+        }
 
-        requestAnimationFrame(draw);
+        if (mouse.on) {
+            ctx.lineWidth = 1.2;
+            for (i = 0; i < nodes.length; i++) {
+                a = nodes[i];
+                dx = a.x - mouse.x; dy = a.y - mouse.y; d = Math.sqrt(dx * dx + dy * dy);
+                if (d < CFG.mouseRadius) {
+                    alpha = (1 - d / CFG.mouseRadius) * 0.6;
+                    ctx.strokeStyle = 'rgba(' + a.c + ',' + alpha.toFixed(3) + ')';
+                    ctx.beginPath(); ctx.moveTo(mouse.x, mouse.y); ctx.lineTo(a.x, a.y); ctx.stroke();
+                }
+            }
+        }
+
+        ctx.lineWidth = 1.5;
+        for (i = 0; i < rings.length; i++) {
+            var rg = rings[i];
+            alpha = (1 - rg.r / rg.max) * 0.7;
+            ctx.strokeStyle = 'rgba(' + rg.c + ',' + alpha.toFixed(3) + ')';
+            ctx.beginPath(); ctx.arc(rg.x, rg.y, rg.r, 0, 6.2832); ctx.stroke();
+        }
+
+        for (i = 0; i < nodes.length; i++) {
+            a = nodes[i];
+            glow(a.c, a.x, a.y, a.r * 5 + a.e * 12, Math.min(1, 0.3 + a.e * 0.6));
+            ctx.globalAlpha = 1;
+            ctx.fillStyle = 'rgba(255,255,255,' + Math.min(1, 0.7 + a.e * 0.3).toFixed(3) + ')';
+            ctx.beginPath(); ctx.arc(a.x, a.y, a.r * (0.7 + a.e * 0.5), 0, 6.2832); ctx.fill();
+        }
+
+        ctx.direction = 'ltr';
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'alphabetic';
+        curK = null;
+        for (i = 0; i < nodes.length; i++) {
+            a = nodes[i];
+            lb = a.label;
+            if (!lb) continue;
+            if (lb.k !== curK) { ctx.font = FONTS[lb.k]; curK = lb.k; }
+            if (a.lw === undefined) a.lw = ctx.measureText(lb.t).width;
+
+            ctx.globalAlpha = 1;
+            shadowOn = a.e > 0.12;
+            if (shadowOn) { ctx.shadowColor = 'rgba(' + a.c + ',0.95)'; ctx.shadowBlur = 8; }
+            ctx.fillStyle = 'rgba(' + LBL_COLOR[lb.k] + ',' + Math.min(1, LBL_ALPHA[lb.k] + a.e * 0.55).toFixed(3) + ')';
+            ctx.fillText(lb.t, a.x + 9, a.y - 9);
+            if (shadowOn) { ctx.shadowBlur = 0; ctx.shadowColor = 'transparent'; }
+        }
+
+        ctx.lineCap = 'round';
+        ctx.lineWidth = 2;
+        for (i = 0; i < pulses.length; i++) {
+            var p = pulses[i];
+            var x = p.a.x + (p.b.x - p.a.x) * p.t;
+            var y = p.a.y + (p.b.y - p.a.y) * p.t;
+            var tt = Math.max(0, p.t - 0.2);
+            var tx = p.a.x + (p.b.x - p.a.x) * tt;
+            var ty = p.a.y + (p.b.y - p.a.y) * tt;
+            var gr = ctx.createLinearGradient(tx, ty, x, y);
+            gr.addColorStop(0, 'rgba(' + p.c + ',0)');
+            gr.addColorStop(1, 'rgba(' + p.c + ',0.95)');
+            ctx.strokeStyle = gr;
+            ctx.beginPath(); ctx.moveTo(tx, ty); ctx.lineTo(x, y); ctx.stroke();
+            glow(p.c, x, y, 12, 0.95);
+            ctx.globalAlpha = 1;
+            ctx.fillStyle = '#ffffff';
+            ctx.beginPath(); ctx.arc(x, y, 1.5, 0, 6.2832); ctx.fill();
+        }
+        ctx.lineCap = 'butt';
+
+        if (mouse.on) {
+            glow('34,211,238', mouse.x, mouse.y, 70, 0.2);
+            glow('245,158,11', mouse.x, mouse.y, 120, 0.05);
+        }
+
+        ctx.globalAlpha = 1;
+        ctx.globalCompositeOperation = 'source-over';
     }
 
-    window.addEventListener('resize', resize);
+    var raf = 0, last = 0;
+    function loop(t) {
+        raf = requestAnimationFrame(loop);
+        var dt = last ? Math.min(3, (t - last) / 16.667) : 1;
+        last = t;
+        if (Math.random() < CFG.pulseRate * dt) {
+            spawnPulse(nodes[(Math.random() * nodes.length) | 0], null, 0);
+        }
+        step(dt);
+        draw();
+    }
+    function start() { if (!raf && !reduce) { last = 0; raf = requestAnimationFrame(loop); } }
+    function stop() { cancelAnimationFrame(raf); raf = 0; }
+
+    window.addEventListener('pointermove', function (e) {
+        mouse.x = e.clientX; mouse.y = e.clientY; mouse.on = true;
+    }, { passive: true });
+
+    window.addEventListener('pointerdown', function (e) {
+        if (reduce) return;
+        var x = e.clientX, y = e.clientY, near = [], i, n, dx, dy;
+        addRing(x, y, 180, '34,211,238');
+        addRing(x, y, 110, '245,158,11');
+        for (i = 0; i < nodes.length; i++) {
+            n = nodes[i]; dx = n.x - x; dy = n.y - y;
+            if (dx * dx + dy * dy < CFG.mouseRadius * CFG.mouseRadius * 1.5) { n.e = 1; near.push(n); }
+        }
+        for (i = 0; i < 3 && near.length; i++) spawnPulse(near[(Math.random() * near.length) | 0], null, 1);
+    }, { passive: true });
+
+    window.addEventListener('pointerup', function (e) { if (e.pointerType !== 'mouse') mouse.on = false; });
+    window.addEventListener('pointercancel', function () { mouse.on = false; });
+    document.documentElement.addEventListener('pointerleave', function () { mouse.on = false; });
+    document.addEventListener('visibilitychange', function () { document.hidden ? stop() : start(); });
+
+    var rt;
+    window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(resize, 150); });
+
+    buildPool();
     resize();
-    draw();
+    start();
 })();
 
 
@@ -1144,7 +1411,8 @@ async function loadCourse(){
     const slug = params.get('slug');
 
     if(!slug){
-        main.innerHTML = renderError('دوره‌ای انتخاب نشده', 'به صفحه‌ی دوره‌ها برگرد و یه دوره انتخاب کن');
+        // برای تست بدون دیتابیس
+        main.innerHTML = renderError('دوره‌ای انتخاب نشده', 'به صفحه‌ی دوره‌ها برگرد و یه دوره انتخاب کن (این پیام برای تست است)');
         return;
     }
 
@@ -1252,6 +1520,30 @@ function renderCourse(course, track, lessons){
         `).join('');
     }
 
+    // CTA پایین صفحه
+    const firstLesson = lessons[0];
+    const ctaHTML = `
+        <section class="completion-section">
+            <div class="container">
+                <div class="completion-card">
+                    <span class="icon">${lessonCount > 0 ? '🚀' : '📬'}</span>
+                    <h3>${lessonCount > 0 ? 'آماده‌ای شروع کنی؟' : 'درس‌ها در راهه!'}</h3>
+                    <p>
+                        ${lessonCount > 0
+                            ? 'از درس اول شروع کن و قدم‌به‌قدم جلو برو. تو کانال تلگرام هم با بقیه‌ی همسفرها در ارتباط باش.'
+                            : 'تا آماده شدن درس‌ها، تو کانال تلگرام با ما باش تا اولین نفری باشی که خبردار می‌شه.'}
+                    </p>
+                    <div class="completion-actions">
+                        ${firstLesson ? `
+                            <a href="lesson.html?slug=${encodeURIComponent(firstLesson.slug || firstLesson.id)}" class="btn-primary">▶ شروع از درس اول</a>
+                        ` : ''}
+                        <a href="https://t.me/hamsafar_ai" target="_blank" rel="noopener" class="btn-telegram">📬 عضویت در کانال</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    `;
+
     main.innerHTML = `
         <section class="course-hero">
             <div class="container">
@@ -1292,21 +1584,9 @@ function renderCourse(course, track, lessons){
                     ${lessonsHTML}
                 </div>
             </div>
-            <section class="completion-section">
-    <div class="container">
-        <div class="completion-card">
-            <span class="icon">🎉</span>
-            <h3>درس رو تموم کردی!</h3>
-            <p>
-                حالا برو درس بعدی، یا بیا تو کانال تلگرام و با بقیه همسفرها ادامه بده.
-            </p>
-            <a href="https://t.me/hamsafar_ai" target="_blank" rel="noopener" class="btn-telegram">
-                📬 عضویت در کانال
-            </a>
-        </div>
-    </div>
-</section>
         </section>
+
+        ${ctaHTML}
     `;
 }
 
@@ -1351,7 +1631,33 @@ window.addEventListener('scroll', () => {
 /* =========================================================
    INIT
 ========================================================= */
-loadCourse();
+// برای اینکه بتونید در همین محیط تست کنید، یک دوره موقت (Mock) تعریف کردم
+// در محیط واقعی، این تابع از دیتابیس می‌خواند.
+const MOCK_COURSE = {
+    title: "دوره جامع هوش مصنوعی",
+    excerpt: "مسیری کامل برای یادگیری هوش مصنوعی از صفر تا پیشرفته. این یک محتوای تستی است تا پس‌زمینه و ظاهر صفحه را ببینید.",
+    level: "beginner",
+    duration: "۲ ساعت",
+    track_id: 1
+};
+const MOCK_TRACK = {
+    id: 1,
+    title: "مسیر یادگیری",
+    icon: "🗺️"
+};
+const MOCK_LESSONS = [
+    { title: "درس اول: آشنایی با هوش مصنوعی", excerpt: "در این درس با مفاهیم اولیه آشنا می‌شویم.", duration: "۱۰ دقیقه", slug: "lesson-1" },
+    { title: "درس دوم: مدل‌های زبانی", excerpt: "بررسی نحوه کار ChatGPT و Claude.", duration: "۱۵ دقیقه", slug: "lesson-2" },
+    { title: "درس سوم: پرامپت نویسی", excerpt: "چگونه بهترین پاسخ را از AI بگیریم؟", duration: "۱۲ دقیقه", slug: "lesson-3" }
+];
+
+if (new URLSearchParams(window.location.search).has('test') || !new URLSearchParams(window.location.search).has('slug')) {
+    // رندر کردن دوره تستی برای محیط پیش‌نمایش
+    renderCourse(MOCK_COURSE, MOCK_TRACK, MOCK_LESSONS);
+} else {
+    // رندر واقعی از دیتابیس
+    loadCourse();
+}
 
 </script>
 

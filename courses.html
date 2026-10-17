@@ -101,7 +101,7 @@ header.scrolled .navbar{height:70px;}
 }
 
 /* =========================================================
-   BRAIN ANIMATION CONTAINER (Sticky Left Column)
+   COSMIC ANIMATION CONTAINER (Sticky Left Column)
 ========================================================= */
 .visual-col {
     position: sticky;
@@ -132,7 +132,7 @@ header.scrolled .navbar{height:70px;}
 }
 
 /* =========================================================
-   HERO & FILTERS & GRID (کد اصلی شما)
+   HERO & FILTERS & GRID
 ========================================================= */
 .nav-back{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;}
 .back-link{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;background:rgba(13, 38, 51, 0.6);backdrop-filter:blur(12px);border:1px solid rgba(34, 211, 238, 0.2);border-radius:11px;color:#91A5B2;font-size:13px;font-weight:700;transition:.25s;}
@@ -341,7 +341,8 @@ footer{border-top:1px solid var(--line);padding:50px 20px 35px;position:relative
         <!-- ستون چپ: انیمیشن مغز (دایره‌ای) -->
         <div class="visual-col">
             <div class="brain-circle">
-                <canvas id="brainCanvas"></canvas>
+                <canvas id="cosmicCanvas"></canvas>
+                <div class="cosmic-caption" id="cosmicCaption">تولد کیهان</div>
             </div>
         </div>
 
@@ -476,267 +477,300 @@ let currentTrackFilter = 'all';
 })();
 
 /* =========================================================
-   BRAIN ANIMATION (LOOP)
+   COSMIC ENGINE (همان کد انفجار و شبکه)
 ========================================================= */
-(function() {
-    const canvas = document.getElementById('brainCanvas');
+(function(){
+    const canvas = document.getElementById('cosmicCanvas');
     if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    let W, H, CX, CY;
+    const ctx = canvas.getContext('2d', { alpha: true });
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    
+    let W = 0, H = 0, cx = 0, cy = 0, scale = 1, dpr = 1, last = 0, elapsed = 0, phase = 'collecting';
+    let stars = [], incoming = [], nodes = [], links = [], explosion = [], shockwaves = [], gas = [];
+    let formationElapsed = 0, chargeElapsed = 0, explosionElapsed = 0, nebulaElapsed = 0, rebuildElapsed = 0, flash = 0, raf = 0, disposed = false;
+    
+    const rand = (a, b) => a + Math.random() * (b - a);
+    const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+    const lerp = (a, b, t) => a + (b - a) * t;
 
-    function resize() {
+    function setCaption(text){
+        const cap = document.getElementById('cosmicCaption');
+        if(cap) cap.textContent = text;
+    }
+
+    function resize(){
         const rect = canvas.parentElement.getBoundingClientRect();
-        W = canvas.width = rect.width;
-        H = canvas.height = rect.height;
-        CX = W / 2;
-        CY = H / 2;
-    }
-    
-    setTimeout(resize, 50);
-    window.addEventListener('resize', resize);
-    
-    let phase = 'collecting'; 
-    let collectedCount = 0;
-    let targetCount = 40;
-    let time = 0;
-    
-    let brainRadius = 0;
-    let maxBrainRadius = Math.min(W, H) * 0.45; 
-
-    let particles = [];
-    let brainNodes = []; 
-    let bigBangParticles = [];
-    let shakeIntensity = 0;
-    let flashAlpha = 0;
-    let chargingTimer = 0;
-    let resetTimer = 0;
-
-    function initParticles() {
-        particles = [];
-        collectedCount = 0;
-        for (let i = 0; i < targetCount + 20; i++) {
-            const angle = Math.random() * Math.PI * 2;
-            const dist = Math.max(W, H) * 0.8 + Math.random() * 200;
-            particles.push({
-                x: CX + Math.cos(angle) * dist,
-                y: CY + Math.sin(angle) * dist,
-                targetX: CX, targetY: CY,
-                color: Math.random() > 0.5 ? '34, 211, 238' : '245, 158, 11',
-                speed: Math.random() * 4 + 5,
-                size: Math.random() * 2 + 1,
-                active: true
-            });
-        }
-    }
-
-    function initBrain() {
-        brainRadius = 0;
-        brainNodes = [];
-        for(let i=0; i<20; i++) {
-            const angle = Math.random() * Math.PI * 2;
-            const r = Math.random() * 20; 
-            const x = Math.cos(angle) * r * 1.2;
-            const y = Math.sin(angle) * r * 0.8;
-            brainNodes.push({
-                x: CX + x, y: CY + y, baseX: CX + x, baseY: CY + y,
-                phase: Math.random() * Math.PI * 2,
-                color: Math.random() > 0.5 ? '34, 211, 238' : '245, 158, 11',
-                size: Math.random() * 2 + 1.5
-            });
-        }
-    }
-
-    function growBrain() {
-        brainRadius += 25; 
-        for(let i=0; i<25; i++) {
-            const angle = Math.random() * Math.PI * 2;
-            const r = Math.random() * brainRadius; 
-            const x = Math.cos(angle) * r * 1.2;
-            const y = Math.sin(angle) * r * 0.8;
-            brainNodes.push({
-                x: CX + x, y: CY + y, baseX: CX + x, baseY: CY + y,
-                phase: Math.random() * Math.PI * 2,
-                color: Math.random() > 0.5 ? '34, 211, 238' : '245, 158, 11',
-                size: Math.random() * 2 + 1.5
-            });
-        }
-    }
-
-    function startCharging() {
-        phase = 'charging';
-        shakeIntensity = 1;
-        flashAlpha = 0;
-        chargingTimer = 0;
-    }
-
-    function triggerBigBang() {
-        phase = 'bigbang';
-        flashAlpha = 1;
-        resetTimer = 0;
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+        W = Math.max(1, rect.width);
+        H = Math.max(1, rect.height);
+        cx = W / 2;
+        cy = H / 2;
+        scale = Math.min(W, H) / 2;
         
-        brainNodes.forEach(node => {
-            const angle = Math.atan2(node.y - CY, node.x - CX);
-            const speed = Math.random() * 8 + 3;
-            bigBangParticles.push({
-                x: node.x, y: node.y,
-                vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed,
-                color: node.color, size: node.size
-            });
-        });
-        for (let i = 0; i < 300; i++) {
-            const angle = Math.random() * Math.PI * 2;
-            const dist = Math.random() * brainRadius;
-            const speed = Math.random() * 12 + 2;
-            const colors = ['34, 211, 238', '245, 158, 11', '255, 255, 255'];
-            bigBangParticles.push({
-                x: CX + Math.cos(angle) * dist,
-                y: CY + Math.sin(angle) * dist,
-                vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed,
-                color: colors[Math.floor(Math.random() * colors.length)],
-                size: Math.random() * 3 + 0.5
-            });
+        canvas.width = Math.round(W * dpr);
+        canvas.height = Math.round(H * dpr);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        
+        stars = Array.from({length: Math.round(clamp(W*H/400, 35, 110))}, () => ({
+            x: rand(0, W), y: rand(0, H), r: rand(.35, 1.45), a: rand(.15, .8), tw: rand(0, 6.28), speed: rand(.2, 1)
+        }));
+
+        if(phase !== 'collecting' && nodes.length){
+            const old = nodes; 
+            createNetwork();
+            if(phase === 'forming'){ 
+                nodes.forEach(n => { n.x = cx; n.y = cy; }); 
+            } else if(old.length === nodes.length){ 
+                nodes.forEach((n, i) => { n.x = old[i].x; n.y = old[i].y; n.tx = old[i].tx; n.ty = old[i].ty; }); 
+            }
         }
-        brainNodes = []; 
     }
 
-    function resetCycle() {
+    function createIncomingParticles(){
+        const count = reducedMotion ? 18 : 62;
+        incoming = [];
+        for(let i = 0; i < count; i++){
+            const angle = rand(0, Math.PI * 2);
+            const radius = scale * rand(1.08, 1.55);
+            incoming.push({
+                x: cx + Math.cos(angle) * radius, y: cy + Math.sin(angle) * radius,
+                angle, speed: rand(.22, .5) * (reducedMotion ? .8 : 1),
+                size: rand(1, 2.4), hue: Math.random() < .18 ? 30 : 185, arrived: false, trail: []
+            });
+        }
+    }
+
+    function resetCycle(){
         phase = 'collecting';
-        shakeIntensity = 1;
-        chargingTimer = 0;
-        resetTimer = 0;
-        bigBangParticles = [];
-        initParticles();
-        initBrain();
+        elapsed = formationElapsed = chargeElapsed = explosionElapsed = nebulaElapsed = rebuildElapsed = 0;
+        nodes = []; links = []; explosion = []; shockwaves = []; gas = []; flash = 0;
+        createIncomingParticles();
+        setCaption('تولد کیهان');
     }
 
-    setTimeout(() => {
-        resize();
-        maxBrainRadius = Math.min(W, H) * 0.45;
-        resetCycle();
-        render();
-    }, 100);
+    function beginFormation(){
+        createNetwork();
+        nodes.forEach(n => { n.x = cx; n.y = cy; n.vx = 0; n.vy = 0; });
+        phase = 'forming';
+        formationElapsed = 0; flash = .55;
+        setCaption('شکل‌گیری شبکه');
+    }
 
-    function render() {
-        ctx.clearRect(0, 0, W, H);
-        
-        ctx.save();
-        ctx.beginPath();
-        ctx.arc(CX, CY, W / 2, 0, Math.PI * 2);
-        ctx.clip();
-
-        ctx.fillStyle = 'rgba(2, 5, 10, 0.4)';
-        ctx.fillRect(0, 0, W, H);
-
-        time += 0.08;
-
-        if (phase === 'charging') {
-            ctx.save();
-            const dx = (Math.random() - 0.5) * shakeIntensity * 10;
-            const dy = (Math.random() - 0.5) * shakeIntensity * 10;
-            ctx.translate(dx, dy);
-            shakeIntensity += 0.2;
-            chargingTimer += 1;
-            if (chargingTimer > 25) triggerBigBang();
-        }
-
-        if (phase === 'collecting' || phase === 'charging') {
-            if (brainNodes.length > 0) {
-                const pulse = phase === 'charging' ? 1 + Math.sin(time * 30) * 0.15 : 1 + Math.sin(time * 2) * 0.05;
-                ctx.lineWidth = 1;
-                for (let i = 0; i < brainNodes.length; i++) {
-                    for (let j = i + 1; j < brainNodes.length; j++) {
-                        const dx = brainNodes[i].x - brainNodes[j].x;
-                        const dy = brainNodes[i].y - brainNodes[j].y;
-                        const dist = Math.sqrt(dx*dx + dy*dy);
-                        const maxDist = 40 + brainRadius * 0.2; 
-                        if (dist < maxDist) {
-                            let alpha = (1 - dist/maxDist) * 0.4;
-                            if (phase === 'charging') alpha *= 3;
-                            ctx.strokeStyle = `rgba(34, 211, 238, ${alpha})`;
-                            ctx.beginPath(); ctx.moveTo(brainNodes[i].x, brainNodes[i].y); ctx.lineTo(brainNodes[j].x, brainNodes[j].y); ctx.stroke();
-                        }
-                    }
-                }
-                brainNodes.forEach(node => {
-                    const pulseSize = (node.size + Math.sin(time * 3 + node.phase) * 1.5) * pulse;
-                    node.x = node.baseX + Math.sin(time + node.phase) * 2;
-                    node.y = node.baseY + Math.cos(time + node.phase) * 2;
-                    ctx.fillStyle = `rgba(${node.color}, 1)`;
-                    ctx.shadowBlur = phase === 'charging' ? 30 : 10; 
-                    ctx.shadowColor = `rgba(${node.color}, 1)`;
-                    ctx.beginPath(); ctx.arc(node.x, node.y, pulseSize, 0, Math.PI*2); ctx.fill();
-                    ctx.shadowBlur = 0;
-                });
-            }
-
-            if (phase === 'collecting') {
-                particles.forEach(p => {
-                    if (!p.active) return;
-                    const dx = p.targetX - p.x;
-                    const dy = p.targetY - p.y;
-                    const dist = Math.sqrt(dx*dx + dy*dy);
-
-                    if (dist < 10) {
-                        p.active = false;
-                        collectedCount++;
-                        if (collectedCount >= targetCount) {
-                            growBrain();
-                            if (brainRadius >= maxBrainRadius) {
-                                startCharging(); 
-                            } else {
-                                initParticles(); 
-                            }
-                        }
-                    } else {
-                        p.x += (dx / dist) * p.speed;
-                        p.y += (dy / dist) * p.speed;
-                        
-                        ctx.strokeStyle = `rgba(${p.color}, 0.5)`;
-                        ctx.lineWidth = p.size;
-                        ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p.x - (dx/dist)*20, p.y - (dy/dist)*20); ctx.stroke();
-                        
-                        ctx.fillStyle = `rgba(${p.color}, 1)`;
-                        ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI*2); ctx.fill();
-                    }
-                });
-                const coreSize = (collectedCount / targetCount) * 50;
-                const grad = ctx.createRadialGradient(CX, CY, 0, CX, CY, coreSize);
-                grad.addColorStop(0, 'rgba(255, 255, 255, 0.8)');
-                grad.addColorStop(0.5, 'rgba(34, 211, 238, 0.4)');
-                grad.addColorStop(1, 'rgba(34, 211, 238, 0)');
-                ctx.fillStyle = grad;
-                ctx.beginPath(); ctx.arc(CX, CY, coreSize, 0, Math.PI*2); ctx.fill();
-            }
-            if (phase === 'charging') ctx.restore(); 
-
-        } else if (phase === 'bigbang') {
-            resetTimer += 0.08;
-
-            if (flashAlpha > 0) {
-                ctx.fillStyle = `rgba(255, 255, 255, ${flashAlpha})`;
-                ctx.fillRect(0, 0, W, H);
-                flashAlpha -= 0.05;
-            }
-            
-            bigBangParticles.forEach(p => {
-                p.x += p.vx; p.y += p.vy;
-                p.vx *= 0.97; p.vy *= 0.97;
-                
-                ctx.strokeStyle = `rgba(${p.color}, 0.6)`;
-                ctx.lineWidth = p.size * 0.8;
-                ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p.x - p.vx*2, p.y - p.vy*2); ctx.stroke();
-                
-                ctx.fillStyle = `rgba(${p.color}, 1)`;
-                ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI*2); ctx.fill();
+    function createNetwork(){
+        const count = reducedMotion ? 34 : 76;
+        nodes = []; links = [];
+        for(let i = 0; i < count; i++){
+            const angle = (i / count) * Math.PI * 2 + rand(-.12, .12);
+            const rad = scale * rand(.12, .85);
+            nodes.push({
+                x: cx, y: cy, tx: cx + Math.cos(angle) * rad, ty: cy + Math.sin(angle) * rad,
+                vx: 0, vy: 0, r: rand(1.1, 2.4), a: rand(.45, .95), hue: Math.random() < .15 ? 30 : 185, phase: rand(0, 6.28)
             });
-
-            if (resetTimer > 2.5) {
-                resetCycle();
-            }
         }
-        ctx.restore(); 
-        requestAnimationFrame(render);
+        const maxDist = scale * (reducedMotion ? .23 : .19);
+        for(let i = 0; i < nodes.length; i++){
+            const near = [];
+            for(let j = 0; j < nodes.length; j++){
+                if(i === j) continue;
+                const dx = nodes[i].tx - nodes[j].tx;
+                const dy = nodes[i].ty - nodes[j].ty;
+                const d = Math.hypot(dx, dy);
+                if(d < maxDist) near.push({j, d});
+            }
+            near.sort((a, b) => a.d - b.d).slice(0, 3).forEach(o => {
+                if(o.j > i) links.push({a: i, b: o.j, alpha: rand(.14, .45)});
+            });
+        }
     }
+
+    function drawBackground(t){
+        ctx.clearRect(0, 0, W, H);
+        const glow = ctx.createRadialGradient(cx, cy, 0, cx, cy, scale * .95);
+        glow.addColorStop(0, 'rgba(19,69,105,.12)');
+        glow.addColorStop(.55, 'rgba(14,36,76,.055)');
+        glow.addColorStop(1, 'rgba(4,9,23,0)');
+        ctx.fillStyle = glow;
+        ctx.fillRect(0, 0, W, H);
+        
+        stars.forEach(s => {
+            const tw = (Math.sin(t * .001 * s.speed + s.tw) + 1) / 2;
+            ctx.globalAlpha = s.a * (.55 + tw * .45);
+            ctx.fillStyle = s.r > 1.1 ? '#a5f5ff' : '#91a9df';
+            ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2); ctx.fill();
+        });
+        ctx.globalAlpha = 1;
+    }
+
+    function drawIncoming(dt){
+        let arrivedCount = 0;
+        incoming.forEach(p => {
+            if(!p.arrived){
+                const dx = cx - p.x, dy = cy - p.y, d = Math.hypot(dx, dy) || 1;
+                const speed = (p.speed * scale * .018 + Math.max(0, 1 - d / (scale * 1.6)) * scale * .009) * dt / 16.67;
+                p.x += dx / d * speed;
+                p.y += dy / d * speed;
+                p.trail.push({x: p.x, y: p.y});
+                if(p.trail.length > 5) p.trail.shift();
+                if(d < Math.max(4, scale * .025)){ p.arrived = true; p.x = cx + rand(-2, 2); p.y = cy + rand(-2, 2); }
+            }
+            if(p.arrived){ arrivedCount++; return; }
+            
+            if(p.trail.length > 1){
+                ctx.beginPath(); ctx.moveTo(p.trail[0].x, p.trail[0].y);
+                for(let i = 1; i < p.trail.length; i++) ctx.lineTo(p.trail[i].x, p.trail[i].y);
+                ctx.strokeStyle = p.hue === 30 ? 'rgba(255,159,67,.23)' : 'rgba(69,230,255,.23)';
+                ctx.lineWidth = 1; ctx.stroke();
+            }
+            ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+            ctx.fillStyle = p.hue === 30 ? '#ffb35c' : '#8df4ff';
+            ctx.shadowBlur = 10; ctx.shadowColor = ctx.fillStyle; ctx.fill(); ctx.shadowBlur = 0;
+        });
+        if(arrivedCount === incoming.length) beginFormation();
+    }
+
+    function updateFormation(dt){
+        formationElapsed += dt;
+        const p = clamp(formationElapsed / (reducedMotion ? 1100 : 2900), 0, 1);
+        
+        nodes.forEach((n, i) => {
+            const delay = (i % 7) * .012;
+            const k = clamp((p - delay) / (1 - delay), 0, 1);
+            n.x = lerp(cx, n.tx, 1 - Math.pow(1 - k, 2));
+            n.y = lerp(cy, n.ty, 1 - Math.pow(1 - k, 2));
+        });
+        
+        drawNetwork(elapsed);
+        
+        if(p >= 1){
+            phase = 'charging'; chargeElapsed = 0;
+            setCaption('افزایش انرژی');
+            shockwaves.push({r: 3, a: .8, speed: scale * .00035});
+        }
+    }
+
+    function drawNetwork(t){
+        links.forEach(l => {
+            const a = nodes[l.a], b = nodes[l.b];
+            if(!a || !b) return;
+            ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y);
+            ctx.strokeStyle = `rgba(69,230,255,${l.alpha})`; ctx.lineWidth = .65; ctx.stroke();
+        });
+        nodes.forEach(n => {
+            const pulse = .7 + .3 * Math.sin(t * .002 + n.phase);
+            ctx.beginPath(); ctx.arc(n.x, n.y, n.r * pulse, 0, Math.PI * 2);
+            ctx.fillStyle = n.hue === 30 ? `rgba(255,173,83,${n.a})` : `rgba(117,241,255,${n.a})`;
+            ctx.shadowBlur = 7; ctx.shadowColor = n.hue === 30 ? '#ff9f43' : '#45e6ff'; ctx.fill(); ctx.shadowBlur = 0;
+        });
+    }
+
+    function updateCharging(dt){
+        chargeElapsed += dt;
+        const p = clamp(chargeElapsed / (reducedMotion ? 450 : 1900), 0, 1);
+        const pulse = 1 + Math.sin(elapsed * .025) * .025;
+        
+        ctx.save(); ctx.translate(cx, cy); ctx.scale(pulse, pulse); ctx.translate(-cx, -cy);
+        drawNetwork(elapsed);
+        ctx.restore();
+        
+        const ringR = scale * (.1 + p * .72);
+        ctx.beginPath(); ctx.arc(cx, cy, ringR, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(255,159,67,${.12 + p * .45})`; ctx.lineWidth = 1 + p * 1.5;
+        ctx.shadowBlur = 12; ctx.shadowColor = '#ff9f43'; ctx.stroke(); ctx.shadowBlur = 0;
+        
+        flash = Math.max(flash, p * .06);
+        if(p >= 1) startExplosion();
+    }
+
+    function startExplosion(){
+        phase = 'explosion'; explosionElapsed = 0;
+        setCaption('انفجار بزرگ');
+        flash = 1; shockwaves = [];
+        const count = reducedMotion ? 55 : 120;
+        
+        for(let i = 0; i < count; i++){
+            const a = rand(0, Math.PI * 2), speed = rand(scale * .001, scale * .006);
+            explosion.push({
+                x: cx, y: cy, vx: Math.cos(a) * speed, vy: Math.sin(a) * speed,
+                r: rand(.7, 2.5), life: 1, decay: rand(.003, .009), hue: Math.random() < .2 ? 30 : 185, trail: []
+            });
+        }
+        shockwaves.push({r: 2, a: .95, speed: scale * .0032}, {r: 2, a: .65, speed: scale * .0022});
+    }
+
+    function updateExplosion(dt){
+        explosionElapsed += dt;
+        
+        explosion.forEach(p => {
+            p.trail.push({x: p.x, y: p.y});
+            if(p.trail.length > 5) p.trail.shift();
+            p.x += p.vx * dt; p.y += p.vy * dt;
+            p.vx *= Math.pow(.997, dt / 16.67); p.vy *= Math.pow(.997, dt / 16.67);
+            p.life -= p.decay * dt / 16.67;
+        });
+        
+        explosion = explosion.filter(p => p.life > 0);
+        
+        explosion.forEach(p => {
+            if(p.trail.length > 1){
+                ctx.beginPath(); ctx.moveTo(p.trail[0].x, p.trail[0].y);
+                p.trail.slice(1).forEach(q => ctx.lineTo(q.x, q.y));
+                ctx.strokeStyle = p.hue === 30 ? `rgba(255,159,67,${p.life * .25})` : `rgba(69,230,255,${p.life * .3})`; ctx.stroke();
+            }
+            ctx.beginPath(); ctx.arc(p.x, p.y, p.r * p.life, 0, Math.PI * 2);
+            ctx.fillStyle = p.hue === 30 ? `rgba(255,183,104,${p.life})` : `rgba(145,249,255,${p.life})`; ctx.fill();
+        });
+        
+        updateShockwaves(dt);
+        
+        flash = Math.max(0, flash - dt * .0028);
+        
+        if(explosionElapsed > (reducedMotion ? 700 : 1500)){
+            phase = 'nebula'; nebulaElapsed = 0;
+            setCaption('گسترش جهان');
+        }
+    }
+
+    function updateShockwaves(dt){
+        shockwaves.forEach(s => {
+            s.r += s.speed * dt; s.a -= dt * .00045;
+            ctx.beginPath(); ctx.arc(cx, cy, s.r, 0, Math.PI * 2);
+            ctx.strokeStyle = `rgba(116,230,255,${Math.max(0, s.a)})`; ctx.lineWidth = 1.2; ctx.stroke();
+        });
+        shockwaves = shockwaves.filter(s => s.a > 0);
+    }
+
+    function updateNebula(dt){
+        nebulaElapsed += dt;
+        if(nebulaElapsed > (reducedMotion ? 500 : 1200)){
+            resetCycle();
+        }
+    }
+
+    function frame(now){
+        if(disposed) return;
+        raf = requestAnimationFrame(frame);
+        if(!last) last = now;
+        const dt = Math.min(40, now - last); last = now;
+        elapsed += dt;
+        
+        drawBackground(now);
+        
+        if(phase === 'collecting') drawIncoming(dt);
+        else if(phase === 'forming') updateFormation(dt);
+        else if(phase === 'charging') updateCharging(dt);
+        else if(phase === 'explosion') updateExplosion(dt);
+        else if(phase === 'nebula') updateNebula(dt);
+        
+        if(flash > 0){
+            ctx.fillStyle = `rgba(202,250,255,${Math.min(.65, flash * .45)})`;
+            ctx.fillRect(0, 0, W, H); flash = Math.max(0, flash - dt * .002);
+        }
+    }
+
+    const ro = new ResizeObserver(resize); ro.observe(canvas);
+    window.addEventListener('pagehide', () => { disposed = true; cancelAnimationFrame(raf); ro.disconnect(); }, {once: true});
+    
+    resize(); resetCycle(); raf = requestAnimationFrame(frame);
 })();
 
 /* =========================================================
